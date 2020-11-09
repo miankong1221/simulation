@@ -1,0 +1,189 @@
+<div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Warehouse Monitoring</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <select class="form-control select2Warehouse">
+                    <option selected>Select a warehouse</option>
+                    <option *ngFor="let wh of warehouseOriginEntityList">{{wh.wh_name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="width: 60%;">Location</th>
+                <th style="width: 30%">Location statistic</th>
+                <th style="width: 10%; text-align: center;">Actions</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let wh of warehouseEntityList; let i=index">
+            <tr>
+                <td>
+                    <a routerLink='warehouse-detail' [queryParams]="{id:wh.wh_id, name:wh.wh_name}">{{wh.wh_name}}</a><br>
+                </td>
+                <td>
+                    <div class="wh">
+                        <span>Zones count: {{wh.zone_cnt}}<br></span>
+                        <span>Sensors count: {{wh.sensor_cnt}}<br></span>
+                        <span>Notifications count: {{wh.notification_cnt}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="location-action">
+                        <span id="{{wh.wh_id}}" class="collapsed-table__show-content"
+                            (click)='warehouseExpand(wh.wh_id)'>Expand</span>
+                    </div>
+                </td>
+            </tr>
+            <tr [hidden]="!wh.isExpand" class="collapsed-table__inner">
+                <td colspan="3" style="border-left: 0px; border-right: 0px">
+                    <div class="monitoring_head_detail">
+                        <ul class="collapsed-table__inner__list review-tabs-action">
+                            <li id='map_{{wh.wh_id}}' (click)='showMap(wh.wh_id)'>Show map</li>
+                            <li id='list_{{wh.wh_id}}' (click)='showList(wh.wh_id)'>Show list</li>
+                            <li id='diag_{{wh.wh_id}}' (click)='showDiagram(wh.wh_id)'>Show diagram</li>
+                        </ul>
+                    </div>
+                    <div [hidden]="!wh.isMapExpand" style="width: 100%;  text-align: center;">
+                        <canvas id="{{'getCanvas' + wh.wh_id}}"
+                            style="max-width: 100%;  border: 1px solid black;"></canvas>
+                    </div>
+                    <div [hidden]="!wh.isListExpand" style="width: 100%;">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody *ngFor="let zone of zoneEntityList; let i=index">
+                                    <tr>
+                                        <td
+                                            style="padding: 6px; width: 20%; border-right: 0px; vertical-align: middle;">
+                                            <a style="padding-left: 10px;" routerLink='zone-detail' [queryParams]="{whName:currentWhName,whId:currentWhId,zoneId:zone.zone_name}">{{zone.zone_name}}</a>
+                                        </td>
+                                        <td style="padding: 6px; width: 30%; border-right: 0px; border-left: 0px;">
+                                            <div class="wh">
+                                                <span>Sensors count: {{zone.sensor_cnt}}<br></span>
+                                                <span>Notifications count: {{zone.notification_cnt}}</span>
+                                            </div>
+                                        </td>
+                                        <td
+                                            style="padding: 6px; vertical-align: middle; width: 20%; border-right: 0px; border-left: 0px;">
+                                            <img *ngIf="zone.cur_zone_temp" style="width: 10px; height: 20px;"
+                                                src="../assets/img/img_temperature.png">
+                                            <span *ngIf="zone.cur_zone_temp"> {{zone.cur_zone_temp}} °C</span>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <img *ngIf="zone.cur_zone_hum" style="width: 10px; height: 20px;"
+                                                src="../assets/img/img_humidity.png">
+                                            <span *ngIf="zone.cur_zone_hum"> {{zone.cur_zone_hum}} %</span>
+                                        </td>
+                                        <td
+                                            style="padding: 6px; vertical-align: middle; width: 20%; border-right: 0px; border-left: 0px;">
+                                            {{zone.time}}
+                                        </td>
+                                        <td
+                                            style="padding: 6px; vertical-align: middle; width: 10%; border-left: 0px;">
+                                            <div class="location-action">
+                                                <a id={{zone.zone_name}} class="collapsed-table__show-content"
+                                                    (click)='zoneExpand(zone.zone_name)'>Expand</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr [hidden]="!zone.isExpand" class="collapsed-table__inner">
+                                        <td colspan="5" style="border-left: 0px; border-right: 0px">
+                                            <table class="table" style="text-align: center;">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="padding:5px; vertical-align: middle;">Name</th>
+                                                        <th style="padding:5px; vertical-align: middle;">Serial number
+                                                        </th>
+                                                        <th style="padding:5px; vertical-align: middle;">Settings</th>
+                                                        <th style="padding:5px; vertical-align: middle;">Current reading
+                                                        </th>
+                                                        <th style="padding:5px; vertical-align: middle;">Date</th>
+                                                        <th style="padding:5px; vertical-align: middle;">Battery</th>
+                                                        <th style="padding:5px; vertical-align: middle;">Signal quality
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngFor="let sensor of sensorEntityList; let i=index">
+                                                    <tr>
+                                                        <td style="padding:8px;">
+                                                            <a routerLink='sensor-detail'
+                                                            [queryParams]="{whName:currentWhName,whId:currentWhId,zoneId:zone.zone_name, sensorId:sensor.sensor_id}">{{sensor.sensorName}}</a>
+                                                        </td>
+                                                        <td style="padding:8px;">
+                                                            {{sensor.sensor_id}}
+                                                        </td>
+                                                        <td style="padding:8px;">
+                                                            <img *ngIf="sensor.settingTemp" style="margin-top: -5px;"
+                                                                src="https://my.sensguard.lv/image/icon-temp.svg">
+                                                            &nbsp;<span *ngIf="sensor.settingTemp">{{sensor.settingTemp}} &nbsp;&nbsp;&nbsp;</span>
+                                                            <img *ngIf="sensor.settingHumidity"
+                                                                style="margin-top: -5px;"
+                                                                src="https://my.sensguard.lv/image/icon-hum.svg">
+                                                            &nbsp;<span
+                                                                *ngIf="sensor.settingHumidity">{{sensor.settingHumidity}}</span>
+                                                        </td>
+                                                        <td style="padding:8px;">
+                                                            <img *ngIf="sensor.cur_temp_value" style="margin-top: -5px;"
+                                                                src="https://my.sensguard.lv/image/icon-temp.svg">
+                                                            <span *ngIf="sensor.cur_temp_value">{{sensor.cur_temp_value}} °C &nbsp;&nbsp;&nbsp;</span>
+                                                            <img *ngIf="sensor.cur_hum_value"
+                                                                style="margin-top: -5px;"
+                                                                src="https://my.sensguard.lv/image/icon-hum.svg">
+                                                            <span *ngIf="sensor.cur_hum_value">{{sensor.cur_hum_value}} %</span>
+                                                        </td>
+                                                        <td style="padding:8px;">
+                                                            {{sensor.date}}
+                                                        </td>
+                                                        <td style="padding:8px;">
+                                                            <div class="battery battery--mini battery--full">
+                                                                <span></span>
+                                                            </div>
+                                                        </td>
+                                                        <td style="padding:8px;">
+                                                            <div class="signal signal--mini signal--full">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div [hidden]="!wh.isDiagramExpand">
+                        <div style="border: 1px solid #ddd">
+                            <div style="float: right;">
+                                <button id="today" style="margin-top:10px;  margin-right: 10px; margin-left: 10px;"
+                                    type="button" class="btn btn-datetimerange" (click)="getHistoryData()">Today</button>
+                                <button style="margin-top:10px; margin-right: 10px;" type="button" class="btn btn-datetimerange"
+                                    (click)="getRealTime()">Real Time</button>
+                            </div>
+                            <div style="margin-top: 50px;">
+                                <div [hidden]="isRealTime" id="canvasTemp" style="width: 1200px; height:400px;"></div>
+                                <div [hidden]="isRealTime" id="canvasHumidity" style="width: 1200px; height:400px;"></div>
+                                <div [hidden]="!isRealTime" id="canvasTempRealTime" style="width: 1200px; height:400px;"></div>
+                                <div [hidden]="!isRealTime" id="canvasHumiRealTime" style="width: 1200px; height:400px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <div style="margin-bottom: 20px">
+        </div>
+    </table>
+</div>

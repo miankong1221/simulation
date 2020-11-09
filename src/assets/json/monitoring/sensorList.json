@@ -1,0 +1,24 @@
+[
+    {
+        "sensor_id":"sss123",
+        "sensor_name":"sss123",
+        "tem_value_min":"20",
+        "tem_value_max":"40",
+        "hum_value_min":"50",
+        "hum_value_max":"80",
+        "cur_temp_value":"30",
+        "cur_hum_value":"60",
+        "date":"2020/10/22"
+    },
+    {
+        "sensor_id":"sss567",
+        "sensor_name":"sss567",
+        "tem_value_min":"20",
+        "tem_value_max":"40",
+        "hum_value_min":"50",
+        "hum_value_max":"80",
+        "cur_temp_value":"30",
+        "cur_hum_value":"60",
+        "date":"2020/10/22"
+    }
+]

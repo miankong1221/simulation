@@ -1,0 +1,120 @@
+<div>
+    <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Warehouse Monitoring</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <ol class="breadcrumb float-sm-right" style="width: 100%;">
+                <li class="breadcrumb-item">Monitoring</li>
+                <li class="breadcrumb-item">{{curWhName}}</li>
+                <li class="breadcrumb-item">{{curZoneId}}
+                    <a routerLink='../warehouse-detail' [queryParams]="{id:curWhId, name:curWhName}" class="glyphicon glyphicon-remove" style="color:#c04c6f;">
+                    </a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <table style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td colspan="2" style="border-left: 0px; border-right: 0px">
+                        <div class="monitoring_head_detail">
+                            <ul>
+                                <span id='list' class="monitoring_head_detail_show-content" style="color: black;" (click)='showList()'>Show
+                                    list</span>
+                                <span id='diag' class="monitoring_head_detail_show-content" (click)='showDiagram()'>Show
+                                    diagram</span>
+                            </ul>
+                        </div>
+                        <div id="isListExpand" [hidden]="!isListExpand">
+                            <table class="table table-bordered" style="width: 100%; text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th style="padding:5px; vertical-align: middle;">Name</th>
+                                        <th style="padding:5px; vertical-align: middle;">Serial number
+                                        </th>
+                                        <th style="padding:5px; vertical-align: middle;">Settings</th>
+                                        <th style="padding:5px; vertical-align: middle;">Current reading
+                                        </th>
+                                        <th style="padding:5px; vertical-align: middle;">Date</th>
+                                        <th style="padding:5px; vertical-align: middle;">Battery</th>
+                                        <th style="padding:5px; vertical-align: middle;">Signal quality
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody *ngFor="let sensor of sensorEntityList; let i=index">
+                                    <tr>
+                                        <td>
+                                            <a routerLink='../sensor-detail'
+                                                [queryParams]="{whId:curWhId,zoneId:curZoneId,whName:curWhName,sensorId:sensor.sensorId}">{{sensor.sensorName}}</a>
+                                        </td>
+                                        <td>
+                                            {{sensor.sensorId}}
+                                        </td>
+                                        <td>
+                                            <img *ngIf="sensor.settingTemp" style="margin-top: -4px;"
+                                                src="https://my.sensguard.lv/image/icon-temp.svg">
+                                            &nbsp;<span>{{sensor.settingTemp}}</span>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <img *ngIf="sensor.settingHumidity"  style="margin-top: -4px;"
+                                                src="https://my.sensguard.lv/image/icon-hum.svg">
+                                            &nbsp;<span>{{sensor.settingHumidity}}</span>
+                                        </td>
+                                        <td><img *ngIf="sensor.currentTemp" style="margin-top: -4px;"
+                                            src="https://my.sensguard.lv/image/icon-temp.svg">
+                                            <span *ngIf="sensor.currentTemp">{{sensor.currentTemp}} °C</span>
+                                            &nbsp;&nbsp;
+                                            <img *ngIf="sensor.currentHumidity"  style="margin-top: -4px;"
+                                                src="https://my.sensguard.lv/image/icon-hum.svg">
+                                            <span *ngIf="sensor.currentHumidity">{{sensor.currentHumidity}} %</span>
+                                        </td>
+                                        <td>
+                                            {{sensor.date}}
+                                        </td>
+                                        <td>
+                                            <div class="battery battery--mini battery--full">
+                                                <span></span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="signal signal--mini signal--full">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="isDiagramExpand" [hidden]="!isDiagramExpand">
+                            <div style="border: 1px solid #ddd">
+                                <div style="float: right;">
+                                    <button id="today" style="margin-top:10px;  margin-right: 10px; margin-left: 10px;"
+                                        type="button" class="btn btn-datetimerange" (click)="getHistoryData()">Today</button>
+                                    <button style="margin-top:10px; margin-right: 10px;" type="button" class="btn btn-datetimerange"
+                                        (click)="getRealTime()">Real Time</button>
+                                </div>
+                                <div style="margin-top: 50px;">
+                                    <div [hidden]="isRealTime" id="canvasTemp" style="width: 1200px; height:400px;"></div>
+                                    <div [hidden]="isRealTime" id="canvasHumidity" style="width: 1200px; height:400px;"></div>
+                                    <div [hidden]="!isRealTime" id="canvasTempRealTime" style="width: 1200px; height:400px;"></div>
+                                    <div [hidden]="!isRealTime" id="canvasHumiRealTime" style="width: 1200px; height:400px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <div style="margin-bottom: 20px">
+            </div>  
+        </table>
+    </div>
+</div>

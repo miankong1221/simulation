@@ -1,0 +1,10 @@
+[
+    {
+        "sid":"sss123",
+        "sample_time": "2020/10/24 10:26:00",
+        "value":{
+            "temperature": "15"
+        }
+    }
+
+]

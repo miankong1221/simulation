@@ -1,0 +1,228 @@
+.monitoring_head_detail {
+    text-align: right;
+}
+.monitoring_head_detail_show-content {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    color: #337ab7;
+    margin-left: 20px;
+    position: relative;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    padding-right: 10px;
+}
+
+.monitoring_head_detail_show-content:active {
+    color: #000;
+}
+
+.monitoring_head_detail_show-content:visited {
+    color: #000;
+}
+
+.monitoring_head_detail_show-content:hover {
+    text-decoration: none;
+}
+
+.collapsed-table__show-content {
+    cursor: pointer;
+    color: #337ab7;
+    position: relative;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    padding-right: 10px;
+  }
+
+  .collapsed-table__show-content:hover {
+    text-decoration: underline;
+  }
+  .collapsed-table__show-content::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 5px solid #337ab7;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    right: 0;
+  }
+
+  @font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url("../../../assets/fonts/glyphicons-halflings-regular.eot");
+    src: url("../../../assets/fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../../../assets/fonts/glyphicons-halflings-regular.woff2") format("woff2"), url("../../../assets/fonts/glyphicons-halflings-regular.woff") format("woff"), url("../../../assets/fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("../../../assets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+  }
+
+  .glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    vertical-align: middle;
+    margin-bottom: 5px;
+    line-height: 1;
+
+  }
+
+  .glyphicon-remove:before {
+    content: "\e014";
+  }
+
+  .battery {
+    width: 155px;
+    height: 70px;
+    border: 3px solid #242c41;
+    position: relative;
+    border-radius: 6px;
+    margin: 0 auto 10px;
+  }
+  .battery:before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 60px;
+    position: absolute;
+    top: 0;
+    left: 42px;
+    background: white;
+    z-index: 1;
+  }
+  .battery:after {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 60px;
+    position: absolute;
+    top: 0;
+    left: 92px;
+    background: white;
+    z-index: 1;
+  }
+  .battery span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: green;
+    border: 7px solid white;
+    border-radius: 2px 0 0 2px;
+  }
+  .battery--mini {
+    width: 50px;
+    height: 30px;
+    border: 2px solid #242c41;
+    margin: 0 auto;
+  }
+  .battery--mini span {
+    border: 3px solid white !important;
+    border-radius: 4px;
+  }
+  .battery--mini:before {
+    width: 3px;
+    height: 26px;
+    left: 14px;
+  }
+  .battery--mini:after {
+    width: 3px;
+    height: 26px;
+    left: 29px;
+  }
+  .battery--middle span {
+    background: #f3b139;
+  }
+  .battery--low span {
+    background: #c04c6f;
+    -webkit-animation: pulse 1s infinite;
+            animation: pulse 1s infinite;
+  }
+  .battery--full span {
+    border-radius: 2px;
+  }
+  
+  
+  .signal {
+    width: 0;
+    height: 0;
+    border-bottom: 70px solid green;
+    border-left: 100px solid transparent;
+    margin: 0 auto 10px;
+    position: relative;
+  }
+  .signal:before {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 70px;
+    position: absolute;
+    top: 0;
+    left: -60px;
+    background: #f4f6f9;
+    z-index: 1;
+  }
+  .signal:after {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 70px;
+    position: absolute;
+    top: 0;
+    left: -30px;
+    background: #f4f6f9;
+    z-index: 1;
+  }
+  .signal--mini {
+    border-bottom: 30px solid green;
+    border-left: 50px solid transparent;
+    margin: 0 auto;
+  }
+  .signal--mini:before {
+    width: 5px;
+    height: 30px;
+    left: -30px;
+  }
+  .signal--mini:after {
+    width: 5px;
+    height: 30px;
+    left: -15px;
+  }
+  .signal--mini.signal--low:before {
+    width: 45px;
+  }
+  .signal--middle {
+    border-bottom-color: #f3b139;
+  }
+  .signal--middle:after {
+    width: 30px;
+  }
+  .signal--low {
+    border-bottom-color: #c04c6f;
+  }
+  .signal--low:before {
+    width: 60px;
+  }
+  .signal--none {
+    border-bottom-color: #c04c6f;
+    -webkit-animation: pulse 0.5s infinite;
+            animation: pulse 0.5s infinite;
+  }
+  .signal--none:before {
+    width: 85px;
+    left: -85px;
+  }
+  .signal--none.signal--mini:before {
+    width: 50px;
+    left: -40px !important;
+  }

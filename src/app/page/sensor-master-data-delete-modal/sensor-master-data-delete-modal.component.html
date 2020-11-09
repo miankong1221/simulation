@@ -1,0 +1,15 @@
+<div class="content">
+    <div class="modal-header myModal-header">
+        <h5 class="modal-title myModal-title">Confirm</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" (click)="bsModalRef.hide()">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Do you confirm to delete it?</p>
+    </div>
+    <div class="modal-footer myModal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
+        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" (click)="confirm()">Confirm</button>
+    </div>
+    </div>

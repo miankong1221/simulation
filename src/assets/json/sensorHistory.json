@@ -1,0 +1,44 @@
+[
+    {
+        "sensor_id": "SNINT0001",
+        "value": "humidity: 75.6.temperature: 104.5.",
+        "detail": "Temperature is out of range. Humidity is out of range",
+        "date": "2020-10-21 19:00:00"
+    },
+    {
+        "sensor_id": "SNINT0001",
+        "value": "humidity: 78.2.temperature: 100.7.",
+        "detail": "Temperature is out of range. Humidity is out of range",
+        "date": "2020-10-21 19:05:00"
+    },
+    {
+        "sensor_id": "SNINT0001",
+        "value": "humidity: 67.5.temperature: 102.6.",
+        "detail": "Temperature is out of range. Humidity is out of range",
+        "date": "2020-10-21 19:10:00"
+    },
+    {
+        "sensor_id": "SNINT0001",
+        "value": "humidity: 76.4.temperature: 101.8.",
+        "detail": "Temperature is out of range. Humidity is out of range",
+        "date": "2020-10-21 19:15:00"
+    },
+    {
+        "sensor_id": "SNINT0001",
+        "value": "humidity: 74.4.temperature: 103.6.",
+        "detail": "Temperature is out of range. Humidity is out of range",
+        "date": "2020-10-21 19:20:00"
+    },
+    {
+        "sensor_id": "SNINT0001",
+        "value": "humidity: 76.9.temperature: 100.8.",
+        "detail": "Temperature is out of range. Humidity is out of range",
+        "date": "2020-10-21 19:25:00"
+    },
+    {
+        "sensor_id": "SNINT0001",
+        "value": "humidity: 72.5.temperature: 102.1.",
+        "detail": "Temperature is out of range. Humidity is out of range",
+        "date": "2020-10-21 19:30:00"
+    }
+]

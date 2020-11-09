@@ -1,0 +1,18 @@
+[
+    {
+        "zone_name": "ABC",
+        "sensor_cnt": "18",
+        "notification_cnt": "20",
+        "time": "2020/10/22",
+        "cur_zone_temp": "30",
+        "cur_zone_hum": "40"
+    },
+    {
+        "zone_name": "EFG",
+        "sensor_cnt": "18",
+        "notification_cnt": "20",
+        "time": "2020/10/22",
+        "cur_zone_temp": "30",
+        "cur_zone_hum": "40"
+    }
+]

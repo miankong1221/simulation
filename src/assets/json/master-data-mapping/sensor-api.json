@@ -1,0 +1,20 @@
+[
+    {
+        "sensor_id": "SNTEM0002",
+        "sensor_name": "Temperature Sensor 0002",
+        "tem_value_max": "50.0",
+        "tem_value_min": "-10.0",
+        "hum_value_max": "60.0",
+        "hum_value_min": "10.0",
+        "sample_interval_sec": "456",
+        "category": "INTEGRATED"
+    },
+    {
+        "sensor_id": "SNINT0001",
+        "sensor_name": "Integrated Sensor 0001",
+        "tem_value_max": "20",
+        "tem_value_min": "10",
+        "sample_interval_sec": "123",
+        "category": "TEMPERATURE"
+    }
+]

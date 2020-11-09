@@ -1,0 +1,57 @@
+.content {
+  display: flex;
+  // align-items: stretch;
+  height: 664px;
+  width: 100%;
+}
+
+.map {
+  width: 880px;
+  // flex: 3;
+  margin-left: 10px;
+}
+
+.zone-area{
+  // flex:1;
+  margin-left: 10px;
+  overflow-y: scroll;
+}
+
+tbody > tr > td {
+  padding: 5px;
+  text-align: center;
+}
+
+a {
+  cursor: pointer
+}
+
+
+// .table td, .table th {
+//   border: 0px;
+// }
+// .table-profile > tr > th {
+//   padding: 10px;
+// }
+
+// .table-profile > tr > td {
+//   padding: 20px;
+//   border-bottom: 0px;
+//   border-top: violet 10px;
+// }
+
+// tbody > tr > td {
+//   padding: 10px;
+//   border-bottom: 0px;
+//   border-top: 0px;
+// }
+
+// td {
+//   padding: 10px;
+//   border-bottom: 10px;
+//   border-top: 10px;
+// }
+// .table-bordered > td {
+//   border-bottom: 0px;
+//   font: 0.1em sans-serif;
+// }

@@ -1,0 +1,83 @@
+<div>
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Master Data Mapping</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="col-md-3">
+    <div class="form-group">
+      <select class="form-control selectWarehouse">
+        <option disabled selected>Select a warehouse</option>
+        <option *ngFor="let wh of warehouseList">{{wh.wh_name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <select [disabled]="isZoneDisable" id="test" class="form-control selectZone">
+        <option disabled selected>Select a zone</option>
+        <option *ngFor="let zone of zoneList">{{zone}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-10">
+    <table class="table table-bordered">
+      <thead style="line-height: 1;">
+        <tr>
+          <th>Sensor ID</th>
+          <th>Sensor Name</th>
+          <th>Category</th>
+          <th>Sample Interval</th>
+          <th>Value Range</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let sensorDetail of sensorDetailView; let i = index">
+        <tr>
+          <td>{{sensorDetail.sensorId}}</td>
+          <td>{{sensorDetail.sensorName}}</td>
+          <td>{{sensorDetail.category}}</td>
+          <td>{{sensorDetail.sampleInterval}}</td>
+          <ng-container *ngIf="sensorDetail.category === 'TEMPERATURE'">
+            <td>
+              <img src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.minTemp}} °C &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.maxTemp}} °C
+            </td>
+          </ng-container>
+          <ng-container *ngIf="sensorDetail.category === 'HUMIDITY'">
+            <td>
+              <img src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.minHumidity}} % &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.maxHumidity}} %
+            </td>
+          </ng-container>
+          <ng-container *ngIf="sensorDetail.category === 'INTEGRATED'">
+            <td>
+              <img src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.minTemp}} °C &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.maxTemp}} °C<br>
+              <img src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.minHumidity}} % &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.maxHumidity}} %<br>
+            </td>
+          </ng-container>
+          <td>
+            <span style="color: cadetblue; " class="fas fa-edit" (click)="edit(sensorDetail)"></span>
+          </td>
+          <td>
+            <span style="color: coral; padding-right: 0px;" class="fas fa-trash" (click)="delete(sensorDetail)"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button [disabled]="isAddDisable" class="btn btn-info" (click)="add()">Add Sensor</button>
+  </div>
+</div>

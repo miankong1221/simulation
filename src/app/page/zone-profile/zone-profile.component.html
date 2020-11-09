@@ -1,0 +1,75 @@
+<div>
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Zone Profile</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="col-md-3">
+    <div class="form-group">
+      <select class="form-control select2Warehouse">
+        <option disabled selected> Select a warehouse</option>
+        <option *ngFor="let wh of warehouseList">{{wh.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div [hidden]="!isHidden" class="content">
+    <div class="map">
+      <canvas id="getCanvas" style="border: 1px dotted black;">
+      </canvas>
+    </div>
+    <div class="card" style="margin-left: 10px; width: 375px;">
+      <div class="card-header" style="background-color:#17A2B8;">
+        <h3 class="card-title">Zone Area</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body" style="overflow: hidden; overflow-y: auto;">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>Zone</th>
+              <th>Statistic</th>
+              <th>Position</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let zone of zoneProfileList, let i = index">
+            <tr>
+              <td style="padding-top: 12px">{{i+1}}.</td>
+              <td style="padding-top: 12px">{{zone.zoneId}}</td>
+              <td>
+                <select id="statistic" (change)="changeStatisticType($event)"  class="form-control" (value)="zone.statisticType">
+                  <option (value)="zone.statisticType" selected>{{zone.statisticType}}</option>
+                  <option [hidden]="zone.statisticType === 'AVERAGE'">AVERAGE</option>
+                  <option [hidden]="zone.statisticType === 'MAX'">MAX</option>
+                  <option [hidden]="zone.statisticType === 'MIN'">MIN</option>
+                </select>
+              </td>
+              <td style="padding-top: 12px">
+                <div *ngIf="zone.isDraw"> 
+                  <a (click)="reset(zone)" style="display:block; text-align: center; background-color:coral; border-radius: 0.25rem;">Reset</a>
+                </div>
+                <div *ngIf="!zone.isDraw">
+                  <span (click)="config(zone)" style="display:block; text-align: center; background-color: silver; border-radius: 0.25rem;">Config</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer clearfix">
+        <ul class="pagination pagination-sm m-0 float-right">
+          <li class="page-item"><a class="page-link" href="home/configuration/zone-profile">&laquo;</a></li>
+          <li class="page-item"><a class="page-link" href="home/configuration/zone-profile">1</a></li>
+          <li class="page-item"><a class="page-link" href="home/configuration/zone-profile">2</a></li>
+          <li class="page-item"><a class="page-link" href="home/configuration/zone-profile">3</a></li>
+          <li class="page-item"><a class="page-link" href="home/configuration/zone-profile">&raquo;</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+[
+    {
+       "wh_id": "NAS05",
+       "zone": "10A",
+       "algorithm": "AVERAGE",
+       "x": 460,
+       "y": 360
+    },
+    {
+        "wh_id": "NAS05",
+        "zone": "20A",
+        "algorithm": "AVERAGE",
+        "x": 360,
+        "y": 260
+     },
+     {
+      "wh_id": "NAS05",
+      "zone": "30A",
+      "algorithm": "AVERAGE",
+      "x": 460,
+      "y": 290
+   }
+]

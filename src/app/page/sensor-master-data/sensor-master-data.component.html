@@ -1,0 +1,123 @@
+<div>
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Sensor Master Mapping</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="col-md-3">
+    <div class="form-group">
+      <select class="form-control select2Warehouse">
+        <option disabled selected>Select a warehouse</option>
+        <option *ngFor="let wh of warehouseSimListView">{{wh.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <table class="table table-bordered ">
+      <thead style="line-height: 1;">
+        <tr>
+          <th>Sensor ID</th>
+          <th>Sensor Name</th>
+          <th>Category</th>
+          <th>Sample Interval</th>
+          <th>Value Range</th>
+          <th>Sample Range</th>
+          <th>Exception Sample Range</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let sensorDetail of sensorSimListView; let i = index">
+        <tr>
+          <td>{{sensorDetail.sid}}</td>
+          <td>{{sensorDetail.name}}</td>
+          <td>{{sensorDetail.category}}</td>
+          <td>{{sensorDetail.sampleIntervalSec}}</td>
+          <td>
+            <ng-container *ngIf="sensorDetail.category === 'HUMIDITY'">
+              <img *ngIf="sensorDetail.valueRangeHumdMin != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.valueRangeHumdMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.valueRangeHumdMax != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.valueRangeHumdMax}} <br>
+            </ng-container>
+            <ng-container *ngIf="sensorDetail.category === 'TEMPERATURE'">
+              <img *ngIf="sensorDetail.valueRangeTempMin != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.valueRangeTempMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.valueRangeTempMax != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.valueRangeTempMax}} 
+            </ng-container>
+            <ng-container *ngIf="sensorDetail.category === 'INTEGRATED'">
+              <img *ngIf="sensorDetail.valueRangeHumdMin != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.valueRangeHumdMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.valueRangeHumdMax != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.valueRangeHumdMax}} <br>
+              <img *ngIf="sensorDetail.valueRangeTempMin != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.valueRangeTempMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.valueRangeTempMax != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.valueRangeTempMax}} 
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngIf="sensorDetail.category === 'HUMIDITY'">
+              <img *ngIf="sensorDetail.sampleRangeHumdMin != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.sampleRangeHumdMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.sampleRangeHumdMax != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.sampleRangeHumdMax}} <br>
+            </ng-container>
+            <ng-container *ngIf="sensorDetail.category === 'TEMPERATURE'">
+              <img *ngIf="sensorDetail.sampleRangeTempMin != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.sampleRangeTempMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.sampleRangeTempMax != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.sampleRangeTempMax}} 
+            </ng-container>
+            <ng-container *ngIf="sensorDetail.category === 'INTEGRATED'">
+              <img *ngIf="sensorDetail.sampleRangeHumdMin != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.sampleRangeHumdMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.sampleRangeHumdMax != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.sampleRangeHumdMax}} <br>
+              <img *ngIf="sensorDetail.sampleRangeTempMin != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.sampleRangeTempMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.sampleRangeTempMax != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.sampleRangeTempMax}} 
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngIf="sensorDetail.category === 'HUMIDITY'">
+              <img *ngIf="sensorDetail.exceptionSampleRangeHumdMin != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.exceptionSampleRangeHumdMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.exceptionSampleRangeHumdMax != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.exceptionSampleRangeHumdMax}} <br>
+            </ng-container>
+            <ng-container *ngIf="sensorDetail.category === 'TEMPERATURE'">
+              <img *ngIf="sensorDetail.exceptionSampleRangeTempMin != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.exceptionSampleRangeTempMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.exceptionSampleRangeTempMax != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.exceptionSampleRangeTempMax}} 
+            </ng-container>
+            <ng-container *ngIf="sensorDetail.category === 'INTEGRATED'">
+              <img *ngIf="sensorDetail.exceptionSampleRangeHumdMin != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.exceptionSampleRangeHumdMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.exceptionSampleRangeHumdMax != undefined" src="https://my.sensguard.lv/image/icon-hum.svg">
+              {{sensorDetail.exceptionSampleRangeHumdMax}} <br>
+              <img *ngIf="sensorDetail.exceptionSampleRangeTempMin != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.exceptionSampleRangeTempMin}} &nbsp;&nbsp;...&nbsp;&nbsp;
+              <img *ngIf="sensorDetail.exceptionSampleRangeTempMax != undefined" src="https://my.sensguard.lv/image/icon-temp.svg">
+              {{sensorDetail.exceptionSampleRangeTempMax}} 
+            </ng-container>
+          </td>
+          <td>
+            <span style="color: cadetblue; " class="fas fa-edit" (click)="edit(sensorDetail)"></span>
+          </td>
+          <td>
+            <span style="color: coral; padding-right: 0px;" class="fas fa-trash" (click)="delete(sensorDetail)"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button [disabled]="isAddDisable" class="btn btn-info" (click)="add()">Add Sensor</button>
+  </div>
+</div>

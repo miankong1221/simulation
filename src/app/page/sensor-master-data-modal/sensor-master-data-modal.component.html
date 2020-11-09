@@ -1,0 +1,157 @@
+<div class="content">
+  <div class="modal-header myModal-header">
+    <h5 class="modal-title myModal-title">Sensor Information</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true" (click)="bsModalRef.hide()">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div [hidden]="isAdd" class="form-group ">
+      <label>Warehouse Name</label>
+      <input disabled type="text" class="form-control form-control-modify" [(ngModel)]="whNm">
+    </div>
+    <div [hidden]="!isAdd" class="form-group ">
+      <label>Warehouse Name</label>
+      <select [(ngModel)]="selectedWh" class="form-control select2Warehouse">
+        <option disabled selected>Select a warehouse</option>
+        <option *ngFor="let wh of warehouseSimListView">{{wh.name}}</option>
+      </select>
+    </div>
+    <div [hidden]="isAdd" class="form-group">
+      <label>Sensor ID</label>
+      <input disabled type="text" class="form-control form-control-modify" [(ngModel)]="sensor.sid">
+    </div>
+    <div [hidden]="!isAdd" class="form-group">
+      <label>Sensor ID</label>
+      <input type="text" class="form-control form-control-modify" [(ngModel)]="sensorId">
+    </div>
+    <div [hidden]="isAdd" class="form-group">
+      <label>Sensor Name</label>
+      <input disabled type="text" class="form-control form-control-modify" [(ngModel)]="sensor.name">
+    </div>
+    <div [hidden]="!isAdd" class="form-group">
+      <label>Sensor Name</label>
+      <input type="text" class="form-control form-control-modify" [(ngModel)]="sensorName">
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <select class="form-control select2Category" [(ngModel)]="sensor.category">
+        <option disabled selected>Select a category</option>
+        <option *ngFor="let cate of categoryList">{{cate}}</option>
+      </select>
+    </div>
+    <div [hidden]="isAdd" class="form-group">
+      <label>Sample Interval(S)</label>
+      <input type="text" class="form-control form-control-modify" [(ngModel)]="sensor.sampleIntervalSec">
+    </div>
+    <div [hidden]="!isAdd" class="form-group">
+      <label>Sample Interval(S)</label>
+      <input type="text" class="form-control form-control-modify" [(ngModel)]="sampleInterval">
+    </div>
+    <div [hidden]="isAdd" *ngIf="isTemp || isIntegrated" class="form-group">
+      <label>Value Range(Temperature)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.valueRangeTempMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.valueRangeTempMax">
+      </div>
+    </div>
+    <div [hidden]="!isAdd" *ngIf="isTemp || isIntegrated" class="form-group">
+      <label>Value Range(Temperature)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="valueRangeTempMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="valueRangeTempMax">
+      </div>
+    </div>
+    <div [hidden]="isAdd" *ngIf="isHumd || isIntegrated" class="form-group">
+      <label>Value Range(Humidity)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.valueRangeHumdMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.valueRangeHumdMax">
+      </div>
+    </div>
+    <div [hidden]="!isAdd" *ngIf="isHumd || isIntegrated" class="form-group">
+      <label>Value Range(Humidity)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="valueRangeHumdMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="valueRangeHumdMax">
+      </div>
+    </div>
+    <div [hidden]="isAdd" *ngIf="isTemp || isIntegrated" class="form-group">
+      <label>Sample Range(Temperature)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.sampleRangeTempMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.sampleRangeTempMax">
+      </div>
+    </div>
+    <div [hidden]="!isAdd" *ngIf="isTemp || isIntegrated" class="form-group">
+      <label>Sample Range(Temperature)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sampleRangeTempMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sampleRangeTempMax">
+      </div>
+    </div>
+    <div [hidden]="isAdd" *ngIf="isHumd || isIntegrated" class="form-group">
+      <label>Sample Range(Humidity)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.sampleRangeHumdMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.sampleRangeHumdMax">
+      </div>
+    </div>
+    <div [hidden]="!isAdd" *ngIf="isHumd || isIntegrated" class="form-group">
+      <label>Sample Range(Humidity)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sampleRangeHumdMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sampleRangeHumdMax">
+      </div>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input form-check-input-modify" (change)= "change()"  [checked]="isChecked"  type="checkbox">
+      <label class="form-check-label form-check-label-modify">Exception Sample Range</label>
+    </div>
+    <div [hidden]="isAdd" *ngIf="(isTemp || isIntegrated) && isSelected" class="form-group">
+      <label>Exception Sample Range(Temperature)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.exceptionSampleRangeTempMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.exceptionSampleRangeTempMax">
+      </div>
+    </div>
+    <div [hidden]="!isAdd" *ngIf="(isTemp || isIntegrated) && isSelected" class="form-group">
+      <label>Exception Sample Range(Temperature)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="excSampleRangeTempMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="excSampleRangeTempMax">
+      </div>
+    </div>
+    <div [hidden]="isAdd" *ngIf="(isHumd || isIntegrated) && isSelected" class="form-group">
+      <label>Exception Sample Range(Humidity)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.exceptionSampleRangeHumdMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="sensor.exceptionSampleRangeHumdMax">
+      </div>
+    </div>
+    <div [hidden]="!isAdd" *ngIf="(isHumd || isIntegrated) && isSelected" class="form-group">
+      <label>Exception Sample Range(Humidity)</label>
+      <div style="display: flex;  align-items: center;">
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="excSampleRangeHumdMin">
+        <span>&nbsp;&nbsp;&nbsp;～&nbsp;&nbsp;&nbsp;</span>
+        <input style="width: 20%;" type="text" class="form-control form-control-modify" [(ngModel)]="excSampleRangeHumdMax">
+      </div>
+    </div>
+    
+    <div class="modal-footer myModal-footer">
+      <button [hidden]="isAdd" type="button" class="btn btn-primary btn-sm" (click)="save()">Save</button>
+      <button [hidden]="!isAdd" type="button" class="btn btn-primary btn-sm" (click)="confirm()">Submit</button>
+      <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirm()">Confirm</button> -->
+    </div>
+  </div>

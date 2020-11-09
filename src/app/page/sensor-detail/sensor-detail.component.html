@@ -1,0 +1,166 @@
+<div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 style="font-family: Microsoft JhengHei;">Warehouse Monitoring</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <ol class="breadcrumb float-sm-right" style="width: 100%;">
+                <li class="breadcrumb-item">Monitoring</li>
+                <li class="breadcrumb-item">{{curWhName}}</li>
+                <li class="breadcrumb-item">{{curZoneId}}</li>
+                <li class="breadcrumb-item">{{sensorId}}
+                    <a routerLink="../zone-detail" [queryParams]="{whId:curWhId, zoneId:curZoneId, whName:curWhName}"
+                        class="glyphicon glyphicon-remove" style="color:#c04c6f;">
+                    </a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row" style="text-align: center">
+        <div class="col-md-3" style="margin-top: 25px;">
+            <img src="../../../assets/img/thermo-humid.svg"><br>
+            <div style="margin-top:8px">
+                {{sensor.date}}
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="collapsed-panel__h1">
+                {{sensor.cur_temp_value}} °C
+            </div>
+            Temperature
+        </div>
+        <div class="col-md-2">
+            <div class="collapsed-panel__h1">
+                {{sensor.cur_hum_value}} %
+            </div>
+            Humidity
+        </div>
+        <div class="col-md-2">
+            <div class="battery battery--full">
+                <span style="width: 100%;"></span>
+            </div>
+            Battery
+        </div>
+        <div class="col-md-3">
+            <div class="signal signal--full">
+                <span style="width: 100%;"></span>
+            </div>
+            Signal quality
+        </div>
+    </div>
+    <ul class="list-group" style="margin-top: 30px;">
+        <li class="list-group-item" style="line-height: 0.9; background-color: #E9ECEF">
+            <strong>Information</strong>
+        </li>
+        <li class="list-group-item">
+            <strong>Sensor Name: </strong>
+            <span class="text-info">&nbsp;&nbsp;{{sensor.sensor_name}}</span>
+        </li>
+        <li class="list-group-item">
+            <strong>Settings: </strong>
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;
+                <img *ngIf="sensor.settingTemp" src="https://my.sensguard.lv/image/icon-temp.svg">
+                {{sensor.settingTemp}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <img *ngIf="sensor.settingHumidity" src="https://my.sensguard.lv/image/icon-hum.svg">
+                {{sensor.settingHumidity}}
+            </span>
+        </li>
+    </ul>
+    <table style="width: 100%;">
+        <tbody>
+            <tr>
+                <td colspan="2" style="border-left: 0px; border-right: 0px">
+                    <div class="monitoring_head_detail">
+                        <ul>
+                            <span id='history' class="monitoring_head_detail_show-content" style="color: black;"
+                                (click)='showList()'>Show
+                                history</span>
+                            <span id='diag' class="monitoring_head_detail_show-content" (click)='showDiagram()'>Show
+                                diagram</span>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr [hidden]="!isListExpand">
+                <ul class="list-group">
+                    <div style="border: 1px solid #ddd;" [hidden]="sensorHistoryList.length===0">
+                        <li class="list-group-item notify">
+                            <strong>Sensor history</strong>
+                        </li>
+                        <div style="height: 28px;">
+                            <table class="table">
+                                <tr>
+                                    <td style="font-weight: bold; padding: 5px; width: 1.5%;">
+                                    </td>
+                                    <td style="font-weight: bold; padding: 5px; width: 11%;">
+                                        Sensor ID
+                                    </td>
+                                    <td style="font-weight: bold; padding: 5px; width: 28%;">
+                                        Value
+                                    </td>
+                                    <td style="font-weight: bold; padding: 5px; width: 42%;">
+                                        Detail
+                                    </td>
+                                    <td style="font-weight: bold; padding: 5px;">
+                                        Date
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="inner_content">
+                            <table class="table table-bordered">
+                                <tbody *ngFor="let sensor of sensorHistoryList; let i=index" style="width: 100%;">
+                                    <tr>
+                                        <td style="padding: 8px;">
+                                            {{sensor.sensor_id}}
+                                        </td>
+                                        <td style="padding: 8px;">
+                                            {{sensor.value}}
+                                        </td>
+                                        <td style="padding: 8px;">
+                                            {{sensor.detail}}
+                                        </td>
+                                        <td style="padding: 8px;">
+                                            {{sensor.date}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                        </div>
+                        <li class="list-group-item notify">
+                            <strong> Total count : {{total}}</strong>
+                        </li>
+                    </div>
+                </ul>
+            </tr>
+            <tr [hidden]="!isDiagramExpand">
+                <div style="border: 1px solid #ddd">
+                    <div style="float: right;">
+                        <button id="today" style="margin-top:10px;  margin-right: 10px; margin-left: 10px;"
+                            type="button" class="btn btn-datetimerange" (click)="getHistoryData()">Today</button>
+                        <button style="margin-top:10px; margin-right: 10px;" type="button" class="btn btn-datetimerange"
+                            (click)="getRealTime()">Real Time</button>
+                    </div>
+                    <div style="margin-top: 50px;">
+                        <div [hidden]="isRealTime" id="canvasSenserDetailTemp" style="width: 1200px; height:400px;"></div>
+                        <div [hidden]="isRealTime" id="canvasSenserDetailHumidity" style="width: 1200px; height:400px;"></div>
+                        <div [hidden]="!isRealTime" id="canvasSenserDetailTempRealTime" style="width: 1200px; height:400px;"></div>
+                        <div [hidden]="!isRealTime" id="canvasSenserDetailHumiRealTime" style="width: 1200px; height:400px;"></div>
+                    </div>
+                </div>
+            </tr>
+        </tbody>
+        <div style="margin-bottom: 20px">
+        </div>
+    </table>
+</div>

@@ -1,0 +1,23 @@
+[
+    {
+        "wh_id": "NAS05",
+        "wh_name": "AAA",
+        "zone_cnt": "10",
+        "notification_cnt": "10",
+        "sensor_cnt": "30"
+     },
+     {
+        "wh_id": "NAS06",
+        "wh_name": "BBB",
+        "zone_cnt": "7",
+        "notification_cnt": "8",
+        "sensor_cnt": "25"
+     },
+     {
+      "wh_id": "NAS07",
+      "wh_name": "CCC",
+      "zone_cnt": "7",
+      "notification_cnt": "8",
+      "sensor_cnt": "25"
+   }
+]

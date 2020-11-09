@@ -1,0 +1,39 @@
+<div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Simulation Control</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="col-md-3">
+        <div class="form-group">
+            <select [disabled]="isDropdownActive"   class="form-control select2Warehouse">
+                <option disabled selected>Select a warehouse</option>
+                <option *ngFor="let wh of warehouseEntityList">{{wh.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div [hidden]="!isCardActive" class="col-md-6" style="margin-top: 30px;" >
+        <nz-card style="width:600px;" nzTitle="History">
+            <label>Sample Time</label>
+            <nz-range-picker [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="yyyy-MM-dd HH:mm" nzSize="large" ngModel
+                (ngModelChange)="onChange($event)" (nzOnCalendarChange)="onCalendarChange($event)" (nzOnOk)="onOk($event)">
+            </nz-range-picker>
+            <button nzShape="round" style="margin-right: 40px; margin-top: 20px;" nz-button nzType="primary" (click)="generateCorrectData()">Slm Correct</button>
+            <button nzShape="round" style="margin-top: 20px;"  nz-button nzType="primary" (click)="generateExceptionData()">Slm Exception</button>
+          </nz-card>
+    </div>
+
+    <div [hidden]="!isCardActive" class="col-md-6">
+        <nz-card style="width:600px; margin-top: 50px;"  nzTitle="Real Time">
+            <label>Sample Rate(Sec)</label>
+            <nz-time-picker (ngModelChange)="onChangeTimePick($event)" [(ngModel)]="time" nzSize="large" [nzDefaultOpenValue]="defaultOpenValue"></nz-time-picker>
+            <nz-switch [disabled]="!isSwitchActive"  style="margin-left: 10px;"  [(ngModel)]="switchValue" nzCheckedChildren="on" nzUnCheckedChildren="off" (click)="generateRealTime()"></nz-switch>
+          </nz-card>
+    </div>
+
+</div>
