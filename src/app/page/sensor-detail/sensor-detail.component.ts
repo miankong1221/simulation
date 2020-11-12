@@ -96,7 +96,11 @@ export class SensorDetailComponent implements OnInit {
             sensorDetail.temp = temp.value.temperature;
           }
           if (temp.value.humidity) {
-            sensorDetail.type = 'Humidity';
+            if (sensorDetail.type === 'Temp'){
+              sensorDetail.type = 'Integrated';
+            }else{
+              sensorDetail.type = 'Humidity';
+            }
             sensorDetail.humidity = temp.value.humidity;
           }
           this.sensoGraphRealTimeDataList.push(sensorDetail);
@@ -116,7 +120,11 @@ export class SensorDetailComponent implements OnInit {
             sensorDetail.temp = temp.value.temperature;
           }
           if (temp.value.humidity) {
-            sensorDetail.type = 'Humidity';
+            if (sensorDetail.type === 'Temp'){
+              sensorDetail.type = 'Integrated';
+            }else{
+              sensorDetail.type = 'Humidity';
+            }
             sensorDetail.humidity = temp.value.humidity;
           }
           this.sensoGraphDataList.push(sensorDetail);
@@ -179,6 +187,7 @@ export class SensorDetailComponent implements OnInit {
   getRealTime(): void {
     this.isRealTime = true;
     document.getElementById('today').style.border = '1px solid #cccccc';
+    document.getElementById('realTime').style.border = '5px solid #cccccc';
     this.service.getRealTimeData(this.sensorId);
     this.realInterval = setInterval(() => {
       this.service.getRealTimeData(this.sensorId);
@@ -208,11 +217,18 @@ export class SensorDetailComponent implements OnInit {
     const elementHumdId = this.isRealTime === true ? 'canvasSenserDetailHumiRealTime' : 'canvasSenserDetailHumidity';
     if (this.isRealTime) {
       this.sensoGraphRealTimeDataList.forEach((temp) => {
-        if (temp.type === 'Temp') {
+        if (temp.type === 'Integrated'){
+          this.tempXAxisDataTemp.push(temp.date);
+          legendDataTemp = 'Temperture';
+          this.tempSeriesDataTemp.push(temp.temp);
+          this.tempXAxisDataHumd.push(temp.date);
+          legendDataHumd = 'Humidity';
+          this.tempSeriesDataHumd.push(temp.humidity);
+        }else if (temp.type === 'Temp') {
             this.tempXAxisDataTemp.push(temp.date);
             legendDataTemp = 'Temperture';
             this.tempSeriesDataTemp.push(temp.temp);
-        } else{
+        }else if (temp.type === 'Humidity'){
             this.tempXAxisDataHumd.push(temp.date);
             legendDataHumd = 'Humidity';
             this.tempSeriesDataHumd.push(temp.humidity);
@@ -220,14 +236,21 @@ export class SensorDetailComponent implements OnInit {
       });
     } else {
       this.sensoGraphDataList.forEach((temp) => {
-        if (temp.type === 'Temp') {
+        if (temp.type === 'Integrated'){
           xAxisDataTemp.push(temp.date);
           legendDataTemp = 'Temperture';
           seriesDataTemp.push(temp.temp);
-        } else {
           xAxisDataHumd.push(temp.date);
           legendDataHumd = 'Humidity';
-          seriesDataHumd.push(temp.temp);
+          seriesDataHumd.push(temp.humidity);
+        }else if (temp.type === 'Temp') {
+          xAxisDataTemp.push(temp.date);
+          legendDataTemp = 'Temperture';
+          seriesDataTemp.push(temp.temp);
+        } else if (temp.type === 'Humidity') {
+          xAxisDataHumd.push(temp.date);
+          legendDataHumd = 'Humidity';
+          seriesDataHumd.push(temp.humidity);
         }
       });
     }
@@ -237,9 +260,10 @@ export class SensorDetailComponent implements OnInit {
       } else {
         this.drawGraph(elementTempId, legendDataTemp, xAxisDataTemp, seriesDataTemp);
       }
-    } else if (legendDataTemp === 'Humidity') {
+    }
+    if (legendDataHumd === 'Humidity') {
       if (this.isRealTime === true) {
-        this.drawGraph(elementTempId, legendDataTemp, this.tempXAxisDataHumd, this.tempSeriesDataHumd);
+        this.drawGraph(elementHumdId, legendDataHumd, this.tempXAxisDataHumd, this.tempSeriesDataHumd);
       }else{
         this.drawGraph(elementHumdId, legendDataHumd, xAxisDataHumd, seriesDataHumd);
       }

@@ -4,17 +4,6 @@ import { SensorEntity } from '../entity/sensor.entity';
 import { WarehouseEntity, WarehouseGraphData, ZoneDataDto } from '../entity/warehouse.entity';
 import { ZoneEntity, ZoneLocation } from '../entity/zone.entity';
 import { MonitoringService } from '../service/monitoring-service';
-import ImageLayer from 'ol/layer/Image';
-import Map from 'ol/Map';
-import Projection from 'ol/proj/Projection';
-import Static from 'ol/source/ImageStatic';
-import View from 'ol/View';
-import { getCenter } from 'ol/extent';
-import { Heatmap as HeatmapLayer, Tile as TileLayer  } from 'ol/layer.js';
-import VectorSource from 'ol/source/Vector.js';
-import GeoJSON from 'ol/format/GeoJSON';
-import OSM from 'ol/source/OSM';
-
 declare var $: any;
 declare var echarts: any;
 
@@ -142,6 +131,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     this.service.getWarehouseRealTimeDataEvent().subscribe((data: any[]) => {
       this.warehouseRealTimeGraphData = [];
       if (data.length > 0) {
+        // this.warehouseRealTimeGraphData = data;
         data.forEach((temp) => {
           const warehouseGraphData = new WarehouseGraphData();
           warehouseGraphData.time = temp.time;
@@ -403,16 +393,17 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         this.drawGraph(elementTempId, legendDataTemp, xAxisDataTemp, seriesDataTemp);
       }
     }
-    if (legendDataHumd === 'Humidity') {
-      if (this.isRealTime === true) {
-        this.drawGraphHum(elementHumdId, legendDataHumd, this.tempXAxisDataHumd, this.tempSeriesDataHumd);
-      } else {
-        this.drawGraphHum(elementHumdId, legendDataHumd, xAxisDataHumd, seriesDataHumd);
-      }
-    }
+    // if (legendDataHumd === 'Humidity') {
+    //   if (this.isRealTime === true) {
+    //     this.drawGraphHum(elementHumdId, legendDataHumd, this.tempXAxisDataHumd, this.tempSeriesDataHumd);
+    //   } else {
+    //     this.drawGraphHum(elementHumdId, legendDataHumd, xAxisDataHumd, seriesDataHumd);
+    //   }
+    // }
   }
 
   drawGraph(elementId: any, legendData: any, xAxisData: any[], seriesData: any[]): void {
+    console.log(this.isRealTime);
     let zoneOneList: ZoneDataDto[];
     zoneOneList = [];
     let zoneTwoList: ZoneDataDto[];
@@ -420,8 +411,10 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     let zoneOneName = '';
     let zoneTwoName = '';
     seriesData.forEach(temp => {
+      temp[0].temValue = 20;
       zoneOneList.push(temp[0].temValue);
       zoneOneName = temp[0].zone;
+      temp[1].temValue = 30;
       zoneTwoList.push(temp[1].temValue);
       zoneTwoName = temp[1].zone;
     });
@@ -447,7 +440,8 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         }
       },
       xAxis: {
-        data: xAxisData
+        data: xAxisData,
+        type: 'time',
       },
       yAxis: {},
       series: [{
@@ -468,19 +462,22 @@ export class MonitoringComponent implements OnInit, OnDestroy {
   }
 
   drawGraphHum(elementId: any, legendData: any, xAxisData: any[], seriesData: any[]): void {
+    console.log(this.isRealTime);
     let zoneOneList: ZoneDataDto[];
     zoneOneList = [];
     let zoneTwoList: ZoneDataDto[];
     zoneTwoList = [];
     let zoneOneName = '';
     let zoneTwoName = '';
+    const myChart = echarts.init(document.getElementById(elementId));
     seriesData.forEach(temp => {
+      temp[0].humValue = 10;
       zoneOneList.push(temp[0].humValue);
       zoneOneName = temp[0].zone;
+      temp[1].humValue = 10;
       zoneTwoList.push(temp[1].humValue);
       zoneTwoName = temp[1].zone;
     });
-    const myChart = echarts.init(document.getElementById(elementId));
     const option = {
       title: {
         text: legendData
@@ -504,7 +501,8 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         }
       },
       xAxis: {
-        data: xAxisData
+        data: xAxisData,
+        type: 'time',
       },
       yAxis: {},
       series: [{
