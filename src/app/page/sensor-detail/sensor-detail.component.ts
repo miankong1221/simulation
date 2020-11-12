@@ -199,6 +199,7 @@ export class SensorDetailComponent implements OnInit {
       clearInterval(this.realInterval);
     }
     this.isRealTime = false;
+    document.getElementById('realTime').style.border = '1px solid #cccccc';
     document.getElementById('today').style.border = '5px solid #cccccc';
     // get today
     const start = StringUtils.getToday();
