@@ -31,6 +31,8 @@ export class SensorMasterDataComponent implements OnInit {
 
   selectedWhId: string;
 
+  isAddHidden: boolean;
+
   constructor(
     public http: HttpClient,
     private modalService: BsModalService,
@@ -40,6 +42,7 @@ export class SensorMasterDataComponent implements OnInit {
     this.sensorSimListView = [];
     this.zoneList = [];
     this.isAddDisable = true;
+    this.isAddHidden = false;
   }
 
   ngOnInit(): void {

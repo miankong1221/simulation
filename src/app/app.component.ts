@@ -9,7 +9,7 @@ import { registerLocaleData } from '@angular/common';
 })
 export class AppComponent implements OnInit{
 
-  title = 'automation';
+  title = 'Automation';
 
   ngOnInit(): void {
     registerLocaleData(zh);

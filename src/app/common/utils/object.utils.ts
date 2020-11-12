@@ -20,7 +20,8 @@ export class ObjectUtils {
     }
 
     public static getClass(target: any, propertyName: string): any {
-        return Reflect.getMetadata('design:type', target, propertyName);
+        const res = Reflect.getMetadata('design:type', target, propertyName);
+        return res;
     }
 
     public static clone(target: any): any {

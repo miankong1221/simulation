@@ -30,15 +30,19 @@ export class SimulationService {
     }
 
     getAllWarehouse(): void {
-        try {
-            const url = EnvConst.DevSimulationConst.API_ROOT + WebApiUri.SIM_WAREHOUSES;
-            this.http.get(url).subscribe((data: any) => {
-                const result =  JsonTypeMapper.parse(WarehouseEntity, data.data) as [];
+
+        const url = EnvConst.DevSimulationConst.API_ROOT + WebApiUri.SIM_WAREHOUSES;
+        this.http.get(url).subscribe(
+            // request success
+            (data: any) => {
+                const result = JsonTypeMapper.parse(WarehouseEntity, data.data) as WarehouseEntity[];
                 this.warehouseEvent.next(result);
-            });
-        } catch (error) {
-            alert(error);
-        }
+            },
+            // request failure
+            (data: any) => {
+                console.log(data);
+            }
+        );
     }
 
     generateCorrectData(whId: string, startTime: string, endTime: string): void {
@@ -51,9 +55,9 @@ export class SimulationService {
         this.http.post(url, req).subscribe((data: any) => {
             console.log('Success');
         });
-      }
+    }
 
-      generateExceptionData(whId: string, startTime: string, endTime: string): void {
+    generateExceptionData(whId: string, startTime: string, endTime: string): void {
         const req = {
             wh_id: whId,
             start: startTime,
@@ -63,9 +67,9 @@ export class SimulationService {
         this.http.post(url, req).subscribe((data: any) => {
             console.log('Success');
         });
-      }
+    }
 
-      generateRealTimeStart(whId: string, intervalTime: string): void {
+    generateRealTimeStart(whId: string, intervalTime: string): void {
         const req = {
             wh_id: whId,
             interval: intervalTime,
@@ -74,9 +78,9 @@ export class SimulationService {
         this.http.post(url, req).subscribe((data: any) => {
             console.log('Success');
         });
-      }
+    }
 
-      generateRealTimeEnd(): void {
+    generateRealTimeEnd(): void {
         const url = EnvConst.DevSimulationConst.API_ROOT + '/simulation/api/v1/temperature/warehouse/sim/stop';
         try {
             this.http.get(url).subscribe((data: any) => {
@@ -88,6 +92,6 @@ export class SimulationService {
         // this.http.get(url).subscribe((data: any) => {
         //     console.log('Success');
         // });
-      }
+    }
 
 }

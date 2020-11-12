@@ -12,7 +12,7 @@
     <div class="form-group">
       <select class="form-control selectWarehouse">
         <option disabled selected>Select a warehouse</option>
-        <option *ngFor="let wh of warehouseList">{{wh.wh_name}}</option>
+        <option *ngFor="let wh of warehouseList">{{wh.whName}}</option>
       </select>
     </div>
     <div class="form-group">
@@ -78,6 +78,7 @@
         </tr>
       </tbody>
     </table>
-    <button [disabled]="isAddDisable" class="btn btn-info" (click)="add()">Add Sensor</button>
+    <!-- <button [disabled]="isAddDisable" class="btn btn-info" (click)="add()">Add Sensor</button> -->
+    <button [hidden]="!isAddHidden" [disabled]="isAddDisable" class="button button--primary" (click)="add()">Add Sensor</button>
   </div>
 </div>

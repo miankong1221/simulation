@@ -73,11 +73,11 @@ a {
   background-color: transparent;
 }
 
-.wh{
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  color: #333333;
-}
+// .wh{
+//   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-size: 14px;
+//   color: #333333;
+// }
 
 .battery {
   width: 155px;
@@ -248,12 +248,12 @@ table > thead > tr > th, table > tbody > tr > td {
   cursor: pointer;
   list-style: none;
   display: inline;
-    font-weight: bold;
-    font-size: 16px;
-    color: #337ab7;
-    margin-left: 15px;
-    position: relative;
-    padding-right: 10px;
+  font-weight: bold;
+  color: #337ab7;
+  margin-left: 15px;
+  position: relative;
+  padding-right: 10px;
+  font-family: Maersk Text, -apple-system, BlinkMacSystemFont, Microsoft JhengHei,Microsoft Yahei,微软雅黑,STXihei,华文细黑,sans-serif;
 }
 
 
@@ -288,4 +288,50 @@ table > thead > tr > th, table > tbody > tr > td {
 .btn-datetimerange:focus {
   border: 5px solid #cccccc;
   background: white;
+}
+
+.notification--error {
+  border-color: rgba(0,0,0,0);
+  background-color:  #B80012;
+  color: #141414;
+}
+
+.notification {
+  border: 0 solid transparent;
+  border-radius: 5px;
+  padding: 12px 16px 12px 56px;
+  position: relative;
+  margin-left: 250px;
+  margin-right: 250px;
+}
+
+.theme--light {
+  color: #141414;
+}
+
+.notification__icon {
+  position: absolute;
+  left: 16px;
+  top: 15px;
+  transform: none;
+  font-size: 24px;
+}
+
+.notification--success .icon {
+  color: #141414;
+}
+
+.mi-20px {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-family: "MaerskIcons-20px" !important;
+  font-size: 20px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 1;
+  text-decoration: none;
+  text-rendering: auto;
+  text-transform: none;
 }

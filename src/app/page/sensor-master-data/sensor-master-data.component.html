@@ -118,6 +118,6 @@
         </tr>
       </tbody>
     </table>
-    <button [disabled]="isAddDisable" class="btn btn-info" (click)="add()">Add Sensor</button>
+    <button [hidden]="!isAddHidden" [disabled]="isAddDisable" class="button button--primary" (click)="add()">Add Sensor</button>
   </div>
 </div>

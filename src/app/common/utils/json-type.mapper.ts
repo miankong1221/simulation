@@ -4,8 +4,7 @@ import { ObjectUtils } from '../utils/object.utils';
 
 export interface PropertyMetadata<T> {
     name?: string;
-    clazz?: { new (): T };
-    // clazz2?: new () => T;
+    clazz?: new () => T;
 }
 
 export function JsonProperty<T>(metadata?: PropertyMetadata<T> | string): any {
@@ -29,7 +28,7 @@ export class JsonTypeMapper {
         return Reflect.getMetadata('jsonProperty', target, propertyName);
     }
 
-    public static parse<T>(clazz: { new (): T }, jsonObject: any) {
+    public static parse<T>(clazz: new () => T, jsonObject: any) {
         if (jsonObject == null) {
             return null;
         }
@@ -45,14 +44,15 @@ export class JsonTypeMapper {
                 const propName = propMetadata.name || key;
                 const propValue = jsonObject[propName] || {};
                 const propType = ObjectUtils.getClass(obj, key);
-                if (ObjectUtils.isPrimitive(propType)) {
+                if (ObjectUtils.isPrimitive(propType) || propMetadata.clazz === undefined) {
                     obj[key] = propValue;
 
                 } else if (ObjectUtils.isArray(propType)) {
-                    obj[key] = propValue.map((item: any) =>
-                        JsonTypeMapper.parse(propMetadata.clazz, item)
-                    );
-
+                    obj[key] = propValue.map((item: any) => {
+                        if (!ObjectUtils.isPrimitive(item)) {
+                            JsonTypeMapper.parse(propMetadata.clazz, item);
+                        }
+                    });
                 } else {
                     obj[key] = JsonTypeMapper.parse(propType, propValue);
                 }

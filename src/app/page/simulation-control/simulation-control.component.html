@@ -19,18 +19,19 @@
 
     <div [hidden]="!isCardActive" class="col-md-6" style="margin-top: 30px;" >
         <nz-card style="width:600px;" nzTitle="History">
-            <label>Sample Time</label>
+            <label style="font-size: larger;">Sample Time</label>
             <nz-range-picker [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="yyyy-MM-dd HH:mm" nzSize="large" ngModel
                 (ngModelChange)="onChange($event)" (nzOnCalendarChange)="onCalendarChange($event)" (nzOnOk)="onOk($event)">
             </nz-range-picker>
-            <button nzShape="round" style="margin-right: 40px; margin-top: 20px;" nz-button nzType="primary" (click)="generateCorrectData()">Slm Correct</button>
-            <button nzShape="round" style="margin-top: 20px;"  nz-button nzType="primary" (click)="generateExceptionData()">Slm Exception</button>
+        
+            <button class="button button--primary" style="margin-right: 40px; margin-top: 20px;" (click)="generateCorrectData()">Sim Correct</button>
+            <button class="button button--primary" style="margin-right: 40px; margin-top: 20px;" (click)="generateExceptionData()">Sim Exception</button>
           </nz-card>
     </div>
 
     <div [hidden]="!isCardActive" class="col-md-6">
         <nz-card style="width:600px; margin-top: 50px;"  nzTitle="Real Time">
-            <label>Sample Rate(Sec)</label>
+            <label style="font-size: larger;">Sample Rate(Sec)</label>
             <nz-time-picker (ngModelChange)="onChangeTimePick($event)" [(ngModel)]="time" nzSize="large" [nzDefaultOpenValue]="defaultOpenValue"></nz-time-picker>
             <nz-switch [disabled]="!isSwitchActive"  style="margin-left: 10px;"  [(ngModel)]="switchValue" nzCheckedChildren="on" nzUnCheckedChildren="off" (click)="generateRealTime()"></nz-switch>
           </nz-card>

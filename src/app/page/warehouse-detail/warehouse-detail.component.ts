@@ -5,7 +5,6 @@ import { ZoneEntity, ZoneLocation } from '../monitoring/entity/zone.entity';
 import { Chart } from 'node_modules/chart.js/dist/Chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { MonitoringService } from '../monitoring/service/monitoring-service';
-import { MyShareState } from '../monitoring/state/myshare.state';
 declare var echarts: any;
 
 
@@ -58,9 +57,8 @@ export class WarehouseDetailComponent implements OnInit {
 
   constructor(
     public service: MonitoringService,
-    public state: MyShareState,
     private route: ActivatedRoute
-  ) { 
+  ) {
     this.warehouseEntityList = [];
     this.zoneEntityList = [];
     this.sensorEntityList = [];
@@ -73,7 +71,6 @@ export class WarehouseDetailComponent implements OnInit {
 
   ngOnInit(): void {
 
-  
     this.curWhId = this.route.snapshot.queryParamMap.get('id');
     this.curWhName = this.route.snapshot.queryParamMap.get('name');
     this.service.getZoneLocation(this.curWhId);
@@ -84,7 +81,7 @@ export class WarehouseDetailComponent implements OnInit {
         this.sensorEntityList = [];
         data.forEach((temp) => {
           let sensor = new SensorEntity();
-          sensor.sensor_id = temp.sensor_id
+          sensor.sensor_id = temp.sensor_id;
           sensor.sensor_name = temp.sensor_name;
           if(temp.tem_value_min && temp.tem_value_max){
             sensor.settingTemp = temp.tem_value_min + '°C ~' + temp.tem_value_max + '°C';

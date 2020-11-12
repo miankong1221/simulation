@@ -1,1 +1,142 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: "Maersk Text";
+    font-style: normal;
+    font-weight: normal;
+    font-display: swap;
+    src: url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Regular.eot?") format("eot"),
+      url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Regular.woff2") format("woff2"),
+      url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Regular.woff") format("woff");
+  }
+  @font-face {
+    font-family: "Maersk Text";
+    font-style: italic;
+    font-weight: normal;
+    font-display: swap;
+    src: url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Italic.eot?") format("eot"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Italic.woff2") format("woff2"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Italic.woff") format("woff");
+  }
+  @font-face {
+    font-family: "Maersk Text";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Bold.eot?") format("eot"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Bold.woff2") format("woff2"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Bold.woff") format("woff");
+  }
+  @font-face {
+    font-family: "Maersk Text";
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Bolditalic.eot?") format("eot"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Bolditalic.woff2") format("woff2"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/text/MaerskText-Bolditalic.woff") format("woff");
+  }
+  @font-face {
+    font-family: "Maersk Headline";
+    font-style: normal;
+    font-weight: normal;
+    font-display: swap;
+    src: url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Regular.eot?") format("eot"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Regular.woff2") format("woff2"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Regular.woff") format("woff");
+  }
+  @font-face {
+    font-family: "Maersk Headline";
+    font-style: italic;
+    font-weight: normal;
+    font-display: swap;
+    src: url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Italic.eot?") format("eot"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Italic.woff2") format("woff2"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Italic.woff") format("woff");
+  }
+  @font-face {
+    font-family: "Maersk Headline";
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Light.eot?") format("eot"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Light.woff2") format("woff2"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Light.woff") format("woff");
+  }
+  @font-face {
+    font-family: "Maersk Headline";
+    font-style: italic;
+    font-weight: 300;
+    font-display: swap;
+    src: url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Lightitalic.eot?") format("eot"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Lightitalic.woff2") format("woff2"),
+         url("https://assets.maerskline.com/sharedfonts/maeu/headline/MaerskHeadline-Lightitalic.woff") format("woff");
+  }
+
+
+  /* Maersk Guideline Color palette */
+
+  /* Feedback colours should be used for different types of notifications, warnings and danger/error messages etc. */
+  // Info
+  $color-info-light: #B5E0F5;
+  $color-info: #42B0D5;
+  // Success
+  $color-success-light: #C5E5C2;
+  $color-success: #40AB35;
+  // Warning
+  $color-warning-light: #FFEBA8;
+  $color-warning: #FFD029;
+  // Danger
+  $color-danger-light: #E9B2B7;
+  $color-danger: #B80012;
+
+
+
+  /* Maersk Component style */
+
+  .font--button, .button {
+    font-family: "Maersk Text",-apple-system,BlinkMacSystemFont,"Microsoft JhengHei","Microsoft Yahei","微软雅黑",STXihei,"华文细黑",sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0em;
+    font-weight: normal;
+}
+
+  .button {
+    font-size: 16px;
+    line-height: 24px;
+    padding: 7px 19px 9px 19px;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: top;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: #ccc;
+    color: #141414;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .button--primary {
+    color: #fff;
+    background-color: #00243d;
+    border-color: rgba(0,0,0,0);
+    box-shadow: none;
+  }
+
+
+  body h1 {
+    font-family: Maersk Headline, -apple-system, BlinkMacSystemFont, Microsoft JhengHei, Microsoft Yahei, 微软雅黑, STXihei, 华文细黑, sans-serif; 
+  }
+
+  thead > tr {
+    font-family: Maersk Headline, -apple-system, BlinkMacSystemFont, Microsoft JhengHei, Microsoft Yahei, 微软雅黑, STXihei, 华文细黑, sans-serif;
+  }
+
+  tbody > tr > td {
+    font-family: Maersk Text, -apple-system, BlinkMacSystemFont, Microsoft JhengHei, Microsoft Yahei, 微软雅黑, STXihei, 华文细黑, sans-serif;
+  }
+
+
+  

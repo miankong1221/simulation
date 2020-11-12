@@ -41,9 +41,12 @@
               "node_modules/admin-lte/plugins/summernote/summernote-bs4.css",
               "node_modules/admin-lte/plugins/select2/css/select2.min.css",
               "node_modules/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css",
-              "node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css"
+              "node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css",
+              "node_modules/ol/ol.css"
             ],
             "scripts": [
+              "src/assets/js/ol/leaflet.js",
+              "src/assets/js/ol/leaflet-src.js",
               "node_modules/admin-lte/plugins/jquery/jquery.min.js",
               "node_modules/admin-lte/plugins/jquery-ui/jquery-ui.min.js",
               "node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js",
@@ -65,7 +68,8 @@
               "node_modules/admin-lte/dist/js/adminlte.js",
               "node_modules/admin-lte/dist/js/pages/dashboard.js",
               "node_modules/admin-lte/dist/js/demo.js",
-              "node_modules/echarts/dist/echarts.min.js"
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/heatmap.js-2.0.5/build/heatmap.min.js"
             ]
           },
           "configurations": {

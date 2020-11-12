@@ -69,7 +69,7 @@ export class SimulationControlComponent implements OnInit {
   onChange(result: Date): void {
     this.start = format(result[0], 'yyyy-MM-dd HH:mm:ss');
     this.end = format(result[1], 'yyyy-MM-dd HH:mm:ss');
-    console.log(this.start)
+    console.log(this.start);
   }
 
   onOk(result: Date | Date[] | null): void {
@@ -82,12 +82,11 @@ export class SimulationControlComponent implements OnInit {
 
   generateCorrectData(): void {
     this.service.generateCorrectData(this.selectedWh, this.start, this.end);
-    this.createBasicMessage();
+
   }
 
   generateExceptionData(): void {
     this.service.generateExceptionData(this.selectedWh, this.start, this.end);
-    this.createBasicMessage();
   }
 
   generateRealTime(): void {
@@ -97,10 +96,8 @@ export class SimulationControlComponent implements OnInit {
     this.isDropdownActive = this.switchValue;
     if (this.switchValue === true) {
       this.service.generateRealTimeStart(this.selectedWh, interval);
-      this.createBasicMessage();
     } else {
       this.service.generateRealTimeEnd();
-      this.createBasicMessage();
     }
 
   }
@@ -113,12 +110,4 @@ export class SimulationControlComponent implements OnInit {
       this.isSwitchActive = true;
     }
   }
-
-  createBasicMessage(): void {
-    this.message.info('This is a prompt message for success, and it will disappear in 10 seconds', {
-      nzDuration: 10000
-    });
-  }
-
-
 }

@@ -31,10 +31,17 @@ export class SensorMasterDataService {
         // call local json
         // const url = 'assets/json/monitoring/allWarehouses.json';
         const url = EnvConst.DevSimulationConst.API_ROOT + '/simulation/api/v1/temperature/warehouses';
-        this.http.get(url).subscribe((data: any) => {
-            const result =  JsonTypeMapper.parse(CommonDtoEntity, data);
-            this.warehouseEvent.next(result.data);
-        });
+        this.http.get(url).subscribe(
+            // request success
+            (data: any) => {
+                const result = JsonTypeMapper.parse(WarehouseSimDto, data.data) as WarehouseSimDto[];
+                this.warehouseEvent.next(result);
+            },
+            // request failure
+            (data: any) => {
+                console.log(data);
+            }
+        );
     }
 
     getSensorByWarehouse(whId: string): void {

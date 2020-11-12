@@ -30,6 +30,7 @@
     "ng-devui": "^9.3.0",
     "ng-zorro-antd": "^10.1.0",
     "ngx-bootstrap": "^6.1.0",
+    "ol": "^6.4.3",
     "require": "^2.4.20",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

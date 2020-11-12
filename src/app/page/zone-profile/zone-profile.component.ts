@@ -58,18 +58,9 @@ export class ZoneProfileComponent implements OnInit, OnDestroy {
     this.whSub = this.service.getWhEvent().subscribe((data: WarehouseEntity[]) => {
       this.warehouseList = data;
     });
-    this.zoneSub = this.service.getZoneListByWhEvent().subscribe((res: any[]) => {
-      if (res && this.currentwhId) {
-        res.forEach(temp => {
-          const zone = new ZoneProfileEntity();
-          zone.whId = temp.wh_id;
-          zone.zoneId = temp.zone;
-          zone.statisticType = temp.algorithm;
-          zone.positionX = temp.x;
-          zone.positionY = temp.y;
-          zone.isDraw = zone.positionX || zone.positionY ? true : false;
-          this.zoneProfileList.push(zone);
-        });
+    this.zoneSub = this.service.getZoneListByWhEvent().subscribe((res: ZoneProfileEntity[]) => {
+      if (res.length > 0) {
+        this.zoneProfileList = res;
       }
       this.isHidden = this.zoneProfileList.length > 0 ? true : false;
       this.loadImage().then(() => {

@@ -1,13 +1,25 @@
+import { JsonProperty } from 'src/app/common/utils/json-type.mapper';
+
+@JsonProperty({ clazz: SensorDetail })
 export class SensorDetail {
-    zone: any;
-    sensorId: any;
-    sensorName: any;
-    category: any;
-    sampleInterval: any;
-    minHumidity: any;
-    maxHumidity: any;
-    minTemp: any;
-    maxTemp: any;
+    @JsonProperty('zone')
+    zone: string;
+    @JsonProperty('sensor_id')
+    sensorId: string;
+    @JsonProperty('sensor_name')
+    sensorName: string;
+    @JsonProperty('category')
+    category: string;
+    @JsonProperty('sample_interval_sec')
+    sampleInterval: string;
+    @JsonProperty('hum_value_min')
+    minHumidity: string;
+    @JsonProperty('hum_value_max')
+    maxHumidity: string;
+    @JsonProperty('tem_value_min')
+    minTemp: string;
+    @JsonProperty('tem_value_max')
+    maxTemp: string;
     constructor() {
         this.zone = undefined;
         this.sensorId = undefined;
@@ -21,16 +33,26 @@ export class SensorDetail {
     }
 }
 
+
+@JsonProperty({ clazz: WarehouseMaster })
 export class WarehouseMaster {
-    wh_id: any;
-    wh_name: any;
-    zone_names: any[];
+    @JsonProperty('wh_id')
+    whId: string;
+    @JsonProperty('wh_name')
+    whName: string;
+    @JsonProperty('zone_names')
+    zoneNames: string[];
     constructor() {
-        this.wh_id = undefined;
-        this.wh_name = undefined;
-        this.zone_names = []
+        this.whId = undefined;
+        this.whName = undefined;
+        this.zoneNames = [];
     }
 }
+
+
+
+
+
 
 
 

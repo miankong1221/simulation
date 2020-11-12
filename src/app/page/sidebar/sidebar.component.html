@@ -9,11 +9,13 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../../index3.html" class="nav-link">Home</a>
+          <a href="../../index3.html" class="nav-link">
+            Home
+          </a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
+        <!-- <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link">Contact</a>
-        </li>
+        </li> -->
       </ul>
 
       <!-- SEARCH FORM -->
@@ -33,10 +35,9 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #00233D;">
       <!-- Brand Logo -->
-      <a href="../../index3.html" class="brand-link" style="background-color: white;">
-        <img src="https://assets.maerskline.com/integrated-global-nav/2/2.4.37//assets/img/logos/maeu.svg">
-        <!-- <span class="brand-text font-weight-light" style="font-weight:bold;  font-size: 30px; color: black;">Maersk</span> -->
-      </a>
+      <span class="brand-link" style="background-color: white;">
+        <img style="padding-left: 20px;" src="https://assets.maerskline.com/integrated-global-nav/2/2.4.37//assets/img/logos/maeu.svg">
+      </span>
 
       <!-- Sidebar -->
       <div class="sidebar">
@@ -47,7 +48,6 @@
                with font-awesome or any other icon font library -->
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Cold Chain
                   <i class="right fas fa-angle-left"></i>
@@ -56,7 +56,7 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a routerLink='monitor' class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
+                    &nbsp; &nbsp;
                     <p>Warehouse Monitoring</p>
                   </a>
                 </li>
@@ -64,8 +64,7 @@
             </li>
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-copy"></i>
-                <p>
+                <p class="table-head">
                   Configuration
                   <i class="fas fa-angle-left right"></i>
                 </p>
@@ -73,14 +72,14 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a routerLink='configuration/master-data-mapping' class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Master Data Mapping</p>
+                    &nbsp; &nbsp;
+                    <p class="table-content">Master Data Mapping</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a routerLink="configuration/zone-profile" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Zone Profile</p>
+                    &nbsp; &nbsp;
+                    <p class="table-content">Zone Profile</p>
                   </a>
                 </li>
               </ul>
@@ -88,8 +87,7 @@
 
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-desktop"></i>
-                <p>
+                <p class="table-head">
                   Simulation
                   <i class="fas fa-angle-left right"></i>
                 </p>
@@ -97,23 +95,20 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item has-treeview">
                   <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-copy"></i>
-                    <p>
-                      Configuration
+                    <p class="table-content">
+                      &nbsp; &nbsp;Configuration
                       <i class="fas fa-angle-left right"></i>
                     </p>
                   </a>
                   <ul class="nav nav-treeview">
                     <li class="nav-item">
                       <a routerLink='simulation/configuration/sensor-master-data' class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Sensor Master Data</p>
+                        <p>&nbsp; &nbsp; &nbsp; &nbsp; Sensor Master Data</p>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a routerLink='simulation/configuration/simulation-control' class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Simulation Control</p>
+                        <p>&nbsp; &nbsp; &nbsp; &nbsp; Simulation Control</p>
                       </a>
                     </li>
                   </ul>
@@ -128,7 +123,7 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper content-wrapper-modify" style="background-color:white">
       <!-- Main content -->
       <section class="content">
         <router-outlet></router-outlet>
@@ -137,7 +132,7 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <footer class="main-footer">
+    <footer class="main-footer" style="padding: 0.75rem">
       <div class="float-right d-none d-sm-block">
         <b>Version</b> 0.0.1
       </div>

@@ -83,7 +83,7 @@ export class SensorDetailComponent implements OnInit {
     this.sensorId = this.route.snapshot.queryParamMap.get('sensorId');
     document.getElementById('today').style.border = '5px solid #cccccc';
     this.service.getSensorList(this.curWhId, this.curZoneId);
-    this.service.getSenesorHistory(this.curWhId, this.curZoneId, this.sensorId);
+    this.service.getSenesorHistory(this.sensorId);
     this.service.getSensorRealTimeDataEvent().subscribe((data: any[]) => {
       this.sensoGraphRealTimeDataList = [];
       if (data.length > 0) {

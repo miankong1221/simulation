@@ -1,11 +1,11 @@
 export namespace EnvConst {
 
     export namespace DevExtentionConst {
-        export const API_ROOT = 'http://192.168.12.152:8082';
+        export const API_ROOT = 'http://192.168.14.234:8082';
     }
 
     export namespace DevSimulationConst {
-        export const API_ROOT = 'http://192.168.12.152:8081';
+        export const API_ROOT = 'http://192.168.14.234:8081';
     }
 }
 

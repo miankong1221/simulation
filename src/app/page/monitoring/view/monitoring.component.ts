@@ -4,6 +4,17 @@ import { SensorEntity } from '../entity/sensor.entity';
 import { WarehouseEntity, WarehouseGraphData, ZoneDataDto } from '../entity/warehouse.entity';
 import { ZoneEntity, ZoneLocation } from '../entity/zone.entity';
 import { MonitoringService } from '../service/monitoring-service';
+import ImageLayer from 'ol/layer/Image';
+import Map from 'ol/Map';
+import Projection from 'ol/proj/Projection';
+import Static from 'ol/source/ImageStatic';
+import View from 'ol/View';
+import { getCenter } from 'ol/extent';
+import { Heatmap as HeatmapLayer, Tile as TileLayer  } from 'ol/layer.js';
+import VectorSource from 'ol/source/Vector.js';
+import GeoJSON from 'ol/format/GeoJSON';
+import OSM from 'ol/source/OSM';
+
 declare var $: any;
 declare var echarts: any;
 
@@ -53,28 +64,29 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    // this.heatMap();
     // get warehouse list
     this.service.getAllWarehouse();
 
     // subscribe get warehouse list event
     this.service.getAllWarehouseEvent().subscribe((result: WarehouseEntity[]) => {
       this.warehouseOriginEntityList = result;
-      if(this.warehouseOriginEntityList.length > 0 ){
+      if (this.warehouseOriginEntityList.length > 0) {
         this.warehouseOriginEntityList.forEach(t1 => {
           t1.isMapExpand = false;
           t1.isExpand = false;
           t1.isListExpand = false;
-          t1.isDiagramExpand = false
-        })
+          t1.isDiagramExpand = false;
+        });
       }
       this.warehouseEntityList = this.warehouseOriginEntityList;
-      if(this.warehouseEntityList.length >0 ){
+      if (this.warehouseEntityList.length > 0) {
         this.warehouseEntityList.forEach(t2 => {
           t2.isMapExpand = false;
           t2.isExpand = false;
           t2.isListExpand = false;
-          t2.isDiagramExpand = false
-        })
+          t2.isDiagramExpand = false;
+        });
       }
     });
 
@@ -210,12 +222,34 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     });
   }
 
-  warehouseExpand(whId: any): void{
+  warehouseExpand(whId: any): void {
     this.currentWhId = whId;
     // get zone location
     this.service.getZoneLocation(whId);
     this.warehouseEntityList.forEach(element => {
       if (whId === element.wh_id) {
+        const data = [[0, 0, 5], [0, 1, 1], [0, 2, 0], [0, 3, 0],
+        [0, 4, 0], [0, 5, 0], [0, 6, 0], [0, 7, 0], [0, 8, 0],
+        [0, 9, 0], [0, 10, 0], [0, 11, 2], [0, 12, 4], [0, 13, 1],
+        [0, 14, 1], [0, 15, 3], [0, 16, 4], [0, 17, 6], [0, 18, 4],
+        [0, 19, 4], [1, 0, 7], [1, 1, 0], [1, 2, 0], [1, 3, 0], [1, 4, 0],
+        [1, 5, 0], [1, 6, 0], [1, 7, 0], [1, 8, 0], [1, 9, 0],
+        [1, 10, 5], [1, 11, 2], [1, 12, 2], [1, 13, 6], [1, 14, 9],
+        [1, 15, 11], [1, 16, 6], [1, 17, 7], [1, 18, 8], [1, 19, 12],
+        [2, 0, 1], [2, 1, 1], [2, 2, 0], [2, 3, 0], [2, 4, 0], [2, 5, 0],
+        [2, 6, 0], [2, 7, 0], [2, 8, 0], [2, 9, 0], [2, 10, 3],
+        [2, 11, 2], [2, 12, 1], [2, 13, 9], [2, 14, 8], [2, 15, 10],
+        [2, 16, 6], [2, 17, 5], [2, 18, 5], [2, 19, 5],
+        [3, 0, 7], [3, 1, 3], [3, 2, 0], [3, 3, 0], [3, 4, 0],
+        [3, 5, 0], [3, 6, 0], [3, 7, 0], [3, 8, 1], [3, 9, 0], [3, 10, 5], [3, 11, 4],
+        [3, 12, 7], [3, 13, 14], [3, 14, 13], [3, 15, 12], [3, 16, 9],
+        [3, 17, 5], [3, 18, 5], [3, 19, 10], [4, 0, 1], [4, 1, 3], [4, 2, 0],
+        [4, 3, 0], [4, 4, 0], [4, 5, 1], [4, 6, 0], [4, 7, 0],
+        [4, 8, 0], [4, 9, 2], [4, 10, 4], [4, 11, 4], [4, 12, 2],
+        [4, 13, 4], [4, 14, 4], [4, 15, 14], [4, 16, 12], [4, 17, 1],
+        [4, 18, 8], [4, 19, 5]];
+        // this.demoheatGraph(data);
+        setInterval(() => this.generateGraph(), 1000);
         this.currentWhName = element.wh_name;
         if (element.isExpand === true) {
           element.isExpand = false;
@@ -232,7 +266,10 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         element.isExpand = false;
       }
     });
+
+
   }
+
 
   showMap(whId: any): void {
     this.changeTabColor(whId, 'black', '#337ab7', '#337ab7');
@@ -243,6 +280,36 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         element.isDiagramExpand = false;
       }
     });
+  }
+
+  generateGraph(): void {
+    const data = [[]];
+    // generate data
+    let num = 0;
+    while (num < 100) {
+      for (let m = 0; m < 5; m++) {
+        for (let n = 0; n < 20; n++) {
+          if (num < 20) {
+            const zone1 = Math.round(Math.random() * 60);
+            data[num] = [m, n, zone1];
+          } else if (num >= 20 && num < 40) {
+            const zone2 = Math.round(Math.random() * 50);
+            data[num] = [m, n, zone2];
+          } else if (num >= 40 && num < 60) {
+            const zone3 = Math.round(Math.random() * 40);
+            data[num] = [m, n, zone3];
+          } else if (num >= 60 && num < 80) {
+            const zone4 = Math.round(Math.random() * 30);
+            data[num] = [m, n, zone4];
+          } else if (num >= 80 && num < 100) {
+            const zone5 = Math.round(Math.random() * 20);
+            data[num] = [m, n, zone5];
+          }
+          num++;
+        }
+      }
+    }
+    // this.demoheatGraph(data);
   }
 
   showList(): void {
@@ -257,7 +324,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     });
   }
 
-  showDiagram(whId: any): void  {
+  showDiagram(whId: any): void {
     this.changeTabColor(whId, '#337ab7', '#337ab7', 'black');
     this.warehouseOriginEntityList.forEach(element => {
       if (whId === element.wh_id) {
@@ -457,7 +524,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     myChart.setOption(option);
   }
 
-  getHistoryData(): void{
+  getHistoryData(): void {
     this.isRealTime = false;
     document.getElementById('today').style.border = '5px solid #cccccc';
     this.service.getWarehouseGraphData(this.currentWhId);
@@ -472,9 +539,85 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     }, 6000);
   }
 
-  changeTabColor(whId: string, mapColor: string, listColor: string, diagColor: string): void{
+  changeTabColor(whId: string, mapColor: string, listColor: string, diagColor: string): void {
     document.getElementById('map_' + whId).style.color = mapColor;
     document.getElementById('list_' + whId).style.color = listColor;
     document.getElementById('diag_' + whId).style.color = diagColor;
+  }
+
+
+  // demoheatGraph(data: any): void {
+  //   const myChart = echarts.init(document.getElementById('demo'));
+  //   const locations = ['LOC1', 'LOC2', 'LOC3', 'LOC4', 'LOC5', 'LOC6', 'LOC7',
+  //     'LOC8', 'LOC9', 'LOC10', 'LOC11', 'LOC12', 'LOC13', 'LOC14', 'LOC15',
+  //     'LOC16', 'LOC17', 'LOC18', 'LOC19', 'LOC20'];
+  //   const layers = ['Layer1', 'Layer2', 'Layer3',
+  //     'Layer4', 'Layer5'];
+  //   const dataNew = data.map(item => {
+  //     return [item[1], item[0], item[2] || '-'];
+  //   });
+
+  //   const option = {
+  //     tooltip: {
+  //       position: 'top'
+  //     },
+  //     animation: false,
+  //     grid: {
+  //       height: '50%',
+  //       top: '10%'
+  //     },
+  //     xAxis: {
+  //       type: 'category',
+  //       data: locations,
+  //       splitArea: {
+  //         show: true
+  //       }
+  //     },
+  //     yAxis: {
+  //       type: 'category',
+  //       data: layers,
+  //       splitArea: {
+  //         show: true
+  //       }
+  //     },
+  //     visualMap: {
+  //       min: 0,
+  //       max: 60,
+  //       calculable: true,
+  //       orient: 'horizontal',
+  //       left: 'center',
+  //       bottom: '20%'
+  //     },
+  //     series: [{
+  //       name: 'Location',
+  //       type: 'heatmap',
+  //       data: dataNew,
+  //       label: {
+  //         show: true
+  //       },
+  //       emphasis: {
+  //         itemStyle: {
+  //           shadowBlur: 10,
+  //           shadowColor: 'rgba(0, 0, 0, 0.5)'
+  //         }
+  //       }
+  //     }]
+  //   };
+  //   myChart.setOption(option);
+  // }
+
+  heatMap(): void {
+
+    // const map = new Map({
+    //   layers: [
+    //     new TileLayer({
+    //       source: new OSM(),
+    //     }) ],
+    //   target: 'map',
+    //   view: new View({
+    //     center: [0, 0],
+    //     zoom: 2,
+    //   }),
+    // });
   }
 }

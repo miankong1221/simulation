@@ -1,12 +1,20 @@
+import { JsonProperty } from 'src/app/common/utils/json-type.mapper';
+
+@JsonProperty({ clazz: ZoneProfileEntity })
 export class ZoneProfileEntity {
 
-    whId: any;
-    zoneId: any;
-    statisticType: any;
-    positionX: any;
-    positionY: any;
-    isDraw: boolean;
-    isReset: boolean;
+    @JsonProperty('wh_id')
+    public whId: string;
+    @JsonProperty('zone')
+    public zoneId: string;
+    @JsonProperty('algorithm')
+    public statisticType: string;
+    @JsonProperty('x')
+    public positionX: any;
+    @JsonProperty('y')
+    public positionY: any;
+    public isDraw: boolean;
+    public isReset: boolean;
 
     constructor(){
         this.whId = undefined;

@@ -26,7 +26,6 @@ import { ZoneProfileResetModalComponent } from './page/zone-profile-reset-modal/
 import { ZoneProfileService } from './page/zone-profile/service/zone-profile.service';
 import { ZoneProfileStatisticModalComponent } from './page/zone-profile-statistic-modal/zone-profile-statistic-modal.component';
 import { MonitoringService } from './page/monitoring/service/monitoring-service';
-import { MyShareState } from './page/monitoring/state/myshare.state';
 import { SensorMasterDataService } from './page/sensor-master-data/service/sensor-master-data-service';
 import { LabelService } from './common/services/LabelService';
 import { InjectionUtils } from './common/utils/injection.utils';
@@ -41,7 +40,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SensorMasterDataDeleteModalComponent } from './page/sensor-master-data-delete-modal/sensor-master-data-delete-modal.component';
-import { NzI18nService, NZ_DATE_LOCALE, zh_CN } from 'ng-zorro-antd/i18n';
+import { MasterDataMappingService } from './page/master-data-mapping/service/master-data-mapping-service';
+import { OlComponent } from './page/ol/ol.component';
 
 
 const ngZorroConfig: NzConfig = {
@@ -67,6 +67,7 @@ const ngZorroConfig: NzConfig = {
     SensorMasterDataModalComponent,
     SimulationControlComponent,
     SensorMasterDataDeleteModalComponent,
+    OlComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,7 +96,7 @@ const ngZorroConfig: NzConfig = {
     ZoneProfileService,
     MonitoringService,
     SensorMasterDataService,
-    MyShareState,
+    MasterDataMappingService,
     LabelService,
     { provide: NZ_CONFIG, useValue: ngZorroConfig }
   ],

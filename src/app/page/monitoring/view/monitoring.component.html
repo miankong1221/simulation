@@ -1,16 +1,14 @@
-<div>
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Warehouse Monitoring</h1>
-                </div>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Warehouse Monitoring</h1>
             </div>
         </div>
-    </section>
-</div>
-<div class="container-fluid">
+    </div>
+</section>
 
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
@@ -30,12 +28,13 @@
             </tr>
         </thead>
         <tbody *ngFor="let wh of warehouseEntityList; let i=index">
-            <tr>
+            <tr class="table-content">
                 <td>
-                    <a routerLink='warehouse-detail' [queryParams]="{id:wh.wh_id, name:wh.wh_name}">{{wh.wh_name}}</a><br>
+                    <a routerLink='warehouse-detail'
+                        [queryParams]="{id:wh.wh_id, name:wh.wh_name}">{{wh.wh_name}}</a><br>
                 </td>
                 <td>
-                    <div class="wh">
+                    <div class="wh table-content">
                         <span>Zones count: {{wh.zone_cnt}}<br></span>
                         <span>Sensors count: {{wh.sensor_cnt}}<br></span>
                         <span>Notifications count: {{wh.notification_cnt}}</span>
@@ -57,21 +56,33 @@
                             <li id='diag_{{wh.wh_id}}' (click)='showDiagram(wh.wh_id)'>Show diagram</li>
                         </ul>
                     </div>
-                    <div [hidden]="!wh.isMapExpand" style="width: 100%;  text-align: center;">
+                    <!-- <div [hidden]="!wh.isMapExpand" style="width: 100%;  text-align: center;">
                         <canvas id="{{'getCanvas' + wh.wh_id}}"
                             style="max-width: 100%;  border: 1px solid black;"></canvas>
-                    </div>
+                    </div> -->
+                    <!-- <div class="theme--light">
+                        <div class="notification notification--success">
+                          <i class="icon notification__icon mi-20px mi-check-circle" aria-hidden="true"></i>
+                      
+                          <div class="rich-text notification__text">
+                            Lorem, <a href="#">ipsum dolor</a> sit amet consectetur adipisicing elit. Ipsum, illo molestias
+                          </div>
+                      
+                        </div>
+                      </div> -->
+                    <div [hidden]="!wh.isMapExpand" id="demo" style="width: 1400px; height:700px; margin-top: -20px;"></div>
                     <div [hidden]="!wh.isListExpand" style="width: 100%;">
                         <div class="panel-body">
                             <table class="table">
                                 <tbody *ngFor="let zone of zoneEntityList; let i=index">
-                                    <tr>
+                                    <tr class="table-content">
                                         <td
                                             style="padding: 6px; width: 20%; border-right: 0px; vertical-align: middle;">
-                                            <a style="padding-left: 10px;" routerLink='zone-detail' [queryParams]="{whName:currentWhName,whId:currentWhId,zoneId:zone.zone_name}">{{zone.zone_name}}</a>
+                                            <a style="padding-left: 10px;" routerLink='zone-detail'
+                                                [queryParams]="{whName:currentWhName,whId:currentWhId,zoneId:zone.zone_name}">{{zone.zone_name}}</a>
                                         </td>
                                         <td style="padding: 6px; width: 30%; border-right: 0px; border-left: 0px;">
-                                            <div class="wh">
+                                            <div class="table-content">
                                                 <span>Sensors count: {{zone.sensor_cnt}}<br></span>
                                                 <span>Notifications count: {{zone.notification_cnt}}</span>
                                             </div>
@@ -90,9 +101,8 @@
                                             style="padding: 6px; vertical-align: middle; width: 20%; border-right: 0px; border-left: 0px;">
                                             {{zone.time}}
                                         </td>
-                                        <td
-                                            style="padding: 6px; vertical-align: middle; width: 10%; border-left: 0px;">
-                                            <div class="location-action">
+                                        <td style="padding: 6px; vertical-align: middle; width: 10%; border-left: 0px;">
+                                            <div class="location-action table-content">
                                                 <a id={{zone.zone_name}} class="collapsed-table__show-content"
                                                     (click)='zoneExpand(zone.zone_name)'>Expand</a>
                                             </div>
@@ -102,7 +112,7 @@
                                         <td colspan="5" style="border-left: 0px; border-right: 0px">
                                             <table class="table" style="text-align: center;">
                                                 <thead>
-                                                    <tr>
+                                                    <tr class="table-head">
                                                         <th style="padding:5px; vertical-align: middle;">Name</th>
                                                         <th style="padding:5px; vertical-align: middle;">Serial number
                                                         </th>
@@ -119,7 +129,7 @@
                                                     <tr>
                                                         <td style="padding:8px;">
                                                             <a routerLink='sensor-detail'
-                                                            [queryParams]="{whName:currentWhName,whId:currentWhId,zoneId:zone.zone_name, sensorId:sensor.sensor_id}">{{sensor.sensorName}}</a>
+                                                                [queryParams]="{whName:currentWhName,whId:currentWhId,zoneId:zone.zone_name, sensorId:sensor.sensor_id}">{{sensor.sensor_name}}</a>
                                                         </td>
                                                         <td style="padding:8px;">
                                                             {{sensor.sensor_id}}
@@ -127,7 +137,9 @@
                                                         <td style="padding:8px;">
                                                             <img *ngIf="sensor.settingTemp" style="margin-top: -5px;"
                                                                 src="https://my.sensguard.lv/image/icon-temp.svg">
-                                                            &nbsp;<span *ngIf="sensor.settingTemp">{{sensor.settingTemp}} &nbsp;&nbsp;&nbsp;</span>
+                                                            &nbsp;<span
+                                                                *ngIf="sensor.settingTemp">{{sensor.settingTemp}}
+                                                                &nbsp;&nbsp;&nbsp;</span>
                                                             <img *ngIf="sensor.settingHumidity"
                                                                 style="margin-top: -5px;"
                                                                 src="https://my.sensguard.lv/image/icon-hum.svg">
@@ -137,11 +149,13 @@
                                                         <td style="padding:8px;">
                                                             <img *ngIf="sensor.cur_temp_value" style="margin-top: -5px;"
                                                                 src="https://my.sensguard.lv/image/icon-temp.svg">
-                                                            <span *ngIf="sensor.cur_temp_value">{{sensor.cur_temp_value}} °C &nbsp;&nbsp;&nbsp;</span>
-                                                            <img *ngIf="sensor.cur_hum_value"
-                                                                style="margin-top: -5px;"
+                                                            <span
+                                                                *ngIf="sensor.cur_temp_value">{{sensor.cur_temp_value}}
+                                                                °C &nbsp;&nbsp;&nbsp;</span>
+                                                            <img *ngIf="sensor.cur_hum_value" style="margin-top: -5px;"
                                                                 src="https://my.sensguard.lv/image/icon-hum.svg">
-                                                            <span *ngIf="sensor.cur_hum_value">{{sensor.cur_hum_value}} %</span>
+                                                            <span *ngIf="sensor.cur_hum_value">{{sensor.cur_hum_value}}
+                                                                %</span>
                                                         </td>
                                                         <td style="padding:8px;">
                                                             {{sensor.date}}
@@ -168,15 +182,19 @@
                         <div style="border: 1px solid #ddd">
                             <div style="float: right;">
                                 <button id="today" style="margin-top:10px;  margin-right: 10px; margin-left: 10px;"
-                                    type="button" class="btn btn-datetimerange" (click)="getHistoryData()">Today</button>
-                                <button style="margin-top:10px; margin-right: 10px;" type="button" class="btn btn-datetimerange"
-                                    (click)="getRealTime()">Real Time</button>
+                                    type="button" class="btn btn-datetimerange"
+                                    (click)="getHistoryData()">Today</button>
+                                <button style="margin-top:10px; margin-right: 10px;" type="button"
+                                    class="btn btn-datetimerange" (click)="getRealTime()">Real Time</button>
                             </div>
                             <div style="margin-top: 50px;">
                                 <div [hidden]="isRealTime" id="canvasTemp" style="width: 1200px; height:400px;"></div>
-                                <div [hidden]="isRealTime" id="canvasHumidity" style="width: 1200px; height:400px;"></div>
-                                <div [hidden]="!isRealTime" id="canvasTempRealTime" style="width: 1200px; height:400px;"></div>
-                                <div [hidden]="!isRealTime" id="canvasHumiRealTime" style="width: 1200px; height:400px;"></div>
+                                <div [hidden]="isRealTime" id="canvasHumidity" style="width: 1200px; height:400px;">
+                                </div>
+                                <div [hidden]="!isRealTime" id="canvasTempRealTime"
+                                    style="width: 1200px; height:400px;"></div>
+                                <div [hidden]="!isRealTime" id="canvasHumiRealTime"
+                                    style="width: 1200px; height:400px;"></div>
                             </div>
                         </div>
                     </div>
