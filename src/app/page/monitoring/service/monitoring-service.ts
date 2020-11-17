@@ -91,12 +91,10 @@ export class MonitoringService {
         // const url = 'assets/json/monitoring/allWarehouses.json';
         const url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/monitor/warehouses';
         this.http.get(url).subscribe(
-            // request success
             (data: any) => {
                 const result = JsonTypeMapper.parse(WarehouseEntity, data.data) as WarehouseEntity[];
                 this.warehouseEvent.next(result);
             },
-            // request failure
             (data: any) => {
                 console.log(data);
             }
@@ -116,29 +114,22 @@ export class MonitoringService {
         // const url = 'assets/json/monitoring/zoneList.json';
         const url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/monitor/warehouses/' + whId + '/zones';
         this.http.get(url).subscribe(
-            // request success
             (data: any) => {
                 const result = JsonTypeMapper.parse(ZoneEntity, data.data) as ZoneEntity[];
                 this.zoneListEvent.next(result);
             },
-            // request failure
             (data: any) => {
                 console.log(data);
             }
         );
-        // this.http.get(url).subscribe((data: []) => {
-        // const result =  JsonTypeMapper.parse(CommonDtoEntity, data);
-        // this.zoneListEvent.next(result.data);
-        // });
     }
 
     getSensorList(whId: any, zoneId: any): void {
         // call local json
         // const url = 'assets/json/monitoring/sensorList.json';
         const url = EnvConst.DevExtentionConst.API_ROOT +
-            '/wms-extension/api/v1/equipment/monitor/warehouses/' + whId + '/zones/' + zoneId + '/sensors';
+        '/wms-extension/api/v1/equipment/monitor/warehouses/' + whId + '/zones/' + zoneId + '/sensors';
         this.http.get(url).subscribe(
-            // request success
             (data: any) => {
                 const result = JsonTypeMapper.parse(SensorEntity, data.data) as SensorEntity[];
                 result.forEach(temp => {
@@ -151,27 +142,17 @@ export class MonitoringService {
                 });
                 this.sensorListEvent.next(result);
             },
-            // request failure
             (data: any) => {
                 console.log(data);
             }
         );
-        // this.http.get(url).subscribe((data: []) => {
-        //     const result = JsonTypeMapper.parse(CommonDtoEntity, data);
-        // const result = JsonTypeMapper.parse(SensorEntity, data) as SensorEntity[];
-        // result.data.forEach(temp => {
-        //     temp.settingTemp = temp.tem_value_min + '°C ~' + temp.tem_value_max + '°C';
-        //     temp.settingHumidity = temp.hum_value_min + '% ~ ' + temp.hum_value_max + '%';
-        //   });
-        // this.sensorListEvent.next(result);
-        // });
     }
 
     getSenesorHistory(sensorId: string): void {
         const url = EnvConst.DevExtentionConst.API_ROOT +
             '/wms-extension/api/v1/equipment/monitor/sensors/' + sensorId + '/history';
-        this.http.get(url).subscribe((data: []) => {
-            this.sensorHistoryEvent.next(data);
+        this.http.get(url).subscribe((data: any) => {
+            this.sensorHistoryEvent.next(data.data);
         });
     }
 
@@ -203,7 +184,7 @@ export class MonitoringService {
             });
     }
 
-    getWarehouseGraphData(whId: any): void {
+    getWarehouseGraphData(whId: string): void {
         // get today
         const start = StringUtils.getToday();
         const end = StringUtils.getCurrentTime();
@@ -218,9 +199,6 @@ export class MonitoringService {
             (data: any) => {
                 console.log(data);
             });
-        //     (data: []) => {
-        //     this.warehouseGraphDataEvent.next(data);
-        // });
     }
 
     getWarehouseGraphRealTimeData(whId: any): void {

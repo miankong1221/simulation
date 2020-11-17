@@ -19,8 +19,12 @@
   </div>
   <div [hidden]="!isHidden" class="content">
     <div class="map">
-      <canvas id="getCanvas" style="border: 1px dotted black;">
-      </canvas>
+      <!-- <canvas id="getCanvas" style="border: 1px dotted black;">
+      </canvas> -->
+      <div id="point" style="width: 880px; height:646px; margin-top: 0px; margin-left: 70px;">
+        <img style="width: 780px; height: 646px;" src="../assets/img/warehouse-layout-F.png" />
+        <!-- <div id="mapId" style="margin-left:40px; margin-top: 40px;"> -->
+    </div>
     </div>
     <div class="card" style="margin-left: 10px; width: 375px;">
       <div class="card-header" style="background-color:#17A2B8;">
@@ -32,7 +36,7 @@
           <thead>
             <tr>
               <th style="width: 10px">#</th>
-              <th>Zone</th>
+              <th>Sensor</th>
               <th>Statistic</th>
               <th>Position</th>
             </tr>

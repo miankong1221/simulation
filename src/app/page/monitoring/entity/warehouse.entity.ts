@@ -12,9 +12,10 @@ export class WarehouseEntity {
     public isMapExpand: boolean;
     public isListExpand: boolean;
     public isDiagramExpand: boolean;
+    public isHeatMapExpand: boolean;
     constructor() {
         this.wh_id = undefined;
-        this.wh_name = undefined
+        this.wh_name = undefined;
         this.zone_cnt = undefined;
         this.sensor_cnt = undefined;
         this.notification_cnt = undefined;
@@ -22,6 +23,7 @@ export class WarehouseEntity {
         this.isMapExpand = false;
         this.isListExpand = false;
         this.isDiagramExpand = false;
+        this.isHeatMapExpand = false;
     }
 }
 

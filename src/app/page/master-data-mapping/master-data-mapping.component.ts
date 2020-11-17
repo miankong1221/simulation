@@ -86,7 +86,7 @@ export class MasterDataMappingComponent implements OnInit {
     $('.selectZone').change((event) => {
       this.sensorDetailView = [];
       if (event.target.value) {
-        this.isAddDisable = false;
+        this.isAddDisable = true;
         this.selectedZone = event.target.value;
       }
       // call sensor api

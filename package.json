@@ -22,7 +22,6 @@
     "@types/jquery": "^3.5.1",
     "admin-lte": "^3.0.5",
     "bootstrap": "^4.5.3",
-    "date-fns": "^2.16.1",
     "echarts": "^4.9.0",
     "font-awesome": "^4.7.0",
     "ionicons": "github:driftyco/ionicons",

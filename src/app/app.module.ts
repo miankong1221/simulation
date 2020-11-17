@@ -41,7 +41,7 @@ import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SensorMasterDataDeleteModalComponent } from './page/sensor-master-data-delete-modal/sensor-master-data-delete-modal.component';
 import { MasterDataMappingService } from './page/master-data-mapping/service/master-data-mapping-service';
-import { OlComponent } from './page/ol/ol.component';
+// import { OlComponent } from './page/ol/ol.component';
 
 
 const ngZorroConfig: NzConfig = {
@@ -67,7 +67,7 @@ const ngZorroConfig: NzConfig = {
     SensorMasterDataModalComponent,
     SimulationControlComponent,
     SensorMasterDataDeleteModalComponent,
-    OlComponent,
+    // OlComponent,
   ],
   imports: [
     BrowserModule,

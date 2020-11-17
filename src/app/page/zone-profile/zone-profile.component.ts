@@ -7,6 +7,7 @@ import { ZoneProfileResetModalComponent } from '../zone-profile-reset-modal/zone
 import { ZoneProfileStatisticModalComponent } from '../zone-profile-statistic-modal/zone-profile-statistic-modal.component';
 import { WarehouseEntity, ZoneProfileEntity } from './entity/zone-profile-entity';
 import { ZoneProfileService } from './service/zone-profile.service';
+import h377 from 'heatmap.js-2.0.5';
 declare var $: any;
 
 @Component({
@@ -82,38 +83,68 @@ export class ZoneProfileComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.canvas.addEventListener('click', (e) => {
-      const config: ModalOptions = {
-        initialState: [ObjectUtils.clone(this.zoneProfileList)],
-        ignoreBackdropClick: true
-      };
-      this.modalRef = this.modalService.show(ZoneProfileModalComponent, config);
-      this.modalRef.onHidden.subscribe(() => {
-        if (this.modalRef.content.value.isDraw === true) {
-          const zone = new ZoneProfileEntity();
-          zone.isDraw = true;
-          zone.positionX = e.offsetX;
-          zone.positionY = e.offsetY;
-          zone.zoneId = this.modalRef.content.value.zone;
-          console.log('name ' + zone.zoneId + 'position x  ' + zone.positionX + 'position y  ' + zone.positionY);
-          this.drawLocation(this.ctx, zone);
-          this.zoneProfileList.forEach((temp) => {
-            if (temp.zoneId === zone.zoneId) {
-              temp.isDraw = true;
-              temp.positionX = zone.positionX;
-              temp.positionY = zone.positionY;
-              const req = {
-                zone: zone.zoneId,
-                wh_id: this.currentwhId,
-                x: String(zone.positionX),
-                y: String(zone.positionY)
-              };
-              this.service.sendPosition(req);
-            }
-          });
-        }
+    document.getElementById('point').addEventListener('click', (e) => {
+        const config: ModalOptions = {
+          initialState: [ObjectUtils.clone(this.zoneProfileList)],
+          ignoreBackdropClick: true
+        };
+        this.modalRef = this.modalService.show(ZoneProfileModalComponent, config);
+        this.modalRef.onHidden.subscribe(() => {
+          if (this.modalRef.content.value.isDraw === true) {
+            const zone = new ZoneProfileEntity();
+            zone.isDraw = true;
+            zone.positionX = e.offsetX;
+            zone.positionY = e.offsetY;
+            zone.zoneId = this.modalRef.content.value.zone;
+            this.drawLocation(this.ctx, zone);
+            this.zoneProfileList.forEach((temp) => {
+              if (temp.zoneId === zone.zoneId) {
+                temp.isDraw = true;
+                temp.positionX = zone.positionX;
+                temp.positionY = zone.positionY;
+                const req = {
+                  zone: zone.zoneId,
+                  wh_id: this.currentwhId,
+                  x: String(zone.positionX),
+                  y: String(zone.positionY)
+                };
+                this.service.sendPosition(req);
+              }
+            });
+          }
+        });
       });
-    });
+    // this.canvas.addEventListener('click', (e) => {
+    //   const config: ModalOptions = {
+    //     initialState: [ObjectUtils.clone(this.zoneProfileList)],
+    //     ignoreBackdropClick: true
+    //   };
+    //   this.modalRef = this.modalService.show(ZoneProfileModalComponent, config);
+    //   this.modalRef.onHidden.subscribe(() => {
+    //     if (this.modalRef.content.value.isDraw === true) {
+    //       const zone = new ZoneProfileEntity();
+    //       zone.isDraw = true;
+    //       zone.positionX = e.offsetX;
+    //       zone.positionY = e.offsetY;
+    //       zone.zoneId = this.modalRef.content.value.zone;
+    //       this.drawLocation(this.ctx, zone);
+    //       this.zoneProfileList.forEach((temp) => {
+    //         if (temp.zoneId === zone.zoneId) {
+    //           temp.isDraw = true;
+    //           temp.positionX = zone.positionX;
+    //           temp.positionY = zone.positionY;
+    //           const req = {
+    //             zone: zone.zoneId,
+    //             wh_id: this.currentwhId,
+    //             x: String(zone.positionX),
+    //             y: String(zone.positionY)
+    //           };
+    //           this.service.sendPosition(req);
+    //         }
+    //       });
+    //     }
+    //   });
+    // });
   }
 
   ngOnDestroy(): void {
@@ -160,26 +191,30 @@ export class ZoneProfileComponent implements OnInit, OnDestroy {
   }
 
   loadImage(): Promise<any> {
-    this.canvas = document.getElementById('getCanvas') as HTMLCanvasElement;
-    this.canvas.width = 880;
-    this.canvas.height = 646;
-    this.ctx = this.canvas.getContext('2d');
-    if (this.currentwhId === 'NAS06') {
-      this.currentUrl = '../assets/img/NAS06.jpg';
-    } else if (this.currentwhId === 'NAS05') {
-      this.currentUrl = '../assets/img/NAS05.jpg';
-    } else {
-      this.currentUrl = '../assets/img/demo.jpg';
-    }
+    const canvasInstance = h377.create({
+      container: document.getElementById('point'),
+    });
+    this.ctx = canvasInstance._renderer.ctx;
+    // this.canvas = document.getElementById('getCanvas') as HTMLCanvasElement;
+    // this.canvas.width = 880;
+    // this.canvas.height = 646;
+    // this.ctx = this.canvas.getContext('2d');
+    // if (this.currentwhId === 'NAS06') {
+    //   this.currentUrl = '../assets/img/warehouse-layout-F.png';
+    // } else if (this.currentwhId === 'NAS05') {
+    //   this.currentUrl = '../assets/img/warehouse-layout-F.png';
+    // } else {
+    //   this.currentUrl = '../assets/img/warehouse-layout-F.png';
+    // }
     return new Promise(resolve => {
-      const image = new Image();
-      if (this.currentwhId) {
-        image.src = this.currentUrl;
-        image.addEventListener('load', () => {
-          this.ctx.drawImage(image, 0, 0);
-          resolve(image);
-        });
-      }
+      // const image = new Image();
+      // if (this.currentwhId) {
+      //   image.src = this.currentUrl;
+      //   image.addEventListener('load', () => {
+      //     this.ctx.drawImage(image, 0, 0);
+      //     resolve(image);
+      //   });
+      // }
     });
   }
 

@@ -98,18 +98,18 @@
                         <div style="height: 28px;">
                             <table class="table">
                                 <tr>
-                                    <td style="font-weight: bold; padding: 5px; width: 1.5%;">
+                                    <td style="font-weight: bold; padding: 7px; width: 2.5%;">
                                     </td>
-                                    <td style="font-weight: bold; padding: 5px; width: 11%;">
+                                    <td style="font-weight: bold; padding: 7px; width: 18%;">
                                         Sensor ID
                                     </td>
-                                    <td style="font-weight: bold; padding: 5px; width: 28%;">
+                                    <td style="font-weight: bold; padding: 7px; width: 28%;">
                                         Value
                                     </td>
-                                    <td style="font-weight: bold; padding: 5px; width: 42%;">
+                                    <td style="font-weight: bold; padding: 7px; width: 35%;">
                                         Detail
                                     </td>
-                                    <td style="font-weight: bold; padding: 5px;">
+                                    <td style="font-weight: bold; padding: 7px;">
                                         Date
                                     </td>
                                 </tr>
@@ -119,8 +119,8 @@
                             <table class="table table-bordered">
                                 <tbody *ngFor="let sensor of sensorHistoryList; let i=index" style="width: 100%;">
                                     <tr>
-                                        <td style="padding: 8px;">
-                                            {{sensor.sensor_id}}
+                                        <td style="padding: 8px; width: 10%;">
+                                            {{sensor.sensorId}}
                                         </td>
                                         <td style="padding: 8px;">
                                             {{sensor.value}}

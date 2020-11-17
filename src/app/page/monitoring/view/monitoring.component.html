@@ -51,27 +51,246 @@
                 <td colspan="3" style="border-left: 0px; border-right: 0px">
                     <div class="monitoring_head_detail">
                         <ul class="collapsed-table__inner__list review-tabs-action">
-                            <li id='map_{{wh.wh_id}}' (click)='showMap(wh.wh_id)'>Show map</li>
+                            <li id='map_{{wh.wh_id}}' (click)='showMap(wh.wh_id)'>Show blockMap</li>
+                            <li id='heatMap_{{wh.wh_id}}' (click)='showHeatMap(wh.wh_id)'>Show heatMap</li>
                             <li id='list_{{wh.wh_id}}' (click)='showList(wh.wh_id)'>Show list</li>
                             <li id='diag_{{wh.wh_id}}' (click)='showDiagram(wh.wh_id)'>Show diagram</li>
                         </ul>
                     </div>
-                    <!-- <div [hidden]="!wh.isMapExpand" style="width: 100%;  text-align: center;">
-                        <canvas id="{{'getCanvas' + wh.wh_id}}"
-                            style="max-width: 100%;  border: 1px solid black;"></canvas>
-                    </div> -->
-                    <!-- <div class="theme--light">
-                        <div class="notification notification--success">
-                          <i class="icon notification__icon mi-20px mi-check-circle" aria-hidden="true"></i>
-                      
-                          <div class="rich-text notification__text">
-                            Lorem, <a href="#">ipsum dolor</a> sit amet consectetur adipisicing elit. Ipsum, illo molestias
-                          </div>
-                      
+                    <div [hidden]="!wh.isMapExpand"
+                        style="display:flex;  margin-top: 0px; flex-wrap: wrap; border: 1px dotted MidnightBlue; height: 450px; margin-top: 30px;">
+                        <div class="bg" style="top: 470px; left: 500px; ">
+                            Chilled Room
                         </div>
-                      </div> -->
-                    <div [hidden]="!wh.isMapExpand" id="demo" style="width: 1400px; height:700px; margin-top: -20px;"></div>
-                    <div [hidden]="!wh.isListExpand" style="width: 100%;">
+                        <div style="display: flex;">
+                            <div id="demo1" style="margin-left: 100px; width: 750px; height:300px; margin-top: -30px;">
+                            </div>
+                            <div id="demo2" style="margin-left: -30px; width: 750px; height:300px; margin-top: -30px;">
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div id="demo3" style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                            <div id="demo4" style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div id="demo5" style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                            <div id="demo6" style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                        </div>
+                        <div class="temperature" style="margin-top: 55px; margin-left: 30px;">
+                            <div class="termometer">
+                            </div>
+                            <div class="graduations">
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail">
+                                    <div style="margin-left: 10px;">
+                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                                </div>
+                                <div class="graduations-detail">
+                                    <!-- <div style="margin-left: 10px;">
+                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
+                                    </div> -->
+                                </div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail">
+                                    <div style="margin-left: 10px;">
+                                        <span style="font-size: 0.8rem;">-10</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                                </div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail">
+                                    <div style="margin-left: 10px;">
+                                        <span style="font-size: 0.8rem;">-25</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                                </div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail"></div>
+                                
+                                    <div style="margin-left: 10px;">
+                                        <span style="font-size: 0.8rem;">-30</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                              
+                            </div>
+
+                        </div>
+                    </div>
+                    <div [hidden]="!wh.isMapExpand"
+                        style="display:flex; flex-wrap: wrap; border: 1px dotted MediumBlue; margin-top: 10px; height: 450px;">
+                        <div class="bg" style="top: 925px; left: 500px;">
+                            Frozen Room
+                        </div>
+                        <div style="display: flex;">
+                            <div id="demo7" style="margin-left: 100px; width: 750px; height:300px; margin-top: -30px;">
+                            </div>
+                            <div id="demo8" style="margin-left: -30px; width: 750px; height:300px; margin-top: -30px;">
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div id="demo9" style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                            <div id="demo10"
+                                style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div id="demo11"
+                                style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                            <div id="demo12"
+                                style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                        </div>
+                        <div class="temperature" style="margin-top: 55px; margin-left: 30px;">
+                            <div class="termometer">
+                            </div>
+                            <div class="graduations">
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail">
+                                    <div style="margin-left: 10px;">
+                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                                </div>
+                                <div class="graduations-detail">
+                                    <!-- <div style="margin-left: 10px;">
+                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
+                                    </div> -->
+                                </div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail">
+                                    <div style="margin-left: 10px;">
+                                        <span style="font-size: 0.8rem;">-10</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                                </div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail">
+                                    <div style="margin-left: 10px;">
+                                        <span style="font-size: 0.8rem;">-25</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                                </div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail"></div>
+                                
+                                    <div style="margin-left: 10px;">
+                                        <span style="font-size: 0.8rem;">-30</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                              
+                            </div>
+
+                        </div>
+                    </div>
+                    <div [hidden]="!wh.isMapExpand"
+                        style="display:flex; flex-wrap: wrap; border: 1px dotted MediumBlue; margin-top: 10px; height: 450px;">
+                        <div class="bg" style="top: 1385px; left: 310px; width: 1600px;">
+                            <p>Deep Frozen Room</p>
+                        </div>
+                        <div style="display: flex;">
+                            <div id="demo13" style="margin-left: 100px; width: 750px; height:300px; margin-top: -30px;">
+                            </div>
+                            <div id="demo14" style="margin-left: -30px; width: 750px; height:300px; margin-top: -30px;">
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div id="demo15"
+                                style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                            <div id="demo16"
+                                style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div id="demo17"
+                                style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                            <div id="demo18"
+                                style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
+                            </div>
+                        </div>
+
+                        <div class="temperature" style="margin-top: 55px; margin-left: 30px;">
+                            <div class="termometer">
+                            </div>
+                            <div class="graduations">
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail">
+                                    <div style="margin-left: 10px;">
+                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                                </div>
+                                <div class="graduations-detail">
+                                    <!-- <div style="margin-left: 10px;">
+                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
+                                    </div> -->
+                                </div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail">
+                                    <div style="margin-left: 10px;">
+                                        <span style="font-size: 0.8rem;">-10</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                                </div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail">
+                                    <div style="margin-left: 10px;">
+                                        <span style="font-size: 0.8rem;">-25</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                                </div>
+                                <div class="graduations-detail">
+                                </div>
+                                <div class="graduations-detail"></div>
+                                <div class="graduations-detail"></div>
+                                
+                                    <div style="margin-left: 10px;">
+                                        <span style="font-size: 0.8rem;">-30</span><span style="font-size: 0.7rem">°C</span>
+                                    </div>
+                              
+                            </div>
+
+                        </div>
+                    </div>
+                    <div [hidden]="!wh.isHeatMapExpand" style="width: 1400px; height:1000px;">
+
+                        <div class="point" style="width: 1400px; height:1000px; margin-top: 20px; margin-left: 70px;">
+                            <div class="point_toast">
+                                <img style="width: 1400px; height: 1000px;"
+                                    src="../assets/img/warehouse-layout-F.png" />
+                            </div>
+                            <!-- <img style="width: 1400px; height: 1000px;" src="../assets/img/warehouse-layout-F.png" /> -->
+
+
+                        </div>
+                    </div>
+                    <div [hidden]="!wh.isListExpand">
                         <div class="panel-body">
                             <table class="table">
                                 <tbody *ngFor="let zone of zoneEntityList; let i=index">
@@ -182,10 +401,10 @@
                         <div style="border: 1px solid #ddd">
                             <div style="float: right;">
                                 <button id="today" style="margin-top:10px;  margin-right: 10px; margin-left: 10px;"
-                                    type="button" class="btn btn-datetimerange"
+                                    type="button" class="button button--primary"
                                     (click)="getHistoryData()">Today</button>
-                                <button style="margin-top:10px; margin-right: 10px;" type="button"
-                                    class="btn btn-datetimerange" (click)="getRealTime()">Real Time</button>
+                                <button id="realTime" style="margin-top:10px; margin-right: 10px;" type="button"
+                                    class="button button--primary" (click)="getRealTime()">Real Time</button>
                             </div>
                             <div style="margin-top: 50px;">
                                 <div [hidden]="isRealTime" id="canvasTemp" style="width: 1200px; height:400px;"></div>

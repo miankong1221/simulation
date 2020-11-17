@@ -1,5 +1,6 @@
-[
-    {
+{
+    "data": [
+         {
         "zone_name": "ABC",
         "sensor_cnt": "18",
         "notification_cnt": "20",
@@ -15,4 +16,5 @@
         "cur_zone_temp": "30",
         "cur_zone_hum": "40"
     }
-]
+    ]
+}

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WarehouseEntity } from './entity/simulation-entity';
 import { SimulationService } from './service/simulation-service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 
 
 declare var $: any;
@@ -67,8 +67,8 @@ export class SimulationControlComponent implements OnInit {
   }
 
   onChange(result: Date): void {
-    this.start = format(result[0], 'yyyy-MM-dd HH:mm:ss');
-    this.end = format(result[1], 'yyyy-MM-dd HH:mm:ss');
+    // this.start = format(result[0], 'yyyy-MM-dd HH:mm:ss');
+    // this.end = format(result[1], 'yyyy-MM-dd HH:mm:ss');
     console.log(this.start);
   }
 
@@ -91,11 +91,11 @@ export class SimulationControlComponent implements OnInit {
 
   generateRealTime(): void {
     const reg = new RegExp('^0+');
-    let interval = format(this.time, 'ss');
-    interval = interval.replace(reg, '');
+    // let interval = format(this.time, 'ss');
+    // interval = interval.replace(reg, '');
     this.isDropdownActive = this.switchValue;
     if (this.switchValue === true) {
-      this.service.generateRealTimeStart(this.selectedWh, interval);
+      // this.service.generateRealTimeStart(this.selectedWh, interval);
     } else {
       this.service.generateRealTimeEnd();
     }

@@ -95,11 +95,11 @@ export class MasterDataMappingModalComponent implements OnInit, OnDestroy {
         const warehouseList = this.modalService.config.initialState[3];
         this.formerSensorList = this.modalService.config.initialState[4];
         warehouseList.map(temp => {
-          if (temp.wh_name === this.selectedWarehouse) {
-            this.selectedWarehouseId = temp.wh_id;
-            if (temp.zone_names.length > 0) {
-              temp.zone_names.forEach(temp => {
-                this.zoneList.push(temp);
+          if (temp.whName === this.selectedWarehouse) {
+            this.selectedWarehouseId = temp.whId;
+            if (temp.zoneNames.length > 0) {
+              temp.zoneNames.forEach(t => {
+                this.zoneList.push(t);
               });
             }
           }
@@ -122,8 +122,8 @@ export class MasterDataMappingModalComponent implements OnInit, OnDestroy {
     }
     // let url = 'assets/json/master-data-mapping-modal/sensor-available-api.json'
     const url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/master/warehouses/' + this.selectedWarehouseId + '/sensorIds';
-    this.http.get(url).subscribe((res: any[]) => {
-      res.forEach((temp) => {
+    this.http.get(url).subscribe((res: any) => {
+      res.data.forEach((temp) => {
         this.flag = false;
         this.formerSensorList.forEach(element => {
           if (temp === element.sensorId){

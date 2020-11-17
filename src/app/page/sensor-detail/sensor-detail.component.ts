@@ -186,8 +186,8 @@ export class SensorDetailComponent implements OnInit {
 
   getRealTime(): void {
     this.isRealTime = true;
-    document.getElementById('today').style.border = '1px solid #cccccc';
-    document.getElementById('realTime').style.border = '5px solid #cccccc';
+    document.getElementById('today').style.border = '3px solid #cccccc';
+    document.getElementById('realTime').style.border = '3px solid #cccccc';
     this.service.getRealTimeData(this.sensorId);
     this.realInterval = setInterval(() => {
       this.service.getRealTimeData(this.sensorId);
@@ -199,8 +199,8 @@ export class SensorDetailComponent implements OnInit {
       clearInterval(this.realInterval);
     }
     this.isRealTime = false;
-    document.getElementById('realTime').style.border = '1px solid #cccccc';
-    document.getElementById('today').style.border = '5px solid #cccccc';
+    document.getElementById('realTime').style.border = '3px solid #cccccc';
+    document.getElementById('today').style.border = '3px solid #cccccc';
     // get today
     const start = StringUtils.getToday();
     const end = StringUtils.getCurrentTime();

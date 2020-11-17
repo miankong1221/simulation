@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MasterDataMappingComponent } from './page/master-data-mapping/master-data-mapping.component';
 import { MonitoringComponent } from './page/monitoring/view/monitoring.component';
-import { OlComponent } from './page/ol/ol.component';
+// import { OlComponent } from './page/ol/ol.component';
 import { SensorDetailComponent } from './page/sensor-detail/sensor-detail.component';
 import { SensorMasterDataComponent } from './page/sensor-master-data/sensor-master-data.component';
 import { SidebarComponent } from './page/sidebar/sidebar.component';
@@ -14,13 +14,13 @@ import { ZoneProfileComponent } from './page/zone-profile/zone-profile.component
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'home/ol', pathMatch: 'full',
+    path: '', redirectTo: 'home/monitor', pathMatch: 'full',
   },
   {
     path: 'home', component: SidebarComponent,
     children: [
       { path: 'monitor', component: MonitoringComponent},
-      { path: 'ol', component: OlComponent},
+      // { path: 'ol', component: OlComponent},
       { path: 'monitor/warehouse-detail', component: WarehouseDetailComponent},
       { path: 'monitor/zone-detail', component: ZoneDetailComponent},
       { path: 'monitor/sensor-detail', component: SensorDetailComponent},
