@@ -1,28 +1,39 @@
 export class StringUtils {
 
     public static getCurrentTime(): string {
-        let date = new Date();
-        let year = date.getFullYear() + '';
-        let month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
-        let day = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
-        let hour = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours());
-        let minute = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes());
-        let second = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
-        return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+        const date = new Date();
+        const year = date.getFullYear() + '';
+        const month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+        const day = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
+        const hour = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours());
+        const minute = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes());
+        const second = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+        return year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second + 'Z';
+    }
+
+    public static getCurTime(): string {
+        const date = new Date();
+        const year = date.getFullYear() + '';
+        const month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+        const day = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
+        const hour = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours());
+        const minute = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes());
+        const second = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+        return hour + ':' + minute + ':' + second;
     }
 
     public static getToday(): string {
-        let date = new Date();
-        let year = date.getFullYear() + '';
-        let month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
-        let day = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
-        return year + '-' + month + '-' + day + ' 00' + ':' + '00' + ':' + '00'
+        const date = new Date();
+        const year = date.getFullYear() + '';
+        const month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+        const day = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
+        return year + '-' + month + '-' + day + 'T' + '00' + ':' + '00' + ':' + '00' + 'Z';
     }
 
-    public static isEmpty(val: string) {
+    public static isEmpty(val: string): boolean {
         if (val === null || val === '' || val === undefined) {
             return true;
         }
         return false;
     }
-} 
+}

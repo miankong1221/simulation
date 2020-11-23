@@ -38,17 +38,24 @@ export class MonitoringComponent implements OnInit, OnDestroy {
   public tempSeriesDataHumd: any[];
   public heatmapInstance: any;
   public generateGraphInterval: any;
-  points: any;
-  sensor1: any;
-  sensor2: any;
-  sensor3: any;
-  sensor4: any;
-
-  isFirst: boolean;
+  public chilledCurTemp: number;
+  public frozenCurTemp: number;
+  public deepFrozenCurTemp: number;
+  public curTime: string;
+  public isGraphErr: boolean;
+  public times: number;
+  public benchMark: number;
+  // points: any;
+  // sensor1: any;
+  // sensor2: any;
+  // sensor3: any;
+  // sensor4: any;
+  // isFirst: boolean;
 
   constructor(
     public service: MonitoringService
   ) {
+    this.isGraphErr = false;
     this.warehouseEntityList = [];
     this.warehouseOriginEntityList = [];
     this.zoneLocationList = [];
@@ -59,6 +66,8 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     this.tempXAxisDataHumd = [];
     this.tempSeriesDataHumd = [];
     this.warehouseRealTimeGraphData = [];
+    this.benchMark = 6;
+    this.times = 0;
   }
   ngOnDestroy(): void {
     clearInterval(this.generateGraphInterval);
@@ -231,37 +240,8 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     this.service.getZoneLocation(whId);
     this.warehouseEntityList.forEach(element => {
       if (whId === element.wh_id) {
-        const dataDeep = [];
-        for (let i = 0; i < 2; i++){
-          for (let j = 0; j < 16; j++) {
-            const value = Number((Math.random() * 5).toFixed(1)) - 30;
-            const temp = [i, j, value];
-            dataDeep.push(temp);
-          }
-        }
-        const dataFrozen = [];
-        for (let i = 0; i < 2; i++){
-          for (let j = 0; j < 16; j++) {
-            const value = Number((Math.random() * 10).toFixed(1)) - 20;
-            const temp = [i, j, value];
-            dataFrozen.push(temp);
-          }
-        }
-        const dataChill = [];
-        for (let i = 0; i < 2; i++){
-          for (let j = 0; j < 16; j++) {
-            const start = -5;
-            const end = 4;
-            let value = Number(this.getRandom(start, end));
-            if (value === 0) {
-              value = 0.1;
-            }
-            const temp = [i, j, value];
-            dataChill.push(temp);
-          }
-        }
-        this.blockGraph(dataDeep, dataFrozen, dataChill);
-        this.generateGraphInterval  = setInterval(() => this.generateGraph(), 3000);
+        this.generateGraph();
+        this.generateGraphInterval  = setInterval(() => this.generateGraph(), 2000);
         this.currentWhName = element.wh_name;
         if (element.isExpand === true) {
           element.isExpand = false;
@@ -300,8 +280,9 @@ export class MonitoringComponent implements OnInit, OnDestroy {
   }
 
   generateGraph(): void {
+    this.times++;
     const dataDeep = [];
-    for (let i = 0; i < 2; i++){
+    for (let i = 0; i < 2; i++) {
       for (let j = 0; j < 16; j++) {
         const value = Number((Math.random() * 5).toFixed(1)) - 30;
         const temp = [i, j, value];
@@ -309,7 +290,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
       }
     }
     const dataFrozen = [];
-    for (let i = 0; i < 2; i++){
+    for (let i = 0; i < 2; i++) {
       for (let j = 0; j < 16; j++) {
         const value = Number((Math.random() * 10).toFixed(1)) - 20;
         const temp = [i, j, value];
@@ -317,7 +298,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
       }
     }
     const dataChill = [];
-    for (let i = 0; i < 2; i++){
+    for (let i = 0; i < 2; i++) {
       for (let j = 0; j < 16; j++) {
         const start = -5;
         const end = 4;
@@ -360,6 +341,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
   zoneExpand(zoneId: any): void {
     this.service.getSensorList(this.currentWhId, zoneId);
+    setInterval(() => this.service.getSensorList(this.currentWhId, zoneId), 1000);
     this.zoneEntityList.forEach(element => {
       if (zoneId === element.zone_name) {
         if (element.isExpand === true) {
@@ -545,9 +527,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     this.isRealTime = false;
     document.getElementById('today').style.border = '3px solid #cccccc';
     document.getElementById('realTime').style.border = '3px solid #cccccc';
-    this.test();
-    this.test2();
-    // this.service.getWarehouseGraphData(this.currentWhId);
+    this.service.getWarehouseGraphData(this.currentWhId);
   }
 
   getRealTime(): void {
@@ -569,16 +549,30 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
 
   blockGraph(dataDeep: any, dataFrozen: any, dataChill: any): void {
-
-
+    this.chilledCurTemp = Number((Math.random() * 1).toFixed(1)) + 1;
+    this.frozenCurTemp = Number((Math.random() * 1).toFixed(1)) - 14;
+    this.deepFrozenCurTemp = Number((Math.random() * 1).toFixed(1)) - 28;
+    this.curTime = StringUtils.getCurTime();
     const myChart1 = echarts.init(document.getElementById('demo1'));
     const locations1 = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '10', '11', '12', '13', '14', '15', '16'];
+      '10', '11', '12', '13', '14', '15', '16'];
     const layers1 = ['B', 'A'];
     const dataNew1 = dataChill.map(item => {
       return [item[1], item[0], item[2] || '-'];
     });
-
+    let optionMin = -5;
+    let optionMax = 4;
+    let optionColor = ['#00CD00', '#FFFF00'];
+    if (this.times >= this.benchMark){
+      optionMin = 5;
+      optionMax = 20;
+      optionColor = ['#FFB90F', '#CD2626'];
+      dataNew1.forEach(e => {
+        e[2] = Number((Math.random() * 15).toFixed(1)) + 5;
+      });
+      this.chilledCurTemp = Number((Math.random() * 1).toFixed(1)) + 5;
+      this.isGraphErr = true;
+    }
     const option1 = {
       tooltip: {
         position: 'top'
@@ -606,17 +600,17 @@ export class MonitoringComponent implements OnInit, OnDestroy {
       },
       visualMap: {
         show: false,
-        min: -5,
-        max: 4,
+        min: optionMin,
+        max: optionMax,
         calculable: true,
         itemHeight: 340,
         orient: 'horizontal',
         left: 'center',
         bottom: '25%',
         inRange: {
-          color: ['#00CD00', '#FFFF00'],
-          symbolSize: [-5, 4]
-      },
+          color: optionColor,
+          symbolSize: [optionMin, optionMax]
+        }
       },
       series: [{
         name: 'Location',
@@ -644,7 +638,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart2 = echarts.init(document.getElementById('demo2'));
     const locations2 = ['17', '18', '19', '20', '21', '22', '23', '24', '25',
-    '26', '27', '28', '29', '30', '31', '32'];
+      '26', '27', '28', '29', '30', '31', '32'];
     const layers2 = ['B', 'A'];
     const dataNew2 = dataChill.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -687,7 +681,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00CD00', '#FFFF00'],
           symbolSize: [-5, 4]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -713,7 +707,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart3 = echarts.init(document.getElementById('demo3'));
     const locations3 = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '10', '11', '12', '13', '14', '15', '16'];
+      '10', '11', '12', '13', '14', '15', '16'];
     const layers3 = ['D', 'C'];
     const dataNew3 = dataChill.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -754,7 +748,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00CD00', '#FFFF00'],
           symbolSize: [-5, 4]
-      },
+        },
       },
       itemStyle: {
         borderWidth: 1.5,
@@ -779,7 +773,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart4 = echarts.init(document.getElementById('demo4'));
     const locations4 = ['17', '18', '19', '20', '21', '22', '23', '24', '25',
-    '26', '27', '28', '29', '30', '31', '32'];
+      '26', '27', '28', '29', '30', '31', '32'];
     const layers4 = ['D', 'C'];
     const dataNew4 = dataChill.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -824,7 +818,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00CD00', '#FFFF00'],
           symbolSize: [-5, 4]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -845,7 +839,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart5 = echarts.init(document.getElementById('demo5'));
     const locations5 = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '10', '11', '12', '13', '14', '15', '16'];
+      '10', '11', '12', '13', '14', '15', '16'];
     const layers5 = ['F', 'E'];
     const dataNew5 = dataChill.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -890,7 +884,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00CD00', '#FFFF00'],
           symbolSize: [-5, 4]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -911,7 +905,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart6 = echarts.init(document.getElementById('demo6'));
     const locations6 = ['17', '18', '19', '20', '21', '22', '23', '24', '25',
-    '26', '27', '28', '29', '30', '31', '32'];
+      '26', '27', '28', '29', '30', '31', '32'];
     const layers6 = ['F', 'E'];
     const dataNew6 = dataChill.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -956,7 +950,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00CD00', '#FFFF00'],
           symbolSize: [-5, 4]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -977,7 +971,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart7 = echarts.init(document.getElementById('demo7'));
     const locations7 = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '10', '11', '12', '13', '14', '15', '16'];
+      '10', '11', '12', '13', '14', '15', '16'];
     const layers7 = ['H', 'G'];
     const dataNew7 = dataFrozen.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1020,7 +1014,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00BFFF', '#00CD00'],
           symbolSize: [-20, -10]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -1047,7 +1041,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart8 = echarts.init(document.getElementById('demo8'));
     const locations8 = ['17', '18', '19', '20', '21', '22', '23', '24', '25',
-    '26', '27', '28', '29', '30', '31', '32'];
+      '26', '27', '28', '29', '30', '31', '32'];
     const layers8 = ['G', 'H'];
     const dataNew8 = dataFrozen.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1090,7 +1084,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00BFFF', '#00CD00'],
           symbolSize: [-20, -10]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -1116,7 +1110,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart9 = echarts.init(document.getElementById('demo9'));
     const locations9 = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '10', '11', '12', '13', '14', '15', '16'];
+      '10', '11', '12', '13', '14', '15', '16'];
     const layers9 = ['J', 'I'];
     const dataNew9 = dataFrozen.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1157,7 +1151,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00BFFF', '#00CD00'],
           symbolSize: [-20, -10]
-      },
+        },
       },
       itemStyle: {
         borderWidth: 1.5,
@@ -1182,7 +1176,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart10 = echarts.init(document.getElementById('demo10'));
     const locations10 = ['17', '18', '19', '20', '21', '22', '23', '24', '25',
-    '26', '27', '28', '29', '30', '31', '32'];
+      '26', '27', '28', '29', '30', '31', '32'];
     const layers10 = ['J', 'I'];
     const dataNew10 = dataFrozen.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1227,7 +1221,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00BFFF', '#00CD00'],
           symbolSize: [-20, -10]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -1248,7 +1242,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart11 = echarts.init(document.getElementById('demo11'));
     const locations11 = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '10', '11', '12', '13', '14', '15', '16'];
+      '10', '11', '12', '13', '14', '15', '16'];
     const layers11 = ['L', 'K'];
     const dataNew11 = dataFrozen.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1293,7 +1287,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00BFFF', '#00CD00'],
           symbolSize: [-20, -10]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -1314,7 +1308,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart12 = echarts.init(document.getElementById('demo12'));
     const locations12 = ['17', '18', '19', '20', '21', '22', '23', '24', '25',
-    '26', '27', '28', '29', '30', '31', '32'];
+      '26', '27', '28', '29', '30', '31', '32'];
     const layers12 = ['L', 'K'];
     const dataNew12 = dataFrozen.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1359,7 +1353,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#00BFFF', '#00CD00'],
           symbolSize: [-20, -10]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -1380,7 +1374,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart13 = echarts.init(document.getElementById('demo13'));
     const locations13 = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '10', '11', '12', '13', '14', '15', '16'];
+      '10', '11', '12', '13', '14', '15', '16'];
     const layers13 = ['N', 'M'];
     const dataNew13 = dataDeep.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1423,7 +1417,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#0000FF', '#00BFFF'],
           symbolSize: [-30, -25]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -1450,7 +1444,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart14 = echarts.init(document.getElementById('demo14'));
     const locations14 = ['17', '18', '19', '20', '21', '22', '23', '24', '25',
-    '26', '27', '28', '29', '30', '31', '32'];
+      '26', '27', '28', '29', '30', '31', '32'];
     const layers14 = ['N', 'M'];
     const dataNew14 = dataDeep.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1493,7 +1487,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#0000FF', '#00BFFF'],
           symbolSize: [-30, -25]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -1519,7 +1513,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart15 = echarts.init(document.getElementById('demo15'));
     const locations15 = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '10', '11', '12', '13', '14', '15', '16'];
+      '10', '11', '12', '13', '14', '15', '16'];
     const layers15 = ['P', 'O'];
     const dataNew15 = dataDeep.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1560,7 +1554,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#0000FF', '#00BFFF'],
           symbolSize: [-30, -25]
-      },
+        },
       },
       itemStyle: {
         borderWidth: 1.5,
@@ -1585,8 +1579,8 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart16 = echarts.init(document.getElementById('demo16'));
     const locations16 = ['17', '18', '19', '20', '21', '22', '23', '24', '25',
-    '26', '27', '28', '29', '30', '31', '32'];
-    const layers16 =  ['P', 'O'];
+      '26', '27', '28', '29', '30', '31', '32'];
+    const layers16 = ['P', 'O'];
     const dataNew16 = dataDeep.map(item => {
       return [item[1], item[0], item[2] || '-'];
     });
@@ -1630,7 +1624,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#0000FF', '#00BFFF'],
           symbolSize: [-30, -25]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -1651,7 +1645,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart17 = echarts.init(document.getElementById('demo17'));
     const locations17 = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '10', '11', '12', '13', '14', '15', '16'];
+      '10', '11', '12', '13', '14', '15', '16'];
     const layers17 = ['R', 'Q'];
     const dataNew17 = dataDeep.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1696,7 +1690,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#0000FF', '#00BFFF'],
           symbolSize: [-30, -25]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -1717,7 +1711,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     const myChart18 = echarts.init(document.getElementById('demo18'));
     const locations18 = ['17', '18', '19', '20', '21', '22', '23', '24', '25',
-    '26', '27', '28', '29', '30', '31', '32'];
+      '26', '27', '28', '29', '30', '31', '32'];
     const layers18 = ['R', 'Q'];
     const dataNew18 = dataDeep.map(item => {
       return [item[1], item[0], item[2] || '-'];
@@ -1762,7 +1756,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
         inRange: {
           color: ['#0000FF', '#00BFFF'],
           symbolSize: [-30, -25]
-      },
+        },
       },
       series: [{
         name: 'Location',
@@ -1785,44 +1779,6 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
   }
 
-  test() {
-    this.isRealTime = false;
-    const myChart = echarts.init(document.getElementById('canvasTemp'));
-    const option = {
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        type: 'line'
-      }]
-    };
-    myChart.setOption(option);
-  }
-
-  test2() {
-    this.isRealTime = false;
-    const myChart = echarts.init(document.getElementById('canvasHumidity'));
-    const option = {
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        type: 'line'
-      }]
-    };
-    myChart.setOption(option);
-  }
-
   showHeatMap(whId: string): void {
     this.changeTabColor(whId, '#337ab7', '#337ab7', '#337ab7', 'black');
     this.warehouseOriginEntityList.forEach(element => {
@@ -1835,110 +1791,88 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     });
     // this.generateHeatMap();
     // this.generateHeatMap2();
-
-
   }
 
-  generateHeatMap(): void {
-    const height = 600;
-    const width = 600;
-    this.heatmapInstance = h377.create({
-      container: document.getElementById('point'),
-      radius: 25
-    });
-    const ctx = this.heatmapInstance._renderer.ctx;
-    // ctx.beginPath();
-    // ctx.lineWidth = 1;
-    // ctx.fillStyle = 'red';
-    // ctx.arc(700, 590, 10, Math.PI * 2, false);
-    // ctx.arc(700, 490, 10, Math.PI * 2, false);
-    // ctx.arc(700, 390, 10, Math.PI * 2, false);
-    // ctx.arc(700, 290, 10, Math.PI * 2, false);
-    // ctx.arc(700, 190, 10, Math.PI * 2, false);
-    // ctx.arc(700, 90, 10, Math.PI * 2, false);
-    // ctx.fill();
-    // ctx.closePath();
-    // ctx.beginPath();
-    // ctx.arc(960, 90, 10, Math.PI * 2, false);
-    // ctx.arc(960, 190, 10, Math.PI * 2, false);
-    // ctx.arc(960, 290, 10, Math.PI * 2, false);
-    // ctx.arc(960, 390, 10, Math.PI * 2, false);
-    // ctx.arc(960, 490, 10, Math.PI * 2, false);
-    // ctx.arc(960, 590, 10, Math.PI * 2, false);
-    // ctx.fill();
-    // ctx.closePath();
-    this.heatmapInstance.setData(this.generateData());
-    // setInterval(() => this.heatmapInstance.setData(this.generateData()), 4000);
-  }
+  // generateHeatMap(): void {
+  //   const height = 600;
+  //   const width = 600;
+  //   this.heatmapInstance = h377.create({
+  //     container: document.getElementById('point'),
+  //     radius: 25
+  //   });
+  //   const ctx = this.heatmapInstance._renderer.ctx;
+  //   this.heatmapInstance.setData(this.generateData());
+  //   // setInterval(() => this.heatmapInstance.setData(this.generateData()), 4000);
+  // }
 
-  generateData(): {} {
-    let max = 2000000;
-    const width = 750;
-    const height1 = 200;
-    const height2 = 400;
-    const height3 = 600;
-    let len = 170000;
-    this.points = [];
-    while (len--) {
-      if (len > 70000 && len < 150000) {
-        const val = Math.floor(Math.random() * 200);
-        max = Math.max(max, val);
-        const point = {
-          x: Math.floor(Math.random() * width) + 500,
-          y: Math.floor(Math.random() * height1),
-          value: val
-        };
-        this.points.push(point);
-      }
-      else if (len > 10000 && len < 70000) {
-        const val = Math.floor(Math.random() * 50);
-        max = Math.max(max, val);
-        const point = {
-          x: Math.floor(Math.random() * width) + 500,
-          y: Math.floor(Math.random() * height2),
-          value: val
-        };
-        this.points.push(point);
-      }
-      else if (len < 50000) {
-        const val = Math.floor(Math.random() * 100);
-        max = Math.max(max, val);
-        const point = {
-          x: Math.floor(Math.random() * width) + 500,
-          y: Math.floor(Math.random() * height3),
-          value: val
-        };
-        this.points.push(point);
-      }
+  // generateData(): {} {
+  //   let max = 2000000;
+  //   const width = 750;
+  //   const height1 = 200;
+  //   const height2 = 400;
+  //   const height3 = 600;
+  //   let len = 170000;
+  //   this.points = [];
+  //   while (len--) {
+  //     if (len > 70000 && len < 150000) {
+  //       const val = Math.floor(Math.random() * 200);
+  //       max = Math.max(max, val);
+  //       const point = {
+  //         x: Math.floor(Math.random() * width) + 500,
+  //         y: Math.floor(Math.random() * height1),
+  //         value: val
+  //       };
+  //       this.points.push(point);
+  //     }
+  //     else if (len > 10000 && len < 70000) {
+  //       const val = Math.floor(Math.random() * 50);
+  //       max = Math.max(max, val);
+  //       const point = {
+  //         x: Math.floor(Math.random() * width) + 500,
+  //         y: Math.floor(Math.random() * height2),
+  //         value: val
+  //       };
+  //       this.points.push(point);
+  //     }
+  //     else if (len < 50000) {
+  //       const val = Math.floor(Math.random() * 100);
+  //       max = Math.max(max, val);
+  //       const point = {
+  //         x: Math.floor(Math.random() * width) + 500,
+  //         y: Math.floor(Math.random() * height3),
+  //         value: val
+  //       };
+  //       this.points.push(point);
+  //     }
 
-    }
-    let len2 = 30000;
-    while (len2--) {
-      const val = Math.floor(Math.random() * 100000);
-      max = Math.max(max, val);
-      const point2 = {
-        x: Math.floor(Math.random() * 250) + 250,
-        y: Math.floor(Math.random() * 600),
-        value: val
-      };
-      this.points.push(point2);
-    }
+  //   }
+  //   let len2 = 30000;
+  //   while (len2--) {
+  //     const val = Math.floor(Math.random() * 100000);
+  //     max = Math.max(max, val);
+  //     const point2 = {
+  //       x: Math.floor(Math.random() * 250) + 250,
+  //       y: Math.floor(Math.random() * 600),
+  //       value: val
+  //     };
+  //     this.points.push(point2);
+  //   }
 
-    const data = {
-      max: max,
-      data: this.points
-    };
+  //   const data = {
+  //     max: max,
+  //     data: this.points
+  //   };
 
-    return data;
+  //   return data;
 
-  }
+  // }
 
   generateHeatMap2(): void {
     this.heatmapInstance = h377.create({
       container: document.getElementById('point'),
     });
     const ctx = this.heatmapInstance._renderer.ctx;
-    this.drawSensorLoc(ctx);
+    // this.drawSensorLoc(ctx);
     setTimeout(() => this.drawHeatMap(ctx), 500);
     // this.drawHeatMap(ctx);
     // this.drawPoints(ctx);
@@ -1951,11 +1885,11 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     const drw0 = new T.TemperatureMap(ctx);
     drw0.setRandomPoints(4800, width, height);
     drw0.drawLow(5, 8, false, () => {
-       setInterval(() => this.drawPoints(ctx), 2000);
+      // setInterval(() => this.drawPoints(ctx), 2000);
     });
   }
 
-  drawSensorLoc(ctx: any): void {
+  // drawSensorLoc(ctx: any): void {
     // const iconUrl = '../assets/img/marker-icon.png';
     // const image = new Image();
     // image.src = iconUrl;
@@ -1967,9 +1901,9 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     //   ctx.drawImage(image, 685, 280);
     //   ctx.drawImage(image, 955, 280);
     // });
-  }
+  // }
 
-  drawPoints(ctx: any): void {
+  // drawPoints(ctx: any): void {
     // const loc = [[695, 500, '4.1°C'], [965, 500, '4.2°C'],
     // [695, 80, '-30.1°C'], [965, 80, '-30°.4°C'],
     // [695, 280, '-10.2°C'], [965, 280, '-10.2°C']];
@@ -1992,6 +1926,6 @@ export class MonitoringComponent implements OnInit, OnDestroy {
     //     ctx.fillText(t[2], t[0], t[1]);
     //   });
     // });
-}
+  // }
 
 }

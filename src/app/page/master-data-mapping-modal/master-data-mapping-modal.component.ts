@@ -151,9 +151,9 @@ export class MasterDataMappingModalComponent implements OnInit, OnDestroy {
         req.sensor_id.push(temp);
       });
       let url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/master/sensors/relations';
-      this.http.post(url, req).subscribe((res) => {
+      this.http.post(url, req).subscribe((res: any) => {
         // console.log(res)
-        this.bsModalRef.content.value = res;
+        this.bsModalRef.content.value = res.data;
       });
     } else {
       // edit exist sensor

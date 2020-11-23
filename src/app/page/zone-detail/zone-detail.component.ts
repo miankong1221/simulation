@@ -69,10 +69,10 @@ export class ZoneDetailComponent implements OnInit {
     this.curWhId = this.route.snapshot.queryParamMap.get('whId');
     this.curZoneId = this.route.snapshot.queryParamMap.get('zoneId');
 
-    this.service.getZoneGraphDataEvent().subscribe((data: any[]) => {
+    this.service.getZoneGraphDataEvent().subscribe((data: any) => {
       this.zoneGraphData = [];
-      if (data.length > 0) {
-        data.forEach((temp) => {
+      if (data.data && data.data.length > 0) {
+        data.data.forEach((temp) => {
           const zoneGraphData = new ZoneGraphData();
           zoneGraphData.time = temp.time;
           temp.sensor_data_models.forEach((temp2) => {
@@ -80,7 +80,7 @@ export class ZoneDetailComponent implements OnInit {
             sensorDetail.sid = temp2.sid;
             sensorDetail.sampleTime = temp2.sample_time;
             if (temp2.value.temperature) {
-              sensorDetail.humidity = temp2.value.temperature;
+              sensorDetail.temperature = temp2.value.temperature;
               sensorDetail.hasTemp = true;
             }
             if (temp2.value.humidity) {
@@ -95,27 +95,27 @@ export class ZoneDetailComponent implements OnInit {
       this.setGraphData();
     });
 
-    this.service.getZoneRealTimeDataEvent().subscribe((data: any[]) => {
+    this.service.getZoneRealTimeDataEvent().subscribe((data: any) => {
       this.zoneRealTimeGraphData = [];
-      if (data.length > 0) {
-        data.forEach((temp) => {
-          let zoneGraphData = new ZoneGraphData();
+      if (data.data && data.data.length > 0) {
+        data.data.forEach((temp) => {
+          const zoneGraphData = new ZoneGraphData();
           zoneGraphData.time = temp.time;
           temp.sensor_data_models.forEach((temp2) => {
-            let sensorDetail = new SensorDataModels()
+            const sensorDetail = new SensorDataModels();
             sensorDetail.sid = temp2.sid;
             sensorDetail.sampleTime = temp2.sample_time;
-            if (temp2.tem_value) {
-              sensorDetail.humidity = temp2.tem_value;
+            if (temp2.value.temperature) {
+              sensorDetail.temperature = temp2.value.temperature;
               sensorDetail.hasTemp = true;
             }
-            if (temp2.hum_value) {
-              sensorDetail.humidity = temp2.hum_value;
+            if (temp2.value.humidity) {
+              sensorDetail.humidity = temp2.value.humidity;
               sensorDetail.hasHumi = true;
             }
             zoneGraphData.sensorDataModels.push(sensorDetail);
           });
-          this.zoneGraphData.push(zoneGraphData);
+          this.zoneRealTimeGraphData.push(zoneGraphData);
         });
       }
       this.setGraphData();
@@ -145,7 +145,7 @@ export class ZoneDetailComponent implements OnInit {
     this.showList();
   }
 
-  showList(): void{
+  showList(): void {
     document.getElementById('list').style.color = 'black';
     document.getElementById('diag').style.color = '#337ab7';
     this.isListExpand = true;
@@ -157,6 +157,7 @@ export class ZoneDetailComponent implements OnInit {
     document.getElementById('diag').style.color = 'black';
     this.isListExpand = false;
     this.isDiagramExpand = true;
+    this.getHistoryData();
   }
 
 
@@ -176,73 +177,104 @@ export class ZoneDetailComponent implements OnInit {
   }
 
   getHistoryData(): void {
+    document.getElementById('today').style.border = '3px solid #cccccc';
+    document.getElementById('realTime').style.border = '3px solid #cccccc';
     this.service.getZoneGraphData(this.curWhId, this.curZoneId);
   }
 
   getRealTime(): void {
-    this.service.getZoneGraphRealTimeData(this.curWhId, this.curZoneId);
+    this.isRealTime = true;
+    // this.service.getZoneGraphRealTimeData(this.curWhId, this.curZoneId);
+    setInterval(() => this.service.getZoneGraphRealTimeData(this.curWhId, this.curZoneId), 5000);
   }
 
   setGraphData(): void {
     let legendDataTemp = '';
     let legendDataHumd = '';
-    let xAxisDataTemp = [];
-    let xAxisDataHumd = [];
-    let seriesDataTemp = [];
-    let seriesDataHumd = [];
-    let elementTempId = this.isRealTime === true ? 'canvasTempRealTime' : 'canvasTemp';
-    let elementHumdId = this.isRealTime === true ? 'canvasHumiRealTime' : 'canvasHumidity';
+    const xAxisDataTemp = [];
+    const xAxisDataHumd = [];
+    const seriesDataTemp = [];
+    const seriesDataHumd = [];
+    const elementTempId = this.isRealTime === true ? 'canvasTempRealTime' : 'canvasTemp';
+    const elementHumdId = this.isRealTime === true ? 'canvasHumiRealTime' : 'canvasHumidity';
     if (this.isRealTime) {
       this.zoneRealTimeGraphData.forEach((temp) => {
+        this.tempXAxisDataTemp.push(temp.time);
         temp.sensorDataModels.forEach((temp2) => {
           if (temp2.hasTemp === true) {
-            this.tempXAxisDataTemp.push(temp.time);
             legendDataTemp = 'Temperture';
-            this.tempSeriesDataTemp.push(temp.sensorDataModels);
+            this.tempSeriesDataTemp.push(temp2);
           }
           if (temp2.hasHumi === true) {
-            this.tempXAxisDataHumd.push(temp.time);
             legendDataHumd = 'Humidity';
-            this.tempSeriesDataHumd.push(temp.sensorDataModels);
+            this.tempSeriesDataHumd.push(temp2);
           }
         });
       });
     } else {
       this.zoneGraphData.forEach((temp) => {
+        xAxisDataTemp.push(temp.time);
         temp.sensorDataModels.forEach((temp2) => {
           if (temp2.hasTemp === true) {
-            xAxisDataTemp.push(temp.time);
+            // xAxisDataTemp.push(temp.sensorDataModels[0].sampleTime);
             legendDataTemp = 'Temperture';
-            seriesDataTemp.push(temp.sensorDataModels);
+            seriesDataTemp.push(temp2);
           }
           if (temp2.hasHumi === true) {
             xAxisDataHumd.push(temp.time);
             legendDataHumd = 'Humidity';
-            seriesDataHumd.push(temp.sensorDataModels);
+            seriesDataHumd.push(temp2);
           }
         });
       });
     }
     if (legendDataTemp === 'Temperture') {
       if (this.isRealTime === true) {
-        this.drawGraph(elementTempId, legendDataTemp, this.tempXAxisDataTemp, this.tempSeriesDataTemp)
+        this.drawGraph(elementTempId, legendDataTemp, this.tempXAxisDataTemp, this.tempSeriesDataTemp);
       } else {
         this.drawGraph(elementTempId, legendDataTemp, xAxisDataTemp, seriesDataTemp);
       }
     }
-    if (legendDataHumd === 'Humidity') {
-      if (this.isRealTime === true) {
-        this.drawGraphHum(elementTempId, legendDataTemp, this.tempXAxisDataHumd, this.tempSeriesDataHumd)
-      } else {
-        this.drawGraphHum(elementHumdId, legendDataHumd, xAxisDataHumd, seriesDataHumd);
-      }
-    }
+    // if (legendDataHumd === 'Humidity') {
+    //   if (this.isRealTime === true) {
+    //     this.drawGraphHum(elementTempId, legendDataTemp, this.tempXAxisDataHumd, this.tempSeriesDataHumd)
+    //   } else {
+    //     this.drawGraphHum(elementHumdId, legendDataHumd, xAxisDataHumd, seriesDataHumd);
+    //   }
+    // }
   }
 
   drawGraph(elementId: any, legendData: any, xAxisData: any[], seriesData: any[]): void {
 
-    let myChart = echarts.init(document.getElementById(elementId));
-    var option = {
+    const sensor1 = 'SNTEM0001';
+    const sensor2 = 'SNTEM0002';
+    const sensor3 = 'SNTEM0003';
+    const sensor4 = 'SNTEM0004';
+    const sensor5 = 'SNTEM0005';
+    const serise1 = [];
+    const serise2 = [];
+    const serise3 = [];
+    const serise4 = [];
+    const serise5 = [];
+    seriesData.forEach((t1: any) => {
+          if (t1.sid === sensor1) {
+            serise1.push(t1.temperature);
+          }
+          if (t1.sid === sensor2) {
+            serise2.push(t1.temperature);
+          }
+          if (t1.sid === sensor3) {
+            serise3.push(t1.temperature);
+          }
+          if (t1.sid === sensor4) {
+            serise4.push(t1.temperature);
+          }
+          if (t1.sid === sensor5) {
+            serise5.push(t1.temperature);
+          }
+    });
+    const myChart = echarts.init(document.getElementById(elementId));
+    const option = {
       title: {
         text: legendData
       },
@@ -267,50 +299,96 @@ export class ZoneDetailComponent implements OnInit {
       },
       yAxis: {},
       series: [
-        //   {
-        //   name: zoneOneName,
-        //   type: 'line',
-        //   color: '#DC8243',
-        //   data: zoneOneList
-        // },
-        // {
-        //   name: zoneTwoName,
-        //   type: 'line',
-        //   color: '#4E72BE',
-        //   data: zoneTwoList
-        // }
+          {
+          name: sensor1,
+          type: 'line',
+          smooth: true,
+          color: '#DC8243',
+          data: serise1
+        },
+        {
+          name: sensor2,
+          type: 'line',
+          smooth: true,
+          color: '#4E72BE',
+          data: serise2
+        },
+        {
+          name: sensor3,
+          type: 'line',
+          smooth: true,
+          color: '#9ACD32',
+          data: serise3
+        },
+        {
+          name: sensor4,
+          type: 'line',
+          smooth: true,
+          color: '#FF00FF',
+          data: serise4
+        },
+        {
+          name: sensor5,
+          type: 'line',
+          smooth: true,
+          color: '#696969',
+          data: serise5
+        }
       ]
     };
-    let zoneTemp = []
-    this.zoneGraphData.forEach((temp) => {
-      temp.sensorDataModels.forEach((temp2) => {
-
-      });
-      // temp.array.forEach(element => {
-      //   console.log(element)
-      // });
-      console.log(temp);
-
-    });
-
     myChart.setOption(option);
   }
 
   drawGraphHum(elementId: any, legendData: any, xAxisData: any[], seriesData: any[]): void {
-    let zoneOneList: ZoneDataDto[];
-    zoneOneList = [];
-    let zoneTwoList: ZoneDataDto[];
-    zoneTwoList = [];
-    let zoneOneName = '';
-    let zoneTwoName = '';
-    seriesData.forEach(temp => {
-      zoneOneList.push(temp[0].humValue);
-      zoneOneName = temp[0].zone;
-      zoneTwoList.push(temp[1].humValue);
-      zoneTwoName = temp[1].zone;
+    const sensor1 = 'SNTEM0001';
+    const sensor2 = 'SNTEM0002';
+    const sensor3 = 'SNTEM0003';
+    const sensor4 = 'SNTEM0004';
+    const sensor5 = 'SNTEM0005';
+    const serise1 = [];
+    const serise2 = [];
+    const serise3 = [];
+    const serise4 = [];
+    const serise5 = [];
+    seriesData.forEach((t1: any) => {
+      // if (t.length > 1) {
+        // t.forEach(t1 => {
+          if (t1.sid === sensor1) {
+            serise1.push(t1.humidity);
+          }
+          if (t1.sid === sensor2) {
+            serise2.push(t1.humidity);
+          }
+          if (t1.sid === sensor3) {
+            serise3.push(t1.humidity);
+          }
+          if (t1.sid === sensor4) {
+            serise4.push(t1.humidity);
+          }
+          if (t1.sid === sensor5) {
+            serise5.push(t1.humidity);
+          }
+        // });
+      // } else {
+      //   if (t[0].sid === sensor1) {
+      //     serise1.push(t[0].humidity);
+      //   }
+      //   if (t[0].sid === sensor2) {
+      //     serise2.push(t[0].humidity);
+      //   }
+      //   if (t[0].sid === sensor3) {
+      //     serise3.push(t[0].humidity);
+      //   }
+      //   if (t[0].sid === sensor4) {
+      //     serise4.push(t[0].humidity);
+      //   }
+      //   if (t[0].sid === sensor5) {
+      //     serise5.push(t[0].humidity);
+      //   }
+      // }
     });
-    let myChart = echarts.init(document.getElementById(elementId));
-    var option = {
+    const myChart = echarts.init(document.getElementById(elementId));
+    const option = {
       title: {
         text: legendData
       },
@@ -318,7 +396,7 @@ export class ZoneDetailComponent implements OnInit {
         trigger: 'axis'
       },
       legend: {
-        data: [zoneOneName, zoneTwoName]
+        // data: [zoneOneName, zoneTwoName]
       },
       toolbox: {
         show: true,
@@ -336,19 +414,38 @@ export class ZoneDetailComponent implements OnInit {
         data: xAxisData
       },
       yAxis: {},
-      series: [{
-        name: zoneOneName,
+      series: [
+        {
+        name: sensor1,
         type: 'line',
         color: '#DC8243',
-        data: zoneOneList
+        data: serise1
       },
       {
-        name: zoneTwoName,
+        name: sensor2,
         type: 'line',
         color: '#4E72BE',
-        data: zoneTwoList
+        data: serise2
+      },
+      {
+        name: sensor3,
+        type: 'line',
+        color: '#9ACD32',
+        data: serise3
+      },
+      {
+        name: sensor4,
+        type: 'line',
+        color: '#FF00FF',
+        data: serise4
+      },
+      {
+        name: sensor5,
+        type: 'line',
+        color: '#696969',
+        data: serise5
       }
-      ]
+    ]
     };
     myChart.setOption(option);
   }

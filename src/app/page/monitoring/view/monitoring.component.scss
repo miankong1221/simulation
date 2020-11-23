@@ -606,7 +606,6 @@ input[type="range"]:disabled::-ms-fill-upper {
   opacity: 0.3;
   font-size: 150px;
   font: bold;
-  // font-family: "Maersk Text";
   color: rgb(31, 26, 26);
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
@@ -651,4 +650,31 @@ input[type="range"]:disabled::-ms-fill-upper {
 
 .point_toast {
   -webkit-transform: rotateX(5deg); /* Safari and Chrome */
+}
+
+.monitoring_head {
+  font-size: 60px;
+  line-height: 130px;
+  color: gray;
+  font-weight: 700;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.monitoring_detail {
+  font-size: 30px;
+  color: gray;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+@keyframes myAnimation {
+  60% {
+    opacity: 0.6
+  }
+  100% {
+    opacity: 1
+  }
+}
+
+.light {
+  animation: myAnimation 2.5s infinite
 }
