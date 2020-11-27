@@ -103,9 +103,9 @@ export class MonitoringService {
 
     getZoneLocation(whId: any): void {
         const url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/monitor/warehouses/' + whId + '/zones/positions';
-        this.http.get(url).subscribe((data: []) => {
-            // const result =  JsonTypeMapper.parse(CommonDtoEntity, data);
-            // this.zoneLocationEvent.next(result.data);
+        this.http.get(url).subscribe((data: any) => {
+            const result =  JsonTypeMapper.parse(ZoneLocation, data.data) as ZoneLocation[];
+            this.zoneLocationEvent.next(result);
         });
     }
 

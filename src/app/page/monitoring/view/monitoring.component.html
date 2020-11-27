@@ -1,450 +1,186 @@
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Warehouse Monitoring</h1>
-            </div>
-        </div>
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Warehouse Monitoring</h1>
+      </div>
     </div>
+  </div>
 </section>
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <select class="form-control select2Warehouse">
-                    <option selected>Select a warehouse</option>
-                    <option *ngFor="let wh of warehouseOriginEntityList">{{wh.wh_name}}</option>
-                </select>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <select class="form-control select2Warehouse">
+          <option selected>Select a warehouse</option>
+          <option *ngFor="let wh of warehouseOriginEntityList">{{wh.wh_name}}</option>
+        </select>
+      </div>
     </div>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th style="width: 60%;">Location</th>
-                <th style="width: 30%">Location statistic</th>
-                <th style="width: 10%; text-align: center;">Actions</th>
-            </tr>
-        </thead>
-        <tbody *ngFor="let wh of warehouseEntityList; let i=index">
-            <tr class="table-content">
-                <td>
-                    <a routerLink='warehouse-detail'
-                        [queryParams]="{id:wh.wh_id, name:wh.wh_name}">{{wh.wh_name}}</a><br>
-                </td>
-                <td>
-                    <div class="wh table-content">
-                        <span>Zones count: {{wh.zone_cnt}}<br></span>
-                        <span>Sensors count: {{wh.sensor_cnt}}<br></span>
-                        <span>Notifications count: {{wh.notification_cnt}}</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="location-action">
-                        <span id="{{wh.wh_id}}" class="collapsed-table__show-content"
-                            (click)='warehouseExpand(wh.wh_id)'>Expand</span>
-                    </div>
-                </td>
-            </tr>
-            <tr [hidden]="!wh.isExpand" class="collapsed-table__inner">
-                <td colspan="3" style="border-left: 0px; border-right: 0px">
-                    <div class="monitoring_head_detail">
-                        <ul class="collapsed-table__inner__list review-tabs-action">
-                            <li id='map_{{wh.wh_id}}' (click)='showMap(wh.wh_id)'>Show blockMap</li>
-                            <li id='heatMap_{{wh.wh_id}}' (click)='showHeatMap(wh.wh_id)'>Show heatMap</li>
-                            <li id='list_{{wh.wh_id}}' (click)='showList(wh.wh_id)'>Show list</li>
-                            <li id='diag_{{wh.wh_id}}' (click)='showDiagram(wh.wh_id)'>Show diagram</li>
-                        </ul>
-                    </div>
-                    <div [hidden]="!wh.isMapExpand"
-                        style="display:flex;  margin-top: 0px; flex-wrap: wrap; border-bottom: 1px solid #a39d97; height: 450px; margin-top: 30px;">
-                        <!-- <div class="bg" style="top: 470px; left: 500px; ">
-                            Chilled Room
-                        </div> -->
-                        <div style="display: flex;">
-                            <div id="demo1" style="margin-left: 100px; width: 750px; height:300px; margin-top: -30px;">
-                            </div>
-                            <div id="demo2" style="margin-left: -30px; width: 750px; height:300px; margin-top: -30px;">
-                            </div>
-                        </div>
-                        <div style="display: flex;">
-                            <div id="demo3" style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                            <div id="demo4" style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                        </div>
-                        <div style="display: flex;">
-                            <div id="demo5" style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                            <div id="demo6" style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                        </div>
-                        <div style="position: relative; left: 130px; bottom: 380px">
-                            <div class="monitoring_head">Chilled Room</div>
-                            <div class="monitoring_detail" style="margin-left: 55px;">Floor Area: 828 sqm</div>
-                            <div class="monitoring_detail" style="margin-left: 6px;">Locations: 768, A01 A~F32D</div>
-                            <div class="monitoring_detail" style="margin-left: -20px;">Temperature Range: -5<span style="font-size: 1.7rem">°C</span> ~ +4<span style="font-size: 1.7rem">°C</span></div>
-                            <div class="monitoring_detail" style="margin-left: -50px;">Date/Time: 2020.11.20/ {{curTime}} GMT</div>
-                            <div *ngIf="isGraphErr" class="monitoring_detail light" style="margin-left: -30px; color:#FF3030;">Current Temperature(avg): <span style="font-size: 2.7rem; color:#FF3030;">{{chilledCurTemp}}</span><span style="font-size: 2rem; color:#FF3030;">°C</span></div>
-                            <div *ngIf="!isGraphErr" class="monitoring_detail" style="margin-left: -30px;">Current Temperature(avg): <span style="font-size: 2.7rem; color:seagreen;">{{chilledCurTemp}}</span><span style="font-size: 2rem; color:seagreen;">°C</span></div>
-                        </div>
-                        <div class="temperature" style="margin-top: 55px; margin-left: 30px;">
-                            <div class="termometer">
-                            </div>
-                            <div class="graduations">
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail">
-                                    <div style="margin-left: 10px;">
-                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                                </div>
-                                <div class="graduations-detail">
-                                    <!-- <div style="margin-left: 10px;">
-                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
-                                    </div> -->
-                                </div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail">
-                                    <div style="margin-left: 10px;">
-                                        <span style="font-size: 0.8rem;">-10</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                                </div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail">
-                                    <div style="margin-left: 10px;">
-                                        <span style="font-size: 0.8rem;">-25</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                                </div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail"></div>
-                                
-                                    <div style="margin-left: 10px;">
-                                        <span style="font-size: 0.8rem;">-30</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                              
-                            </div>
-
-                        </div>
-                    </div>
-                    <div [hidden]="!wh.isMapExpand"
-                        style="display:flex; flex-wrap: wrap; border-bottom: 1px solid #a39d97; margin-top: 10px; height: 450px;">
-                        <!-- <div class="bg" style="top: 925px; left: 500px;">
-                            Frozen Room
-                        </div> -->
-                        <div style="display: flex;">
-                            <div id="demo7" style="margin-left: 100px; width: 750px; height:300px; margin-top: -30px;">
-                            </div>
-                            <div id="demo8" style="margin-left: -30px; width: 750px; height:300px; margin-top: -30px;">
-                            </div>
-                        </div>
-                        <div style="display: flex;">
-                            <div id="demo9" style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                            <div id="demo10"
-                                style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                        </div>
-                        <div style="display: flex;">
-                            <div id="demo11"
-                                style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                            <div id="demo12"
-                                style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                        </div>
-                        <div style="position: relative; left: 130px; bottom: 380px">
-                            <div class="monitoring_head">Frozen Room</div>
-                            <div class="monitoring_detail" style="margin-left: 55px;">Floor Area: 828 sqm</div>
-                            <div class="monitoring_detail" style="margin-left: 6px;">Locations: 768, G01 A~L32D</div>
-                            <div class="monitoring_detail" style="margin-left: -20px;">Temperature Range: -20<span style="font-size: 1.7rem">°C</span> ~ -10<span style="font-size: 1.7rem">°C</span></div>
-                            <div class="monitoring_detail" style="margin-left: -50px;">Date/Time: 2020.11.20/ {{curTime}} GMT</div>
-                            <div class="monitoring_detail" style="margin-left: -30px;">Current Temperature(avg): <span style="font-size: 2.7rem; color:seagreen;">{{frozenCurTemp}}</span><span style="font-size: 2rem; color:seagreen;">°C</span></div>
-                        </div>
-                        <div class="temperature" style="margin-top: 55px; margin-left: 30px;">
-                            <div class="termometer">
-                            </div>
-                            <div class="graduations">
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail">
-                                    <div style="margin-left: 10px;">
-                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                                </div>
-                                <div class="graduations-detail">
-                                    <!-- <div style="margin-left: 10px;">
-                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
-                                    </div> -->
-                                </div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail">
-                                    <div style="margin-left: 10px;">
-                                        <span style="font-size: 0.8rem;">-10</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                                </div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail">
-                                    <div style="margin-left: 10px;">
-                                        <span style="font-size: 0.8rem;">-25</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                                </div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail"></div>
-                                
-                                    <div style="margin-left: 10px;">
-                                        <span style="font-size: 0.8rem;">-30</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                              
-                            </div>
-
-                        </div>
-                    </div>
-                    <div [hidden]="!wh.isMapExpand"
-                        style="display:flex; flex-wrap: wrap; margin-top: 10px; height: 450px;">
-                        <!-- <div class="bg" style="top: 1385px; left: 310px; width: 1600px;">
-                            <p>Deep Frozen Room</p>
-                        </div> -->
-                        <div style="display: flex;">
-                            <div id="demo13" style="margin-left: 100px; width: 750px; height:300px; margin-top: -30px;">
-                            </div>
-                            <div id="demo14" style="margin-left: -30px; width: 750px; height:300px; margin-top: -30px;">
-                            </div>
-                        </div>
-                        <div style="display: flex;">
-                            <div id="demo15"
-                                style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                            <div id="demo16"
-                                style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                        </div>
-                        <div style="display: flex;">
-                            <div id="demo17"
-                                style="margin-left: 100px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                            <div id="demo18"
-                                style="margin-left: -30px; width: 750px; height:300px; margin-top: -160px;">
-                            </div>
-                        </div>
-                        <div style="position: relative; left: 130px; bottom: 380px">
-                            <div class="monitoring_head" style="margin-left: -80px;">Deep Frozen Room</div>
-                            <div class="monitoring_detail" style="margin-left: 55px;">Floor Area: 828 sqm</div>
-                            <div class="monitoring_detail" style="margin-left: 6px;">Locations: 768, M01 A~R32D</div>
-                            <div class="monitoring_detail" style="margin-left: -20px;">Temperature Range: -30<span style="font-size: 1.7rem">°C</span> ~ -25<span style="font-size: 1.7rem">°C</span></div>
-                            <div class="monitoring_detail" style="margin-left: -50px;">Date/Time: 2020.11.20/ {{curTime}} GMT</div>
-                            <div class="monitoring_detail" style="margin-left: -30px;">Current Temperature(avg): <span style="font-size: 2.7rem; color:seagreen;">{{deepFrozenCurTemp}}</span><span style="font-size: 2rem; color:seagreen;">°C</span></div>
-                        </div>
-                        <div class="temperature" style="margin-top: 55px; margin-left: 30px;">
-                            <div class="termometer">
-                            </div>
-                            <div class="graduations">
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail">
-                                    <div style="margin-left: 10px;">
-                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                                </div>
-                                <div class="graduations-detail">
-                                    <!-- <div style="margin-left: 10px;">
-                                        &nbsp; <span style="font-size: 0.8rem;">&nbsp;+4</span><span style="font-size: 0.7rem">°C</span>
-                                    </div> -->
-                                </div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail">
-                                    <div style="margin-left: 10px;">
-                                        <span style="font-size: 0.8rem;">-10</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                                </div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail">
-                                    <div style="margin-left: 10px;">
-                                        <span style="font-size: 0.8rem;">-25</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                                </div>
-                                <div class="graduations-detail">
-                                </div>
-                                <div class="graduations-detail"></div>
-                                <div class="graduations-detail"></div>
-                                
-                                    <div style="margin-left: 10px;">
-                                        <span style="font-size: 0.8rem;">-30</span><span style="font-size: 0.7rem">°C</span>
-                                    </div>
-                              
-                            </div>
-
-                        </div>
-                    </div>
-                    <div [hidden]="!wh.isHeatMapExpand" style="width: 1400px; height:1000px;">
-
-                        <div class="point" style="width: 1400px; height:1000px; margin-top: 20px; margin-left: 70px;">
-                            <div class="point_toast">
-                                <img style="width: 1400px; height: 1000px;"
-                                    src="../assets/img/warehouse-layout-F.png" />
-                            </div>
-                            <!-- <img style="width: 1400px; height: 1000px;" src="../assets/img/warehouse-layout-F.png" /> -->
-
-
-                        </div>
-                    </div>
-                    <div [hidden]="!wh.isListExpand">
-                        <div class="panel-body">
-                            <table class="table">
-                                <tbody *ngFor="let zone of zoneEntityList; let i=index">
-                                    <tr class="table-content">
-                                        <td
-                                            style="padding: 6px; width: 20%; border-right: 0px; vertical-align: middle;">
-                                            <a style="padding-left: 10px;" routerLink='zone-detail'
-                                                [queryParams]="{whName:currentWhName,whId:currentWhId,zoneId:zone.zone_name}">{{zone.zone_name}}</a>
-                                        </td>
-                                        <td style="padding: 6px; width: 30%; border-right: 0px; border-left: 0px;">
-                                            <div class="table-content">
-                                                <span>Sensors count: {{zone.sensor_cnt}}<br></span>
-                                                <span>Notifications count: {{zone.notification_cnt}}</span>
-                                            </div>
-                                        </td>
-                                        <td
-                                            style="padding: 6px; vertical-align: middle; width: 20%; border-right: 0px; border-left: 0px;">
-                                            <img *ngIf="zone.cur_zone_temp" style="width: 10px; height: 20px;"
-                                                src="../assets/img/img_temperature.png">
-                                            <span *ngIf="zone.cur_zone_temp"> {{zone.cur_zone_temp}} °C</span>
-                                            &nbsp;&nbsp;&nbsp;
-                                            <img *ngIf="zone.cur_zone_hum" style="width: 10px; height: 20px;"
-                                                src="../assets/img/img_humidity.png">
-                                            <span *ngIf="zone.cur_zone_hum"> {{zone.cur_zone_hum}} %</span>
-                                        </td>
-                                        <td
-                                            style="padding: 6px; vertical-align: middle; width: 20%; border-right: 0px; border-left: 0px;">
-                                            {{zone.time}}
-                                        </td>
-                                        <td style="padding: 6px; vertical-align: middle; width: 10%; border-left: 0px;">
-                                            <div class="location-action table-content">
-                                                <a id={{zone.zone_name}} class="collapsed-table__show-content"
-                                                    (click)='zoneExpand(zone.zone_name)'>Expand</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr [hidden]="!zone.isExpand" class="collapsed-table__inner">
-                                        <td colspan="5" style="border-left: 0px; border-right: 0px">
-                                            <table class="table" style="text-align: center;">
-                                                <thead>
-                                                    <tr class="table-head">
-                                                        <th style="padding:5px; vertical-align: middle;">Name</th>
-                                                        <th style="padding:5px; vertical-align: middle;">Serial number
-                                                        </th>
-                                                        <th style="padding:5px; vertical-align: middle;">Settings</th>
-                                                        <th style="padding:5px; vertical-align: middle;">Current reading
-                                                        </th>
-                                                        <th style="padding:5px; vertical-align: middle;">Date</th>
-                                                        <th style="padding:5px; vertical-align: middle;">Battery</th>
-                                                        <th style="padding:5px; vertical-align: middle;">Signal quality
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody *ngFor="let sensor of sensorEntityList; let i=index">
-                                                    <tr>
-                                                        <td style="padding:8px;">
-                                                            <a routerLink='sensor-detail'
-                                                                [queryParams]="{whName:currentWhName,whId:currentWhId,zoneId:zone.zone_name, sensorId:sensor.sensor_id}">{{sensor.sensor_name}}</a>
-                                                        </td>
-                                                        <td style="padding:8px;">
-                                                            {{sensor.sensor_id}}
-                                                        </td>
-                                                        <td style="padding:8px;">
-                                                            <img *ngIf="sensor.settingTemp" style="margin-top: -5px;"
-                                                                src="https://my.sensguard.lv/image/icon-temp.svg">
-                                                            &nbsp;<span
-                                                                *ngIf="sensor.settingTemp">{{sensor.settingTemp}}
-                                                                &nbsp;&nbsp;</span>
-                                                            <img *ngIf="sensor.settingHumidity"
-                                                                style="margin-top: -5px;"
-                                                                src="https://my.sensguard.lv/image/icon-hum.svg">
-                                                            &nbsp;<span
-                                                                *ngIf="sensor.settingHumidity">{{sensor.settingHumidity}}</span>
-                                                        </td>
-                                                        <td style="padding:8px;">
-                                                            <img *ngIf="sensor.cur_temp_value" style="margin-top: -5px;"
-                                                                src="https://my.sensguard.lv/image/icon-temp.svg">&nbsp;
-                                                            <span
-                                                                *ngIf="sensor.cur_temp_value">{{sensor.cur_temp_value}}
-                                                                °C</span>
-                                                            <img *ngIf="sensor.cur_hum_value" style="margin-top: -5px;"
-                                                                src="https://my.sensguard.lv/image/icon-hum.svg">&nbsp;
-                                                            <span *ngIf="sensor.cur_hum_value">{{sensor.cur_hum_value}}
-                                                                %</span>
-                                                        </td>
-                                                        <td style="padding:8px;">
-                                                            {{sensor.date}}
-                                                        </td>
-                                                        <td style="padding:8px;">
-                                                            <div class="battery battery--mini battery--full">
-                                                                <span></span>
-                                                            </div>
-                                                        </td>
-                                                        <td style="padding:8px;">
-                                                            <div class="signal signal--mini signal--full">
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div [hidden]="!wh.isDiagramExpand">
-                        <div style="border: 1px solid #ddd">
-                            <div style="float: right;">
-                                <button id="today" style="margin-top:10px;  margin-right: 10px; margin-left: 10px;"
-                                    type="button" class="button button--primary"
-                                    (click)="getHistoryData()">Today</button>
-                                <button id="realTime" style="margin-top:10px; margin-right: 10px;" type="button"
-                                    class="button button--primary" (click)="getRealTime()">Real Time</button>
-                            </div>
-                            <div style="margin-top: 50px;">
-                                <div [hidden]="isRealTime" id="canvasTemp" style="width: 1200px; height:400px;"></div>
-                                <div [hidden]="isRealTime" id="canvasHumidity" style="width: 1200px; height:400px;">
-                                </div>
-                                <div [hidden]="!isRealTime" id="canvasTempRealTime"
-                                    style="width: 1200px; height:400px;"></div>
-                                <div [hidden]="!isRealTime" id="canvasHumiRealTime"
-                                    style="width: 1200px; height:400px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-        <div style="margin-bottom: 20px">
-        </div>
-    </table>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th style="width: 60%;">Location</th>
+        <th style="width: 30%">Location statistic</th>
+        <th style="width: 10%; text-align: center;">Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let wh of warehouseEntityList; let i=index">
+      <tr class="table-content">
+        <td>
+          <a routerLink='warehouse-detail' [queryParams]="{id:wh.wh_id, name:wh.wh_name}">{{wh.wh_name}}</a><br>
+        </td>
+        <td>
+          <div class="wh table-content">
+            <span>Zones count: {{wh.zone_cnt}}<br></span>
+            <span>Sensors count: {{wh.sensor_cnt}}<br></span>
+            <span>Notifications count: {{wh.notification_cnt}}</span>
+          </div>
+        </td>
+        <td>
+          <div class="location-action">
+            <span id="{{wh.wh_id}}" class="collapsed-table__show-content"
+              (click)='warehouseExpand(wh.wh_id)'>Expand</span>
+          </div>
+        </td>
+      </tr>
+      <tr [hidden]="!wh.isExpand" class="collapsed-table__inner">
+        <td colspan="3" style="border-left: 0px; border-right: 0px">
+          <div class="monitoring_head_detail">
+            <ul class="collapsed-table__inner__list review-tabs-action">
+              <!-- <li id='map_{{wh.wh_id}}' (click)='showMap(wh.wh_id)'>Show blockMap</li> -->
+              <li id='heatMap_{{wh.wh_id}}' (click)='showHeatMap(wh.wh_id)'>Show heatMap</li>
+              <li id='list_{{wh.wh_id}}' (click)='showList(wh.wh_id)'>Show list</li>
+              <li id='diag_{{wh.wh_id}}' (click)='showDiagram(wh.wh_id)'>Show diagram</li>
+            </ul>
+          </div>
+          <div [hidden]="!wh.isHeatMapExpand" style="width: 880px; height:700px">
+            <canvas id="getCanvas{{wh.wh_id}}" style="width: 880px; height:646px; margin-top: 20px; margin-left: 70px;">
+          </canvas>
+          </div>
+          <div [hidden]="!wh.isListExpand">
+            <div class="panel-body">
+              <table class="table">
+                <tbody *ngFor="let zone of zoneEntityList; let i=index">
+                  <tr class="table-content">
+                    <td style="padding: 6px; width: 20%; border-right: 0px; vertical-align: middle;">
+                      <a style="padding-left: 10px;" routerLink='zone-detail'
+                        [queryParams]="{whName:currentWhName,whId:currentWhId,zoneId:zone.zone_name}">{{zone.zone_name}}</a>
+                    </td>
+                    <td style="padding: 6px; width: 30%; border-right: 0px; border-left: 0px;">
+                      <div class="table-content">
+                        <span>Sensors count: {{zone.sensor_cnt}}<br></span>
+                        <span>Notifications count: {{zone.notification_cnt}}</span>
+                      </div>
+                    </td>
+                    <td style="padding: 6px; vertical-align: middle; width: 20%; border-right: 0px; border-left: 0px;">
+                      <img *ngIf="zone.cur_zone_temp" style="width: 10px; height: 20px;"
+                        src="../assets/img/img_temperature.png">
+                      <span *ngIf="zone.cur_zone_temp"> {{zone.cur_zone_temp}} °C</span>
+                      &nbsp;&nbsp;&nbsp;
+                      <img *ngIf="zone.cur_zone_hum" style="width: 10px; height: 20px;"
+                        src="../assets/img/img_humidity.png">
+                      <span *ngIf="zone.cur_zone_hum"> {{zone.cur_zone_hum}} %</span>
+                    </td>
+                    <td style="padding: 6px; vertical-align: middle; width: 20%; border-right: 0px; border-left: 0px;">
+                      {{zone.time}}
+                    </td>
+                    <td style="padding: 6px; vertical-align: middle; width: 10%; border-left: 0px;">
+                      <div class="location-action table-content">
+                        <a id={{zone.zone_name}} class="collapsed-table__show-content"
+                          (click)='zoneExpand(zone.zone_name)'>Expand</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr [hidden]="!zone.isExpand" class="collapsed-table__inner">
+                    <td colspan="5" style="border-left: 0px; border-right: 0px">
+                      <table class="table" style="text-align: center;">
+                        <thead>
+                          <tr class="table-head">
+                            <th style="padding:5px; vertical-align: middle;">Name</th>
+                            <th style="padding:5px; vertical-align: middle;">Serial number
+                            </th>
+                            <th style="padding:5px; vertical-align: middle;">Settings</th>
+                            <th style="padding:5px; vertical-align: middle;">Current reading
+                            </th>
+                            <th style="padding:5px; vertical-align: middle;">Date</th>
+                            <th style="padding:5px; vertical-align: middle;">Battery</th>
+                            <th style="padding:5px; vertical-align: middle;">Signal quality
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody *ngFor="let sensor of sensorEntityList; let i=index">
+                          <tr>
+                            <td style="padding:8px;">
+                              <a routerLink='sensor-detail'
+                                [queryParams]="{whName:currentWhName,whId:currentWhId,zoneId:zone.zone_name, sensorId:sensor.sensor_id}">{{sensor.sensor_name}}</a>
+                            </td>
+                            <td style="padding:8px;">
+                              {{sensor.sensor_id}}
+                            </td>
+                            <td style="padding:8px;">
+                              <img *ngIf="sensor.settingTemp" style="margin-top: -5px;"
+                                src="https://my.sensguard.lv/image/icon-temp.svg">
+                              &nbsp;<span *ngIf="sensor.settingTemp">{{sensor.settingTemp}}
+                                &nbsp;&nbsp;</span>
+                              <img *ngIf="sensor.settingHumidity" style="margin-top: -5px;"
+                                src="https://my.sensguard.lv/image/icon-hum.svg">
+                              &nbsp;<span *ngIf="sensor.settingHumidity">{{sensor.settingHumidity}}</span>
+                            </td>
+                            <td style="padding:8px;">
+                              <img *ngIf="sensor.cur_temp_value" style="margin-top: -5px;"
+                                src="https://my.sensguard.lv/image/icon-temp.svg">&nbsp;
+                              <span *ngIf="sensor.cur_temp_value">{{sensor.cur_temp_value}}
+                                °C</span>
+                              <img *ngIf="sensor.cur_hum_value" style="margin-top: -5px;"
+                                src="https://my.sensguard.lv/image/icon-hum.svg">&nbsp;
+                              <span *ngIf="sensor.cur_hum_value">{{sensor.cur_hum_value}}
+                                %</span>
+                            </td>
+                            <td style="padding:8px;">
+                              {{sensor.date}}
+                            </td>
+                            <td style="padding:8px;">
+                              <div class="battery battery--mini battery--full">
+                                <span></span>
+                              </div>
+                            </td>
+                            <td style="padding:8px;">
+                              <div class="signal signal--mini signal--full">
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div [hidden]="!wh.isDiagramExpand">
+            <div style="border: 1px solid #ddd">
+              <div style="float: right;">
+                <button id="today" style="margin-top:10px;  margin-right: 10px; margin-left: 10px;" type="button"
+                  class="button button--primary" (click)="getHistoryData()">Today</button>
+                <button id="realTime" style="margin-top:10px; margin-right: 10px;" type="button"
+                  class="button button--primary" (click)="getRealTime()">Real Time</button>
+              </div>
+              <div style="margin-top: 50px;">
+                <div [hidden]="isRealTime" id="canvasTemp" style="width: 1200px; height:400px;"></div>
+                <div [hidden]="isRealTime" id="canvasHumidity" style="width: 1200px; height:400px;">
+                </div>
+                <div [hidden]="!isRealTime" id="canvasTempRealTime" style="width: 1200px; height:400px;"></div>
+                <div [hidden]="!isRealTime" id="canvasHumiRealTime" style="width: 1200px; height:400px;"></div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <div style="margin-bottom: 20px">
+    </div>
+  </table>
 </div>
