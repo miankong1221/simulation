@@ -11,7 +11,9 @@ import { ZoneProfileEntity } from '../zone-profile/entity/zone-profile-entity';
 })
 export class ZoneProfileStatisticModalComponent implements OnInit {
 
-  zone: ZoneProfileEntity;
+  zoneId: string;
+  algorithm: string;
+  whId: string;
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -28,12 +30,14 @@ export class ZoneProfileStatisticModalComponent implements OnInit {
   }
 
   confirm(): void {
-    this.zone = this.modalService.config.initialState as ZoneProfileEntity;
+    this.whId = this.modalService.config.initialState[0];
+    this.algorithm = this.modalService.config.initialState[1];
+    this.zoneId = this.modalService.config.initialState[2];
     this.bsModalRef.hide();
     const req = {
-      wh_id: '11',
-      zone: '11',
-      algorithm: '11'
+      wh_id: this.whId,
+      zone: this.zoneId,
+      algorithm: this.algorithm
     };
     const url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/zones/statistic';
     this.http.post(url, req).subscribe( () => {

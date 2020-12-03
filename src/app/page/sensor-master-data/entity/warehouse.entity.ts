@@ -3,6 +3,7 @@ import { JsonProperty } from 'src/app/common/utils/json-type.mapper';
 @JsonProperty({ clazz: WarehouseSimDto })
 export class WarehouseSimDto {
 
+    // tslint:disable-next-line:variable-name
     public wh_id: string;
     public name: string;
 

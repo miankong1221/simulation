@@ -56,8 +56,8 @@
               <li id='diag_{{wh.wh_id}}' (click)='showDiagram(wh.wh_id)'>Show diagram</li>
             </ul>
           </div>
-          <div [hidden]="!wh.isHeatMapExpand" style="width: 880px; height:700px">
-            <canvas id="getCanvas{{wh.wh_id}}" style="width: 880px; height:646px; margin-top: 20px; margin-left: 70px;">
+          <div [hidden]="!wh.isHeatMapExpand" style="display: flex; align-items:center; justify-content: center; ">
+            <canvas id="getCanvas{{wh.wh_id}}" style="width: 880px; height:646px; margin-top: 20px;">
           </canvas>
           </div>
           <div [hidden]="!wh.isListExpand">

@@ -94,24 +94,24 @@ export class SensorMasterDataModalComponent implements OnInit {
         this.isHumd = false;
         this.isIntegrated = false;
         if (this.sensor.exceptionSampleRangeTempMin ||
-          this.sensor.exceptionSampleRangeHumdMin){
-            this.isSelected = true;
-            this.isChecked = true;
-          } else {
-            this.isSelected = false;
-          }
+          this.sensor.exceptionSampleRangeHumdMin) {
+          this.isSelected = true;
+          this.isChecked = true;
+        } else {
+          this.isSelected = false;
+        }
       } else if (this.sensor.category === this.categoryList[1]) {
         this.isHumd = true;
         this.isTemp = false;
         this.isIntegrated = false;
         this.isSelected = false;
         if (this.sensor.exceptionSampleRangeTempMin ||
-          this.sensor.exceptionSampleRangeHumdMin){
-            this.isSelected = true;
-            this.isChecked = true;
-          } else {
-            this.isSelected = false;
-          }
+          this.sensor.exceptionSampleRangeHumdMin) {
+          this.isSelected = true;
+          this.isChecked = true;
+        } else {
+          this.isSelected = false;
+        }
 
       } else if (this.sensor.category === this.categoryList[2]) {
         this.isIntegrated = true;
@@ -119,12 +119,12 @@ export class SensorMasterDataModalComponent implements OnInit {
         this.isTemp = false;
         this.isSelected = false;
         if (this.sensor.exceptionSampleRangeTempMin ||
-          this.sensor.exceptionSampleRangeHumdMin){
-            this.isSelected = true;
-            this.isChecked = true;
-          } else {
-            this.isSelected = false;
-          }
+          this.sensor.exceptionSampleRangeHumdMin) {
+          this.isSelected = true;
+          this.isChecked = true;
+        } else {
+          this.isSelected = false;
+        }
       }
     }
     $('.select2Warehouse').select2({
@@ -137,7 +137,7 @@ export class SensorMasterDataModalComponent implements OnInit {
 
     $('.select2Warehouse').change((event) => {
       this.warehouseSimListView.forEach((wh) => {
-        if (wh.name === event.target.value){
+        if (wh.name === event.target.value) {
           this.whId = wh.wh_id;
         }
       });
@@ -181,34 +181,34 @@ export class SensorMasterDataModalComponent implements OnInit {
       name: this.sensor.name,
       category: this.category,
       value_range: {
-          temperature: {
-              min: this.sensor.valueRangeTempMin,
-              max: this.sensor.valueRangeTempMax
-              },
-          humidity: {
-              min: this.sensor.valueRangeHumdMin,
-              max: this.sensor.valueRangeHumdMax
-              }
+        temperature: {
+          min: this.sensor.valueRangeTempMin,
+          max: this.sensor.valueRangeTempMax
+        },
+        humidity: {
+          min: this.sensor.valueRangeHumdMin,
+          max: this.sensor.valueRangeHumdMax
+        }
       },
       sample_range: {
-          temperature: {
-              min: this.sensor.sampleRangeTempMin,
-              max: this.sensor.sampleRangeTempMax
-          },
-          humidity: {
-              min: this.sensor.sampleRangeHumdMin,
-              max: this.sensor.sampleRangeHumdMax
-          }
+        temperature: {
+          min: this.sensor.sampleRangeTempMin,
+          max: this.sensor.sampleRangeTempMax
+        },
+        humidity: {
+          min: this.sensor.sampleRangeHumdMin,
+          max: this.sensor.sampleRangeHumdMax
+        }
       },
       exception_sample_range: {
-          temperature: {
-              min: this.sensor.exceptionSampleRangeTempMin,
-              max: this.sensor.exceptionSampleRangeTempMax
-          },
-          humidity: {
-              min: this.sensor.exceptionSampleRangeHumdMin,
-              max: this.sensor.exceptionSampleRangeHumdMax
-          }
+        temperature: {
+          min: this.sensor.exceptionSampleRangeTempMin,
+          max: this.sensor.exceptionSampleRangeTempMax
+        },
+        humidity: {
+          min: this.sensor.exceptionSampleRangeHumdMin,
+          max: this.sensor.exceptionSampleRangeHumdMax
+        }
       },
       wh_id: this.sensor.whId,
       sample_interval_sec: this.sensor.sampleIntervalSec
@@ -218,44 +218,88 @@ export class SensorMasterDataModalComponent implements OnInit {
   }
 
   confirm(): void {
-    const request = {
-      sid: this.sensorId,
-      name: this.sensorName,
-      category: this.category,
-      value_range: {
+    let request = {};
+    if (this.category === 'INTEGRATED') {
+      request = {
+        sid: this.sensorId,
+        name: this.sensorName,
+        category: this.category,
+        value_range: {
           temperature: {
-              min: this.valueRangeTempMin,
-              max: this.valueRangeTempMax
-              },
-          humidity: {
-              min: this.valueRangeHumdMin,
-              max: this.valueRangeHumdMax
-              }
-      },
-      sample_range: {
-          temperature: {
-              min: this.sampleRangeTempMin,
-              max: this.sampleRangeTempMax
+            min: this.valueRangeTempMin,
+            max: this.valueRangeTempMax
           },
           humidity: {
-              min: this.sampleRangeHumdMin,
-              max: this.sampleRangeHumdMax
+            min: this.valueRangeHumdMin,
+            max: this.valueRangeHumdMax
           }
-      },
-      exception_sample_range: {
+        },
+        sample_range: {
           temperature: {
-              min: this.excSampleRangeTempMin,
-              max: this.excSampleRangeTempMax
+            min: this.sampleRangeTempMin,
+            max: this.sampleRangeTempMax
           },
           humidity: {
-              min: this.excSampleRangeHumdMin,
-              max: this.excSampleRangeHumdMax
+            min: this.sampleRangeHumdMin,
+            max: this.sampleRangeHumdMax
           }
-      },
-      wh_id: this.whId,
-      sample_interval_sec: this.sampleInterval
-    };
+        },
+        exception_sample_range: {
+          temperature: {
+            min: this.excSampleRangeTempMin,
+            max: this.excSampleRangeTempMax
+          },
+          humidity: {
+            min: this.excSampleRangeHumdMin,
+            max: this.excSampleRangeHumdMax
+          }
+        },
+        wh_id: this.warehouseSimListView[0].wh_id,
+        sample_interval_sec: this.sampleInterval,
+      };
+    }else if (this.category === 'TEMPERATURE'){
+      request = {
+        sid: this.sensorId,
+        name: this.sensorName,
+        category: this.category,
+        value_range: {
+            min: this.valueRangeTempMin,
+            max: this.valueRangeTempMax,
+        },
+        sample_range: {
+            min: this.sampleRangeTempMin,
+            max: this.sampleRangeTempMax,
+        },
+        exception_sample_range: {
+            min: this.excSampleRangeTempMin,
+            max: this.excSampleRangeTempMax,
+        },
+        wh_id: this.warehouseSimListView[0].wh_id,
+        sample_interval_sec: this.sampleInterval,
+      };
+    }else {
+      request = {
+        sid: this.sensorId,
+        name: this.sensorName,
+        category: this.category,
+        value_range: {
+            min: this.valueRangeHumdMin,
+            max: this.valueRangeHumdMax,
+        },
+        sample_range: {
+            min: this.sampleRangeHumdMin,
+            max: this.sampleRangeHumdMax,
+        },
+        exception_sample_range: {
+            min: this.excSampleRangeHumdMin,
+            max: this.excSampleRangeHumdMax,
+        },
+        wh_id: this.warehouseSimListView[0].wh_id,
+        sample_interval_sec: this.sampleInterval,
+      };
+    }
     this.service.addSensor(request);
+    this.bsModalRef.content.value = request;
     this.bsModalRef.hide();
   }
 }

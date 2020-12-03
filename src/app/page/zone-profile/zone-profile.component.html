@@ -42,7 +42,7 @@
               <td style="padding-top: 12px">{{i+1}}.</td>
               <td style="padding-top: 12px">{{zone.zoneId}}</td>
               <td>
-                <select id="statistic" (change)="changeStatisticType($event)"  class="form-control" (value)="zone.statisticType">
+                <select id="statistic" (change)="changeStatisticType($event,zone.zoneId)"  class="form-control" (value)="zone.statisticType">
                   <option (value)="zone.statisticType" selected>{{zone.statisticType}}</option>
                   <option [hidden]="zone.statisticType === 'AVERAGE'">AVERAGE</option>
                   <option [hidden]="zone.statisticType === 'MAX'">MAX</option>

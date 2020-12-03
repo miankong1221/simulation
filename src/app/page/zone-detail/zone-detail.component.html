@@ -56,7 +56,7 @@
                                     <tr>
                                         <td>
                                             <a routerLink='../sensor-detail'
-                                                [queryParams]="{whId:curWhId,zoneId:curZoneId,whName:curWhName,sensorId:sensor.sensorId}">{{sensor.sensor_name}}</a>
+                                                [queryParams]="{whId:curWhId,zoneId:curZoneId,whName:curWhName,sensorId:sensor.sensor_id}">{{sensor.sensor_name}}</a>
                                         </td>
                                         <td>
                                             {{sensor.sensor_id}}
@@ -73,7 +73,7 @@
                                         <td><img *ngIf="sensor.cur_temp_value" style="margin-top: -4px;"
                                             src="https://my.sensguard.lv/image/icon-temp.svg">&nbsp;
                                             <span *ngIf="sensor.cur_temp_value">{{sensor.cur_temp_value}} °C</span>
-                      
+
                                             <img *ngIf="sensor.cur_hum_value"  style="margin-top: -4px;"
                                                 src="https://my.sensguard.lv/image/icon-hum.svg">&nbsp;
                                             <span *ngIf="sensor.cur_hum_value">{{sensor.cur_hum_value}} %</span>
@@ -100,12 +100,8 @@
                                     <button id="today" style="margin-top:10px;  margin-right: 10px; margin-left: 10px;"
                                     type="button" class="button button--primary"
                                     (click)="getHistoryData()">Today</button>
-                                    <!-- <button id="today" style="margin-top:10px;  margin-right: 10px; margin-left: 10px;"
-                                        type="button button--primary" (click)="getHistoryData()">Today</button> -->
                                         <button id="realTime" style="margin-top:10px; margin-right: 10px;" type="button"
                                         class="button button--primary" (click)="getRealTime()">Real Time</button>
-                                    <!-- <button id="realTime" style="margin-top:10px; margin-right: 10px;" type="button button--primary" 
-                                        (click)="getRealTime()">Real Time</button> -->
                                 </div>
                                 <div style="margin-top: 100px; margin-left: 50px;">
                                     <div [hidden]="isRealTime" id="canvasTemp" style="width: 1200px; height:400px;"></div>
@@ -119,7 +115,7 @@
                 </tr>
             </tbody>
             <div style="margin-bottom: 20px">
-            </div>  
+            </div>
         </table>
     </div>
 </div>

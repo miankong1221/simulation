@@ -222,7 +222,7 @@ export class MonitoringComponent implements OnInit, OnDestroy {
       ctx.fill();
       ctx.arc(zone.x, zone.y, 15, 0, Math.PI * 2, false);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'blue';
+      ctx.strokeStyle = 'yellow';
       ctx.stroke();
       ctx.font = '15px "Maersk Text"';
       ctx.fillStyle = 'black';
@@ -288,7 +288,6 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
   zoneExpand(zoneId: any): void {
     this.service.getSensorList(this.currentWhId, zoneId);
-    setInterval(() => this.service.getSensorList(this.currentWhId, zoneId), 1000);
     this.zoneEntityList.forEach(element => {
       if (zoneId === element.zone_name) {
         if (element.isExpand === true) {

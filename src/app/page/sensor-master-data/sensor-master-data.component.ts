@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ThemeServiceInit } from 'ng-devui';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { SensorDetail } from '../master-data-mapping/entity/masterDataEntity';
 import { SensorMasterDataDeleteModalComponent } from '../sensor-master-data-delete-modal/sensor-master-data-delete-modal.component';
@@ -148,6 +149,72 @@ export class SensorMasterDataComponent implements OnInit {
       ignoreBackdropClick: true
     };
     this.modalRef = this.modalService.show(SensorMasterDataModalComponent, config);
+    this.modalRef.onHidden.subscribe(() => {
+      if (this.modalRef.content.value) {
+        const temp = this.modalRef.content.value;
+        const res = new SensorSimSynDto();
+        res.sid = temp.sid;
+        res.name = temp.name;
+        res.whId = temp.wh_id;
+        res.sampleIntervalSec = temp.sample_interval_sec;
+        res.category = temp.category;
+        if (temp.category === 'HUMIDITY') {
+          if (temp.value_range) {
+            res.valueRangeHumdMin = temp.value_range.min + '%';
+            res.valueRangeHumdMax = temp.value_range.max + '%';
+          }
+          if (temp.sample_range) {
+            res.sampleRangeHumdMin = temp.sample_range.min + '%';
+            res.sampleRangeHumdMax = temp.sample_range.max + '%';
+          }
+          if (temp.exception_sample_range) {
+            res.exceptionSampleRangeHumdMin = temp.exception_sample_range.min + '%';
+            res.exceptionSampleRangeHumdMax = temp.exception_sample_range.max + '%';
+          }
+        }
+        else if (temp.category === 'TEMPERATURE') {
+          if (temp.value_range) {
+            res.valueRangeTempMin = temp.value_range.min + '°C';
+            res.valueRangeTempMax = temp.value_range.max + '°C';
+          }
+          if (temp.sample_range) {
+            res.sampleRangeTempMin = temp.sample_range.min + '°C';
+            res.sampleRangeTempMax = temp.sample_range.max + '°C';
+          }
+          if (temp.exception_sample_range) {
+            res.exceptionSampleRangeTempMin = temp.exception_sample_range.min + '°C';
+            res.exceptionSampleRangeTempMax = temp.exception_sample_range.max + '°C';
+          }
+        }
+        else if (temp.category === 'INTEGRATED') {
+          if (temp.value_range) {
+            res.valueRangeHumdMin = temp.value_range.humidity.min + '%';
+            res.valueRangeHumdMax = temp.value_range.humidity.max + '%';
+          }
+          if (temp.sample_range) {
+            res.sampleRangeHumdMin = temp.sample_range.humidity.min + '%';
+            res.sampleRangeHumdMax = temp.sample_range.humidity.max + '%';
+          }
+          if (temp.exception_sample_range) {
+            res.exceptionSampleRangeHumdMin = temp.exception_sample_range.humidity.min + '%';
+            res.exceptionSampleRangeHumdMax = temp.exception_sample_range.humidity.max + '%';
+          }
+          if (temp.value_range) {
+            res.valueRangeTempMin = temp.value_range.temperature.min + '°C';
+            res.valueRangeTempMax = temp.value_range.temperature.max + '°C';
+          }
+          if (temp.sample_range) {
+            res.sampleRangeTempMin = temp.sample_range.temperature.min + '°C';
+            res.sampleRangeTempMax = temp.sample_range.temperature.max + '°C';
+          }
+          if (temp.exception_sample_range) {
+            res.exceptionSampleRangeTempMin = temp.exception_sample_range.temperature.min + '°C';
+            res.exceptionSampleRangeTempMax = temp.exception_sample_range.temperature.max + '°C';
+          }
+        }
+        this.sensorSimListView.push(res);
+      }
+    });
   }
 
 

@@ -124,6 +124,7 @@ export class ZoneDetailComponent implements OnInit {
 
     this.service.getSensorList(this.curWhId, this.curZoneId);
     this.service.getSensorListEvent().subscribe((data: any[]) => {
+      this.sensorEntityList = [];
       if (data.length > 0) {
         data.forEach((temp) => {
           const sensor = new SensorEntity();

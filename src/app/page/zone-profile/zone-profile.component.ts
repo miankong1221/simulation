@@ -125,11 +125,9 @@ export class ZoneProfileComponent implements OnInit, OnDestroy {
     this.zoneProfileList = [];
   }
 
-  changeStatisticType(e): void {
-
-    alert(e.target.value);
+  changeStatisticType(e, zoneId): void {
     const config: ModalOptions = {
-      initialState: [this.currentwhId,  e.target.value],
+      initialState: [this.currentwhId,  e.target.value, zoneId],
       ignoreBackdropClick: true,
     };
     this.modalRef = this.modalService.show(ZoneProfileStatisticModalComponent, config);
