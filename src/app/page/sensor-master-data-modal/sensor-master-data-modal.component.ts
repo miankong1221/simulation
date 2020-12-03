@@ -214,7 +214,7 @@ export class SensorMasterDataModalComponent implements OnInit {
       sample_interval_sec: this.sensor.sampleIntervalSec
     };
     this.service.addSensor(request);
-
+    this.bsModalRef.hide();
   }
 
   confirm(): void {
@@ -256,5 +256,6 @@ export class SensorMasterDataModalComponent implements OnInit {
       sample_interval_sec: this.sampleInterval
     };
     this.service.addSensor(request);
+    this.bsModalRef.hide();
   }
 }
