@@ -42,6 +42,7 @@ export class JsonTypeMapper {
             const propMetadata = JsonTypeMapper.getJsonProperty(obj, key);
             if (propMetadata) {
                 const propName = propMetadata.name || key;
+                const t = jsonObject[propName];
                 const propValue = jsonObject[propName] || {};
                 const propType = ObjectUtils.getClass(obj, key);
                 if (ObjectUtils.isPrimitive(propType) || propMetadata.clazz === undefined) {

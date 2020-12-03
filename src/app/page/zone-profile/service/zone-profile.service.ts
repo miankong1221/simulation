@@ -66,8 +66,8 @@ export class ZoneProfileService {
         // });
     }
 
-    sendPosition(req: any){
-        let url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/zones/positions';
+    sendPosition(req: any): void{
+        const url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/zones/positions';
         this.http.post(url, req).subscribe(() => {
           console.log('success');
         });

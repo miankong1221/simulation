@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Zone Profile</h1>          
+          <h1>Zone Profile</h1>
         </div>
       </div>
     </div>
@@ -19,18 +19,14 @@
   </div>
   <div [hidden]="!isHidden" class="content">
     <div class="map">
-      <!-- <canvas id="getCanvas" style="border: 1px dotted black;">
-      </canvas> -->
-      <div id="point" style="width: 880px; height:646px; margin-top: 0px; margin-left: 70px;">
-        <img style="width: 780px; height: 646px;" src="../assets/img/warehouse-layout-F.png" />
-        <!-- <div id="mapId" style="margin-left:40px; margin-top: 40px;"> -->
+      <canvas id="getCanvas" style="width: 880px; height:646px; margin-top: 0px; margin-left: 70px;">
+        <!-- <img style="width: 780px; height: 646px;" src="../assets/img/warehouse-layout-F.png" /> -->
+      </canvas>
     </div>
-    </div>
-    <div class="card" style="margin-left: 10px; width: 375px;">
+    <div class="card" style="margin-left: 150px; width: 375px;">
       <div class="card-header" style="background-color:#17A2B8;">
         <h3 class="card-title">Zone Area</h3>
       </div>
-      <!-- /.card-header -->
       <div class="card-body" style="overflow: hidden; overflow-y: auto;">
         <table class="table table-bordered">
           <thead>
@@ -54,7 +50,7 @@
                 </select>
               </td>
               <td style="padding-top: 12px">
-                <div *ngIf="zone.isDraw"> 
+                <div *ngIf="zone.isDraw">
                   <a (click)="reset(zone)" style="display:block; text-align: center; background-color:coral; border-radius: 0.25rem;">Reset</a>
                 </div>
                 <div *ngIf="!zone.isDraw">

@@ -40,9 +40,6 @@ export class MasterDataMappingModalComponent implements OnInit, OnDestroy {
 
   flag: boolean;
 
-  // isZoneChange: boolean;
-
-
   constructor(
     public bsModalRef: BsModalRef,
     public http: HttpClient,
@@ -74,8 +71,8 @@ export class MasterDataMappingModalComponent implements OnInit, OnDestroy {
       this.selectedSensorList = [];
       const temp = stringify($('.select2-purple').val());
       const tempList = temp.split('&');
-      tempList.forEach((temp) => {
-        this.selectedSensorList.push(temp.slice(temp.indexOf('=') + 1))
+      tempList.forEach((t) => {
+        this.selectedSensorList.push(t.slice(t.indexOf('=') + 1));
       });
     });
 
@@ -111,16 +108,15 @@ export class MasterDataMappingModalComponent implements OnInit, OnDestroy {
         this.selectedSensor = this.modalService.config.initialState[3];
         const warehouseList = this.modalService.config.initialState[4];
         warehouseList.map(temp => {
-          if (temp.wh_name === this.selectedWarehouse) {
-            this.selectedWarehouseId = temp.wh_id;
-            temp.zone_names.forEach( t => {
+          if (temp.whName === this.selectedWarehouse) {
+            this.selectedWarehouseId = temp.whId;
+            temp.zoneNames.forEach(t => {
               this.zoneList.push(t);
             });
           }
         });
       }
     }
-    // let url = 'assets/json/master-data-mapping-modal/sensor-available-api.json'
     const url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/master/warehouses/' + this.selectedWarehouseId + '/sensorIds';
     this.http.get(url).subscribe((res: any) => {
       res.data.forEach((temp) => {
@@ -150,7 +146,7 @@ export class MasterDataMappingModalComponent implements OnInit, OnDestroy {
       this.selectedSensorList.forEach((temp) => {
         req.sensor_id.push(temp);
       });
-      let url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/master/sensors/relations';
+      const url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/master/sensors/relations';
       this.http.post(url, req).subscribe((res: any) => {
         // console.log(res)
         this.bsModalRef.content.value = res.data;
@@ -164,7 +160,7 @@ export class MasterDataMappingModalComponent implements OnInit, OnDestroy {
         sensor_id : this.selectedSensor
       };
       this.sensorDetailView.zone = this.newZone;
-      let url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/master/sensors/relations';
+      const url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/master/sensors/relations';
       this.http.put(url, req).subscribe(() => {
         // remove sensor from old zone
         if (this.oldZone !== this.newZone){
