@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ObjectUtils } from 'src/app/common/utils/object.utils';
 import { MasterDataMappingDeleteModalComponent } from '../master-data-mapping-delete-modal/master-data-mapping-delete-modal.component';
-
 import { MasterDataMappingModalComponent } from '../master-data-mapping-modal/master-data-mapping-modal.component';
 import { SensorDetail, WarehouseMaster } from './entity/masterDataEntity';
 import { MasterDataMappingService } from './service/master-data-mapping-service';

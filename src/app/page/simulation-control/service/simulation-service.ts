@@ -74,14 +74,14 @@ export class SimulationService {
             wh_id: whId,
             interval: intervalTime,
         };
-        const url = EnvConst.DevSimulationConst.API_ROOT + '/simulation/api/v1/temperature/warehouse/sim/start';
+        const url = EnvConst.DevSimulationConst.API_ROOT + '/simulation/api/v1/temperature/warehouses/sim/start';
         this.http.post(url, req).subscribe((data: any) => {
             console.log('Success');
         });
     }
 
     generateRealTimeEnd(): void {
-        const url = EnvConst.DevSimulationConst.API_ROOT + '/simulation/api/v1/temperature/warehouse/sim/stop';
+        const url = EnvConst.DevSimulationConst.API_ROOT + '/simulation/api/v1/temperature/warehouses/sim/stop';
         try {
             this.http.get(url).subscribe((data: any) => {
                 console.log('Success');

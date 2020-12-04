@@ -186,7 +186,8 @@ export class MonitoringService {
 
     getWarehouseGraphData(whId: string): void {
         // get today
-        const start = StringUtils.getToday();
+        const date = new Date();
+        const start = StringUtils.getToday(date);
         const end = StringUtils.getCurrentTime();
         const url = EnvConst.DevExtentionConst.API_ROOT + '/wms-extension/api/v1/equipment/monitor/warehouses/' + whId + '/zones/data/start/' + start + '/end/' + end;
         this.http.get(url).subscribe(
@@ -216,7 +217,8 @@ export class MonitoringService {
     }
 
     getZoneGraphData(whId: any, zoneId: any): void {
-        const start = StringUtils.getToday();
+        const date = new Date();
+        const start = StringUtils.getToday(date);
         const end = StringUtils.getCurrentTime();
         const url = EnvConst.DevExtentionConst.API_ROOT +
         '/wms-extension/api/v1/equipment/monitor/warehouses/' + whId + '/zones/' + zoneId + '/sensors/data/start/' + start + '/end/' + end;
