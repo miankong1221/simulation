@@ -18,7 +18,9 @@ export function JsonProperty<T>(metadata?: PropertyMetadata<T> | string): any {
         clazz = metadataObj.clazz;
     }
     return Reflect.metadata('jsonProperty', {
+        // tslint:disable-next-line:object-literal-shorthand
         name: name,
+        // tslint:disable-next-line:object-literal-shorthand
         clazz: clazz
     });
 }
@@ -28,6 +30,7 @@ export class JsonTypeMapper {
         return Reflect.getMetadata('jsonProperty', target, propertyName);
     }
 
+    // tslint:disable-next-line:typedef
     public static parse<T>(clazz: new () => T, jsonObject: any) {
         if (jsonObject == null) {
             return null;
