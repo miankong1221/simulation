@@ -20,7 +20,6 @@ import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { HttpClientModule } from '@angular/common/http';
 import { ZoneProfileModalComponent } from './page/zone-profile-modal/zone-profile-modal.component';
-import { MasterDataMappingDeleteModalComponent } from './page/master-data-mapping-delete-modal/master-data-mapping-delete-modal.component';
 import { SensorMasterDataComponent } from './page/sensor-master-data/sensor-master-data.component';
 import { ZoneProfileResetModalComponent } from './page/zone-profile-reset-modal/zone-profile-reset-modal.component';
 import { ZoneProfileService } from './page/zone-profile/service/zone-profile.service';
@@ -41,6 +40,7 @@ import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SensorMasterDataDeleteModalComponent } from './page/sensor-master-data-delete-modal/sensor-master-data-delete-modal.component';
 import { MasterDataMappingService } from './page/master-data-mapping/service/master-data-mapping-service';
+import { MasterDataMappingDeleteModalComponent } from './page/master-data-mapping-delete-modal/master-data-mapping-delete-modal.component';
 // import { OlComponent } from './page/ol/ol.component';
 
 
@@ -67,7 +67,6 @@ const ngZorroConfig: NzConfig = {
     SensorMasterDataModalComponent,
     SimulationControlComponent,
     SensorMasterDataDeleteModalComponent,
-    // OlComponent,
   ],
   imports: [
     BrowserModule,

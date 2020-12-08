@@ -106,7 +106,6 @@ export class SensorDetailComponent implements OnInit {
           this.sensoGraphRealTimeDataList.push(sensorDetail);
         });
       }
-      this.setGraphData();
     });
     this.service.getSensorGraphDataEvent().subscribe((data: any[]) => {
       this.sensoGraphDataList = [];
@@ -202,12 +201,13 @@ export class SensorDetailComponent implements OnInit {
     document.getElementById('realTime').style.border = '3px solid #cccccc';
     document.getElementById('today').style.border = '3px solid #cccccc';
     // get today
-    const start = StringUtils.getToday();
-    const end = StringUtils.getCurrentTime();
+    const date = new Date();
+    const start = StringUtils.getToday(date);
+    const end = StringUtils.getCurrentTime(date);
     this.service.getSensorGraphData(this.sensorId, start, end);
   }
 
-  setGraphData(): void {
+  setGraphData(type?: string): void {
     let legendDataTemp = '';
     let legendDataHumd = '';
     const xAxisDataTemp = [];
@@ -293,4 +293,5 @@ export class SensorDetailComponent implements OnInit {
     };
     myChart.setOption(option);
   }
+
 }

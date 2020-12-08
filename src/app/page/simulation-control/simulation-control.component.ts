@@ -67,8 +67,8 @@ export class SimulationControlComponent implements OnInit {
   }
 
   onChange(result: Date): void {
-    this.start = StringUtils.getToday(result[0]);
-    this.end = StringUtils.getToday(result[1]);
+    this.start = StringUtils.getCurrentTime(result[0]);
+    this.end = StringUtils.getCurrentTime(result[1]);
   }
 
   onOk(result: Date | Date[] | null): void {
